@@ -1,3 +1,4 @@
+// This is Prep2 core and stretch assignments combined.
 using System;
 
 class Program
