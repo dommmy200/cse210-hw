@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prep3", "csharp-prep\Prep3\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prep4", "csharp-prep\Prep4\Prep4.csproj", "{AFDB5EBF-E1DC-405F-813C-E7A31B5FE5E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "..\..\newProjectTrial\ConsoleApp1\ConsoleApp1.csproj", "{A34E1FA2-4551-4B8C-8647-0831F09E8C14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListsProjects", "..\..\newProjectTrial\ConsoleApp1\ListsProjects.csproj", "{A34E1FA2-4551-4B8C-8647-0831F09E8C14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
