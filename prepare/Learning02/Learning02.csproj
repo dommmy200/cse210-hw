@@ -8,4 +8,9 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="MyJobs/" />
+    <Folder Include="MyResume/" />
+  </ItemGroup>
+
 </Project>
