@@ -59,7 +59,7 @@ internal class Program
         List<Person> people = new List<Person>();
         string fileName = "people.txt";
         
-        string[] lines = System.IO.File.ReadAllLines(fileName);
+        string[] lines = File.ReadAllLines(fileName);
         foreach (string line in lines)
         {
             // Console.WriteLine(line);

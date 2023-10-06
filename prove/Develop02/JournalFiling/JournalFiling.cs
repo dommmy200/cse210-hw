@@ -11,50 +11,128 @@ namespace MyMainProgram.Journal01
         // Display journal contents
         public static void DisplayJournal()
         {
-            string fileName = "Journal.txt";
+            string fileName = "journal.txt";
             string[] lines = System.IO.File.ReadAllLines(fileName);
             foreach (string line in lines)
             {
-                string[] parts = line.Split(",");
-                string date = parts[0];
-                string prompt = parts[1];
-                string response = parts[3];
-                Console.WriteLine($"{date}\n{prompt}\n{response}\n");
+                // string[] parts = line.Split(",");
+                // string date = parts[0];
+                // string prompt = parts[1];
+                // string response = parts[2];
+                // Console.WriteLine($"{date}\n{prompt}\n{response}\n");
+
+                Console.WriteLine($"{line}");
             }
         }
-        // Save journal to text file
+        // Add journal entries from list to text file
         public static void SaveJournal()
         {
-            string fileName = "journal.txt";
-            string[]line1 = System.IO.File.ReadAllLines(fileName);
-            
-            Console.WriteLine("Enter the file name");
-            IEnumerable newFilename = Console.ReadLine();
-            File.WriteAllLines($"/Users/Dommmy/cse210/cse210-hw/prove/Develop02/{newFilename}", (IEnumerable<string>)newFilename);
+            // // Specify the path for the file
+            // string strPath = "/Users/Dommmy/cse210/cse210-hw/prove/Develop02";
+
+            // // Get file name from user
+            // Console.WriteLine("Enter the file name");
+            // string journalName = Console.ReadLine();
+
+            // // Concatenate path and file name
+            // string fullPath = $"{strPath}/{journalName}";
+
+            string fullPath = pathPlusFilename();
+
+            // Copy entries from list to file in memory
+            using (StreamWriter outputFile = new(fullPath))
+            {
+                foreach (string items in Choice.DataList)
+                {
+                    outputFile.WriteLine(items);
+                }
+            }
         }
-        // Load journal from saved file
+        
+        // Load journal from file in memory to list
         public static void LoadFile()
         {
-            string path = "/Users/Dommmy/cse210/cse210-hw/prove/Develop02/";
-            string[] load = Directory.GetFiles(path);
+            // string path = "/Users/Dommmy/cse210/cse210-hw/prove/Develop02/";
+            // string[] load = Directory.GetFiles(path);
 
 
-            List<string> fn = new();
-            foreach (string p in load)
+            // Console.WriteLine("Enter File Name: ");
+            // string loadJournal = Console.ReadLine(); // No longer needed
+
+            string[] files = Directory.GetFiles(@"/Users/Dommmy/cse210/cse210-hw/prove/Develop02/", "*.txt");
+            string fullPath = pathPlusFilename();
+            foreach (string file in files)
             {
-                fn.Add(Path.GetFileName(p));
-            }
-            foreach (string file in fn)
-            {
-                if (file == "journal.txt")
+                if (file == fullPath)
                 {
-                    Console.WriteLine(file);
-                    JournalFiling.DisplayJournal();
+                    string[] newLines = File.ReadAllLines(fullPath);
+                    foreach (string line in newLines)
+                    {
+                        Choice.DataList.Add(line);
+                    }
+                } else {
+                    Console.WriteLine("No such file exit.\nWrite a new journal.");
                 }
             }
 
 
-            // Console.WriteLine(String.Join(Environment.NewLine, load));
+            // List<Choice> entries = new();
+            // string[] lines = File.ReadAllLines(loadJournal);
+
+            // foreach (string line in lines)
+            // {
+            //     string[] parts = line.Split(",");
+            //     Choice choice = new();
+            //     choice.JournalDate = DateTime.Parse(parts[0]);
+            //     choice.Prompt = parts[1];
+            //     choice.Response = parts[2];
+
+            //     entries.Add(choice);
+            // }
+
+            // return entries;
+
+        }
+
+        // Function to handle user entries to the journal
+        public static void WriteJournal()
+        {
+            // Create an instance of Choice to format date object to string
+            Choice dt = new();
+            string myDate = dt.DateToString();
+
+            // Create an instance of Choice to generate the prompts defined in the Choice class
+            Choice prompt = new();
+            string promptString = prompt.PromptGenerator();
+            
+            // Get user response to the generated prompt
+            Console.WriteLine($"Prompt: {promptString}");
+            string response = Console.ReadLine();
+
+            // Add data to the list
+            AddData(myDate);
+            AddData(promptString);
+            AddData(response);
+        }
+
+        // Private function used to add data to the list defined in Choice Class
+        private static void AddData(string dataToAdd)
+        {
+           Choice.DataList.Add(dataToAdd);
+        }
+        public static string pathPlusFilename()
+        {
+            // Specify the path for the file
+            string strPath = "/Users/Dommmy/cse210/cse210-hw/prove/Develop02";
+
+            // Get file name from user
+            Console.WriteLine("Enter the file name");
+            string journalName = Console.ReadLine();
+
+            // Concatenate path and file name
+            string fullPath = $"{strPath}/{journalName}";
+
+            return fullPath;
         }
     }
 }
