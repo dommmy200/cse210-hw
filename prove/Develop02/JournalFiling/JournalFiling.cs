@@ -1,8 +1,5 @@
-using System.IO;
-using System.Collections.Generic;
+
 using MyMainProgram.Choice1;
-using System.Transactions;
-using System.Collections;
 
 namespace MyMainProgram.Journal01
 {
@@ -11,31 +8,16 @@ namespace MyMainProgram.Journal01
         // Display journal contents
         public static void DisplayJournal()
         {
-            string fileName = "journal.txt";
-            string[] lines = System.IO.File.ReadAllLines(fileName);
-            foreach (string line in lines)
+            // string fileName = "journal.txt";
+            // string[] lines = System.IO.File.ReadAllLines(fileName);
+            foreach (string line in Choice.DataList)
             {
-                // string[] parts = line.Split(",");
-                // string date = parts[0];
-                // string prompt = parts[1];
-                // string response = parts[2];
-                // Console.WriteLine($"{date}\n{prompt}\n{response}\n");
-
                 Console.WriteLine($"{line}");
             }
         }
         // Add journal entries from list to text file
         public static void SaveJournal()
         {
-            // // Specify the path for the file
-            // string strPath = "/Users/Dommmy/cse210/cse210-hw/prove/Develop02";
-
-            // // Get file name from user
-            // Console.WriteLine("Enter the file name");
-            // string journalName = Console.ReadLine();
-
-            // // Concatenate path and file name
-            // string fullPath = $"{strPath}/{journalName}";
 
             string fullPath = pathPlusFilename();
 
@@ -52,17 +34,16 @@ namespace MyMainProgram.Journal01
         // Load journal from file in memory to list
         public static void LoadFile()
         {
-            // string path = "/Users/Dommmy/cse210/cse210-hw/prove/Develop02/";
-            // string[] load = Directory.GetFiles(path);
-
-
-            // Console.WriteLine("Enter File Name: ");
-            // string loadJournal = Console.ReadLine(); // No longer needed
-
+            // Search and populate all .txt files in the program directory
             string[] files = Directory.GetFiles(@"/Users/Dommmy/cse210/cse210-hw/prove/Develop02/", "*.txt");
+            
+            // Get the user requested file
             string fullPath = pathPlusFilename();
+            
+            // Select the named file and empty content to the list for other processes
             foreach (string file in files)
             {
+                // If user request file is found, copy content
                 if (file == fullPath)
                 {
                     string[] newLines = File.ReadAllLines(fullPath);
@@ -74,24 +55,6 @@ namespace MyMainProgram.Journal01
                     Console.WriteLine("No such file exit.\nWrite a new journal.");
                 }
             }
-
-
-            // List<Choice> entries = new();
-            // string[] lines = File.ReadAllLines(loadJournal);
-
-            // foreach (string line in lines)
-            // {
-            //     string[] parts = line.Split(",");
-            //     Choice choice = new();
-            //     choice.JournalDate = DateTime.Parse(parts[0]);
-            //     choice.Prompt = parts[1];
-            //     choice.Response = parts[2];
-
-            //     entries.Add(choice);
-            // }
-
-            // return entries;
-
         }
 
         // Function to handle user entries to the journal

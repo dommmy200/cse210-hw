@@ -7,32 +7,9 @@ namespace MyMainProgram.Choice1
     public class Choice
     {
 
-        private string _prompt;
-        private string _response;
-        private DateTime _journalDate;
-
-        // public void Choice1(DateTime _journalDate, string _prompt, string _response)
-        // {
-        //     this._journalDate = _journalDate;
-        //     this._prompt = _prompt;
-        //     this._response = _response;
-        // }
-
-        public string Prompt
-        {
-            get{return _prompt;}
-            set{_prompt = value;}
-        }
-        public string Response
-        {
-            get{return _response;}
-            set{_response = value;}
-        }
-        public DateTime JournalDate
-        {
-            get{return _journalDate;}
-            set{_journalDate = value;}
-        }
+        // private string _prompt;
+        // private string _response;
+        // private DateTime _journalDate;
 
         public void displayChoices() //Method to Display choices for user selection
         {
@@ -50,14 +27,6 @@ namespace MyMainProgram.Choice1
                 count++;
                 Console.WriteLine($"{count}. {ch}");
             }
-        }
-        
-        public void DatePromptResp(string str)
-        {
-            List<string> datePromptResp = new()
-            {
-                str
-            };
         }
     
 
@@ -90,19 +59,6 @@ namespace MyMainProgram.Choice1
             string dToday = dateTime.ToString("dd MMMM yyyy");
             
             return dToday;
-        }
-
-        public static void Journal(List<string> choices)
-        {
-            
-            string fileName = "journal.txt";
-            using (StreamWriter outputFile = new StreamWriter(fileName))
-            {
-                foreach (string filing in choices)
-                {
-                    outputFile.WriteLine($"{filing}");
-                };
-            }
         }
 
         public static List<string> DataList{ get; set;} = new List<string>();
