@@ -8,12 +8,12 @@ namespace MyMainProgram.Journal01
         // Display journal contents
         public static void DisplayJournal()
         {
-            // string fileName = "journal.txt";
-            // string[] lines = System.IO.File.ReadAllLines(fileName);
+            Console.WriteLine("\n");
             foreach (string line in Choice.DataList)
             {
                 Console.WriteLine($"{line}");
             }
+            Console.WriteLine("\n");
         }
         // Add journal entries from list to text file
         public static void SaveJournal()
@@ -60,9 +60,19 @@ namespace MyMainProgram.Journal01
         // Function to handle user entries to the journal
         public static void WriteJournal()
         {
-            // Create an instance of Choice to format date object to string
+            // Create an instance of Choice to access its Tuple method
             Choice dt = new();
-            string myDate = dt.DateToString();
+            
+            // Return the Tuple
+            var myDateHourMins = dt.DateTimeString();
+
+            // Separate the Tuple items
+            string mDate = myDateHourMins.Item1;
+            string mHours = myDateHourMins.Item2;
+            string mMins = myDateHourMins.Item3;
+
+            // Format the time components as a single variable
+            var hourMinute = $"{mHours}:{mMins}";
 
             // Create an instance of Choice to generate the prompts defined in the Choice class
             Choice prompt = new();
@@ -73,7 +83,8 @@ namespace MyMainProgram.Journal01
             string response = Console.ReadLine();
 
             // Add data to the list
-            AddData(myDate);
+            AddData(mDate);
+            AddData(hourMinute);
             AddData(promptString);
             AddData(response);
         }

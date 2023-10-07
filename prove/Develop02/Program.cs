@@ -1,5 +1,4 @@
-// using System;
-// using System.Diagnostics.Contracts;
+using System;
 using MyMainProgram.Choice1;
 using MyMainProgram.Journal01;
 
@@ -46,7 +45,7 @@ namespace MyMainProgram
                     continue;
 
                 } else if (selected == 5){
-                    // Quit
+                    // Quit the loop and exit the program
                     System.Environment.Exit(0);
 
                 }

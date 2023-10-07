@@ -6,12 +6,8 @@ namespace MyMainProgram.Choice1
 {
     public class Choice
     {
-
-        // private string _prompt;
-        // private string _response;
-        // private DateTime _journalDate;
-
-        public void displayChoices() //Method to Display choices for user selection
+        //Method to Display choices for user selection
+        public void displayChoices()
         {
             List<string> choice = new()
                 {
@@ -29,13 +25,14 @@ namespace MyMainProgram.Choice1
             }
         }
     
-
+        // Method to generate random prompts
         public string PromptGenerator()
         {
             Random random = new Random();
             string rnd = randPrompt[random.Next(randPrompt.Count)];
             return rnd;
         }
+        // List containing the prompt items for use by the prompt generator
         List<string> randPrompt = new()
             {
                 "How do you feel about praying today?",
@@ -53,14 +50,22 @@ namespace MyMainProgram.Choice1
                 "What was the strongest emotion I felt today?",
                 "If I had one thing I could do over today, what would it be?",
             };
-        public string DateToString()
+  
+
+        // Use a Tuple to return multiple string values of DateTime
+        public Tuple<string, string, string> DateTimeString()
         {
             DateTime dateTime = DateTime.Now;
-            string dToday = dateTime.ToString("dd MMMM yyyy");
-            
-            return dToday;
+            TimeSpan myTime = DateTime.Now.TimeOfDay;
+            string myHour = myTime.Hours.ToString();
+            string myMinute = myTime.Minutes.ToString();
+            string myDate = dateTime.ToString("dd MMMM yyyy");
+
+            return Tuple.Create(myDate, myHour, myMinute);
         }
 
+        // List to store data while the program runs. Data loaded from files end here
+        // for display and saving back to file (if necessary)
         public static List<string> DataList{ get; set;} = new List<string>();
         
 
