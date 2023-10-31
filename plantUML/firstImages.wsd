@@ -1,0 +1,13 @@
+@@startuml my first image
+
+actor "Web user" as Webuser #Green
+participant "Front End" as Frontend #Pink
+
+Webuser -[#BlueViolet]> Frontend ++: Order Request
+'activate Frontend
+Frontend -[#Red]> Webuser --: Response
+'deactivate Frontend
+note left : failed
+
+
+@@enduml
