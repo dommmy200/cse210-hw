@@ -1,48 +1,40 @@
 using System;
-using Microsoft.VisualBasic;
 
-namespace Mindfulness{
-    public class BreathingActivity : Activity{
-        // private string _ownName;
-        private string _statement1 = "The activity will help you relax by walking you through Breathing in and out slowly.\nClear your mind and focus on your breathing.";
-
-
-        public void SetStatement1(string statement){
-            _statement1 = statement;
-        }
-        public string GetStatement1(){
-            return _statement1;
-        }
-        public BreathingActivity(string className) : base (className){
+namespace Mindfulness {
+    public class BreathingActivity : Activity {
+        // BreathingActivity constructor
+        public BreathingActivity(string className, string description) : base (className, description) {
             _className = className;
+            _description = description;
         }
-        public BreathingActivity(string statement, string className) : base (className){
-            _statement1 = statement;
-        }
-        public void PlayBreathingActivity(string clsName){
+        // Method to play the breathing game
+        public void PlayBreathingActivity(string clsName) {
             DisplayStartMessage(clsName);
-            Console.WriteLine(GetStatement1());
-            var duration = Activity.GetUserDuration();
+            Console.WriteLine(Description);
+            var duration = GetUserDuration();
             Console.Clear();
-            Activity.GetReadyForExercise();
-            BreathingActivity.BreathingExercise(duration);
-            Activity.DisplayWellDoneMessage();
-            Activity.DisplayEndMessage(duration, clsName);
+            GetReadyForExercise();
+            BreathingExercise(duration);
+            DisplayWellDoneMessage();
+            DisplayEndMessage(duration, clsName);
         }
-        static private void BreathingExercise(int secs){
+        // Local method that feeds "PlayBreathingActivity" method with the actual activity
+        private void BreathingExercise(int secs) {
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(secs);
-            string [] strings = {"Breathe in...","Now breathe out..."};
+            string [] strings = {
+                "Breathe in...","Now breathe out..."
+            };
             
             int i = 0;
-            while (DateTime.Now < endTime){
+            while (DateTime.Now < endTime) {
                 Console.Write("Breathe in...");
-                Activity.CountdownAnimation(4);
+                CountdownAnimation(5);
                 Console.Write("Now breathe out...");
-                Activity.CountdownAnimation(6);
+                CountdownAnimation(6);
                 Console.WriteLine();
 
-                if ( i >= strings.Length)
+                if (i >= strings.Length)
                     i = 0;
 
                 i++;

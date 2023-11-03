@@ -1,19 +1,15 @@
 using System;
 
-namespace Mindfulness{
-    public class ReflectionActivity : Activity{
-        private string _statement2 = "This activity will help you reflect on times in your life when you have shown strength and resilience.\nThis will help you recognize the power you have and how you can use it in other aspects of your life.";
-        public void SetStatement2(string statement){
-            _statement2 = statement;
-        }
-        public string GetStatement2(){
-            return _statement2;
-        }
-        public ReflectionActivity(string className) : base(className){
+namespace Mindfulness {
+    public class ReflectionActivity : Activity {
+        // The class constructor
+        public ReflectionActivity(string className, string description) : base (className, description) {
             _className = className;
+            _description = description;
         }
-        static private string GenerateReflection(){
-            List<string> prompts = new(){
+        // Method to generate just one random prompts for each round of the reflection exercise
+        private string GenerateReflection() {
+            List<string> prompts = new() {
                 "Think of a time when you stood up for someone else.",
                 "Think of a time when you did something really difficult.",
                 "Think of a time when you helped someone in need.",
@@ -22,11 +18,11 @@ namespace Mindfulness{
             };
             Random rand = new Random();
             int index = rand.Next(prompts.Count);
-            // Run a script to prevent reselection of previously selected prompts.
             return prompts[index];
         }
-        static private void GenerateReflectionSequence(int timing){
-            List<string> sequence = new(){
+        // Method containing list of questions to randomly select from without repeat
+        private void GenerateReflectionSequence(int timing) {
+            List<string> sequence = new() {
                 "Why was this experience meaningful to you?",
                 "Have you ever done anything like this before?",
                 "How did you get started?",
@@ -41,46 +37,50 @@ namespace Mindfulness{
             DateTime endTime = startTime.AddSeconds(timing);
             List<string> tempList = new List<string>();
             int i = 0;
-            while (DateTime.Now < endTime){
+            while (DateTime.Now < endTime) {
                 // Randomly select a question from "sequence List"
                 Random rand = new Random();
                 int index = rand.Next(sequence.Count);
                 var selected = sequence[index];
                 // Conditional statement to verify no randomly selected question is repeated
-                if (tempList != null){
-                    if (tempList.Contains(selected)){
+                if (tempList != null) {
+                    if (tempList.Contains(selected)) {
                         continue;
                     } else {
                         tempList.Add(selected);
                     }
                 } else {
-                    tempList.Add(selected);
+                    if (selected is not null) {
+                    tempList?.Add(selected);
+                    }
                 }
                 // Display selected question and play animation
                 Console.Write($"> {selected}");
-                Activity.RotateSlashAnimation(4);
-                // Prevent "OutOfBound" error before the "while loop" ends
+                RotateSlashAnimation(4);
+                // Prevent "IndexOutOfRangeException" from throwing before the "while loop" 
+                // ends by resetting counter
                 if (i >= sequence.Count)
                     i = 0;
                 i++;
             }
         }
-        public void ReflectionExercise(string className){
+        // Method to play the reflection exercise through getting the input from the user
+        public void ReflectionExercise(string className) {
             DisplayStartMessage(className);
-            Console.WriteLine(GetStatement2());
-            var duration = Activity.GetUserDuration();
+            Console.WriteLine(Description);
+            var duration = GetUserDuration();
             Console.Clear();
-            Activity.GetReadyForExercise();
+            GetReadyForExercise();
             Console.WriteLine($"Consider the following prompt:\n\n--- {GenerateReflection()} ---\n\n");
             Console.WriteLine("When you have something in mind, press enter to continue.");
             Console.ReadKey();
             Console.Write("\n\nNow ponder on each of the following questions as they relate to this experience.\nYou may begin in: ");
-            Activity.CountdownAnimation(5);
+            CountdownAnimation(5);
             Console.Clear();
             GenerateReflectionSequence(duration);
             Console.WriteLine();
-            Activity.DisplayWellDoneMessage();
-            Activity.DisplayEndMessage(duration, className);
+            DisplayWellDoneMessage();
+            DisplayEndMessage(duration, className);
         }
     }
 }

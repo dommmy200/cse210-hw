@@ -1,41 +1,67 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
+using System.Globalization;
 
-namespace Mindfulness{
-    public class Activity{
-        protected int _duration;
+namespace Mindfulness {
+    public class Activity {
+        protected int _duration = 4;
         protected string _className;
-
-        public void SetDuration(int duration){
-            _duration = duration;
+        protected string _description = "";
+        public string Description {
+            get { return _description; }
+            set { _description = value; }
         }
-        public int GetDuration(){
-            return _duration;
+        public string ClassName {
+            get { return _className; }
+            set { _className = value; }
         }
-        public string GetClassName(){
-            return _className;
+        public int Duration {
+            get { return _duration; }
+            set { _duration = value; }
         }
-        static public void GetReadyForExercise(){
+        public Activity(string className, string description) {
+            _className = className;
+            _description = description;
+        }
+        // Method to format options statement to obtain the class names
+        public string FormatClassName (string subString) {
+            string formatted = subString.Substring(6);
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            string titleCase = textInfo.ToTitleCase(formatted);
+            return titleCase;
+        }
+        // Method to display "Get ready"
+        public void GetReadyForExercise() {
             Console.WriteLine("Get ready...");
             RotateSlashAnimation(6);
         }
-        static public void CountdownAnimation(int count){
-            for (int i = count; i >= 0; i--){
+        // Method to animate countdown
+        public void CountdownAnimation(int count) {
+            for (int i = count; i >= 0; i--) {
                 Console.Write(i);
                 Thread.Sleep(1000);
                 Console.Write("\b \b");
             }
             Console.WriteLine();
         }
-        public void DrawDotsAnimation(){
-            for (int i = 5; i > 5; i--){
-                Console.Write(".");
+        // Method to animate colored flip-flop dashes before every game
+        public void DrawDashAnimation(int i) {
+            var count = 0;
+            while (count <= i) {
+                
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("-");
                 Thread.Sleep(1000);
+                Console.ResetColor();
+                Console.Write("\b\b");
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write("_");
+                Thread.Sleep(1000);
+                Console.ResetColor();
+                Console.Write("\b\b");
+                count++;
             }
         }
-        static public void RotateSlashAnimation(int secs){
+        // Method to animate rotating slashes at the prompt
+        public void RotateSlashAnimation(int secs) {
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(secs);
 
@@ -44,7 +70,7 @@ namespace Mindfulness{
             };
             
             int i = 0;
-            while (DateTime.Now < endTime){
+            while (DateTime.Now < endTime) {
                 Console.Write(strings[i]);
                 Thread.Sleep(1000);
                 Console.Write("\b \b");
@@ -55,30 +81,25 @@ namespace Mindfulness{
             }
             Console.WriteLine();
         }
-        public Activity(int duration, string className){
-            _duration = duration;
-            _className = className;
-        }
-        public Activity(string className){
-            _className = className;
-        }
-        public void DisplayStartMessage(string className){
+        // Method to display "Welcome message"
+        public void DisplayStartMessage(string className) {
             Console.Clear();
             Console.WriteLine($"Welcome to the {className}\n");
         }
-        static public int GetUserDuration(){
+        // Method to accept game duration from user
+        public int GetUserDuration() {
             Console.Write("\nHow long, in seconds, would you like for your session? ");
-            string duration = Console.ReadLine();
-            return int.Parse(duration);
+            string response = Console.ReadLine();
+            return response != null ? Convert.ToInt32(response) : 0;
         }
-        static public void DisplayWellDoneMessage(){
+        public void DisplayWellDoneMessage() {
             Console.WriteLine("Well done!!");
-            Activity.RotateSlashAnimation(5);
+            RotateSlashAnimation(5);
         }
-
-        static public void DisplayEndMessage(int duration, string className){
+        // Method to display "End messages"
+        public void DisplayEndMessage(int duration, string className) {
             Console.WriteLine($"\nYou have completed another {duration} seconds of the {className}.");
-            Activity.RotateSlashAnimation(5);
+            RotateSlashAnimation(5);
         }
     }
 }
