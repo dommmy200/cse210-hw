@@ -1,11 +1,8 @@
 using System;
 
-namespace Mindfulness
-{    
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace Mindfulness {    
+    class Program {
+        static void Main(string[] args) {
             int choices = 0;
             while (choices != 4) {
                 List<string> classNm = new() {
