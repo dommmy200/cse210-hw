@@ -5,6 +5,10 @@ namespace Mindfulness {
         protected int _duration = 4;
         protected string _className;
         protected string _description = "";
+        public Activity(string className, string description) {
+            _className = className;
+            _description = description;
+        }
         public string Description {
             get { return _description; }
             set { _description = value; }
@@ -16,10 +20,6 @@ namespace Mindfulness {
         public int Duration {
             get { return _duration; }
             set { _duration = value; }
-        }
-        public Activity(string className, string description) {
-            _className = className;
-            _description = description;
         }
         // Method to format options statement to obtain the class names
         public string FormatClassName (string subString) {
