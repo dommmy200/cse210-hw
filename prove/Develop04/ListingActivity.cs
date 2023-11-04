@@ -30,7 +30,6 @@ namespace Mindfulness {
                 "When have you felt the Holy Ghost this month?",
                 "Who are some of your personal heroes?"
             };
-
             Random rand = new Random();
             int index = rand.Next(prompts.Count);
             // Run a script to prevent reselection of previously selected prompts(Stretch Exercise).
@@ -40,19 +39,15 @@ namespace Mindfulness {
         private void ResponseListing(int duration){
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(duration);
-
             List<string> strings = new List<string>();
-            
             int count = 0;
             while (DateTime.Now < endTime) {
                 Console.Write(">");
                 // Address "Possible null" assignment with "?".
                 string response = Console.ReadLine();
-                
                 if (response is not null) {
                     strings.Add(response);
                 }
-                
                 count++;
             }
             Console.WriteLine($"You listed {count} items.\n");
