@@ -25,7 +25,6 @@ namespace Mindfulness {
             string [] strings = {
                 "Breathe in...","Now breathe out..."
             };
-            
             int i = 0;
             while (DateTime.Now < endTime) {
                 Console.Write("Breathe in...");
@@ -33,10 +32,8 @@ namespace Mindfulness {
                 Console.Write("Now breathe out...");
                 CountdownAnimation(6);
                 Console.WriteLine();
-
                 if (i >= strings.Length)
                     i = 0;
-
                 i++;
             }
             Console.WriteLine();
