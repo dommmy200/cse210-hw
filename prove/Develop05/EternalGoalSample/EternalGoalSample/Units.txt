@@ -1,4 +1,0 @@
-0
-SimpleGoal: Brothers, They are siblings, 45, False 
-EternalGoal: Sisters, They are siblings with emotions, 55
-ChecklistGoal: Family, They are made of siblings and parents, 65, 500, 3, 1, False
