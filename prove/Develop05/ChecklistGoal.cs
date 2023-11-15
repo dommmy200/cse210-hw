@@ -15,17 +15,16 @@ namespace EternalGoal {
             _status = false;
         }
         public override void DisplaySubclassObjects(int serialNumber) {
-            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()}) --Completed: {GetCount()-1}/{GetMaximumCount()}");
+            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()}) --Completed: {GetCount()}/{GetMaximumCount()}");
         }
         public int GetBonus() {
-            int i = GetPoint();
-            return _bonus + i;
+            return _bonus;
         }
-        public int GetDifference() {
-            int gBonus = GetBonus();
-            int gPoint = GetPoint();
-            return gBonus - gPoint;
-        }
+        // public int GetDifference() {
+        //     int gBonus = GetBonus();
+        //     int gPoint = GetPoint();
+        //     return gBonus - gPoint;
+        // }
         public int GetMaximumCount() {
             return _maximumCount;
         }
@@ -45,7 +44,7 @@ namespace EternalGoal {
             return _status;
         }
         public override string SaveGoal() {
-        string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetDifference()}, {GetMaximumCount()}, {GetCount()}, {GetStatus()}";
+        string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetBonus()}, {GetMaximumCount()}, {GetCount()}, {GetStatus()}";
             return goalStructure;
         }
         public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
@@ -74,20 +73,21 @@ namespace EternalGoal {
             return gList;
         }
         public override void RecordGoalEvent(HelperClass helper1) {
-            int count = GetCount();
+            int count = GetCount() + 1;
             int maxCount = GetMaximumCount();
             if (count < maxCount) {
                 int point = GetPoint();
                 helper1.AddPoints(point);
                 IncrementCount();
             } else if(count == maxCount) {
-                    int bonus = GetBonus();
-                    int point = GetPoint();
-                    
-                    helper1.AddPoints(point);
-                    helper1.AddBonus(bonus);
-                    //this.SetStatus();
-                    this.UpdateCheck();
+                int bonus = GetBonus();
+                int point = GetPoint();
+                
+                helper1.AddPoints(point);
+                helper1.AddBonus(bonus);
+                IncrementCount();
+                //this.SetStatus();
+                this.UpdateCheck();
             }
         }
     }
