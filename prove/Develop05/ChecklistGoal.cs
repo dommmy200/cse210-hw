@@ -8,14 +8,14 @@ public class ChecklistGoal : Goal {
     private int _bonus;
     private int _count;
     private bool _status;
-    public ChecklistGoal(string goalName, string description, int point, int bonus, int maximumCount) : base(goalName,  description, point) {
+    public ChecklistGoal(string check, string goalName, string description, int point, int bonus, int maximumCount) : base(check, goalName,  description, point) {
         _bonus = bonus;
         _count = 1;
         _maximumCount = maximumCount;
         _status = false;
     }
     public override void DisplaySubclassObjects(int serialNumber) {
-        Console.WriteLine($"{serialNumber}. {GetGoalName()}, ({GetGoalDescription()}) --Completed: {GetCount()-1}/{GetMaximumCount()}");
+        Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()}) --Completed: {GetCount()-1}/{GetMaximumCount()}");
     }
     public int GetBonus() {
         int i = GetPoint();
@@ -48,10 +48,32 @@ public class ChecklistGoal : Goal {
     string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetDifference()}, {GetMaximumCount()}, {GetCount()}, {GetStatus()}";
         return goalStructure;
     }
-    public override string LoadGoal() {
-        return "Load Goals";
+    public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
+            
+        // string gName = parts[0];
+            
+        // // split the goal name into its components
+        // string [] nameSplit = gName.Split(":");
+        // var gN = nameSplit[1].Trim(); // goal name comes bundled and needs to be unbundled and trimmed
+        
+        // var gDescription = parts[1];
+        // int gPoint = int.Parse(parts[2]);
+
+        // int difference = int.Parse(parts[3]); // Difference is actually the bonus points
+        // int mCount = int.Parse(parts[4]);
+        // int count = int.Parse(parts[5]);
+        // ChecklistGoal checklist = new ChecklistGoal("", gN, gDescription, gPoint, difference, mCount);
+        // checklist.SetCount(count);
+        // if (mCount == count) {
+        //     checklist.SetStatus();
+        // }
+        // HelperClass help = new HelperClass();
+        // help.AddGoalToList(checklist);
+
+        List<Goal> gList = helper.GetGoalsList();
+        return gList;
     }
-    public override void RecordGoalEvent(HelpClass helper1) {
+    public override void RecordGoalEvent(HelperClass helper1) {
         int count = GetCount();
         int maxCount = GetMaximumCount();
         if (count < maxCount) {
@@ -63,7 +85,8 @@ public class ChecklistGoal : Goal {
             if (boo == false) {
                 int bonus = GetBonus();
                 helper1.AddPoints(bonus);
-                SetStatus();
+                this.SetStatus();
+                this.UpdateCheck();
             }
         }
     }

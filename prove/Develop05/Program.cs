@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+
 namespace EternalGoal {
     class Program {
         static void Main(string[] args) {
 
-            HelpClass helper = new HelpClass();
+            HelperClass helper = new HelperClass();
             List<string> strings = new List<string>(6) {
                 "Create New Goal",
                 "List Goals",
@@ -31,7 +32,7 @@ namespace EternalGoal {
                     ShowList(helper);
                 } else if (strings.IndexOf(strings[2])+1 == opt) {
                     Console.WriteLine("Load Goals 3");
-                    helper.AssembleAndLoadGoals();
+                    helper.RecreateAndLoadGoals();
                 } else if (strings.IndexOf(strings[3])+1 == opt) {
                     Console.WriteLine("Record Events 4");
                     helper.RewardGoalAchieved();
@@ -44,7 +45,7 @@ namespace EternalGoal {
                 }
             }
                     
-            static void GetGoalType(HelpClass helper) {
+            static void GetGoalType(HelperClass helper) {
                 List<string> goals = new List<string>(3) {
                     "Simple Goal",
                     "Eternal Goal",
@@ -74,7 +75,7 @@ namespace EternalGoal {
                         break;
                 }
             }
-            static void GetGoalQuestions(int x, HelpClass help) {
+            static void GetGoalQuestions(int x, HelperClass help) {
                 switch (x) {
                     case 1 :
                         SimpleAndEternalQuestions(1, help);
@@ -88,7 +89,7 @@ namespace EternalGoal {
                 }     
             }
 
-            static void SimpleAndEternalQuestions(int x, HelpClass help) {
+            static void SimpleAndEternalQuestions(int x, HelperClass help) {
                 Console.Write("What is the name of your goal? ");
                 string? name = Console.ReadLine();
 
@@ -99,18 +100,17 @@ namespace EternalGoal {
                 Console.Write("What is the amount of points associated with this goal? ");
                 string? pnt = Console.ReadLine();
                 int point = int.Parse(pnt);
-                
-            
+                // These goal types are differentiated by x=1 & 2
                 if (x == 1) {
-                    SimpleGoal goal1 = new SimpleGoal(name, description, point);
+                    SimpleGoal goal1 = new SimpleGoal("",name, description, point);
                     help.AddGoalToList(goal1);
                 } else {
-                    EternalGoal goal2 = new EternalGoal(name, description, point);
+                    EternalGoal goal2 = new EternalGoal("",name, description, point);
                     help.AddGoalToList(goal2);
                 }
             }
 
-            static void ChecklistQuestions(HelpClass help) {
+            static void ChecklistQuestions(HelperClass help) {
                 
                 Console.Write("What is the name of your goal? ");
                 string? name = Console.ReadLine();
@@ -131,10 +131,10 @@ namespace EternalGoal {
                 string? bonus = Console.ReadLine();
                 int bonuses = int.Parse(bonus);
                 
-                ChecklistGoal goal2 = new ChecklistGoal(name, description, point, bonuses, maximumCount);
+                ChecklistGoal goal2 = new ChecklistGoal("",name, description, point, bonuses, maximumCount);
                 help.AddGoalToList(goal2);
             }
-            static void ShowList(HelpClass help) {
+            static void ShowList(HelperClass help) {
                 List<Goal> goalList = help.GetGoalsList();
                 Console.Clear();
                 Console.WriteLine("The goals are:");

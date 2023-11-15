@@ -4,11 +4,11 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace EternalGoal {
-    public class HelpClass {
+    public class HelperClass {
         private int _totalPoints;
         private List<Goal> _goalList = new List<Goal>();
 
-        public HelpClass() {
+        public HelperClass() {
             this.GetTotalPoints();
         }
         public void AddZero() {
@@ -19,6 +19,9 @@ namespace EternalGoal {
         }
         public void AddPoints(int point) {
             _totalPoints += point;
+        }
+        public void UpdateTotal(int total) {
+            _totalPoints = total;
         }
         public void AddGoalToList(Goal goal) {
             _goalList.Add(goal);
@@ -32,18 +35,19 @@ namespace EternalGoal {
                 Console.WriteLine($"{i+1}. {goalName}");
             }
             Console.Write("Select a goal to record: ");
-            string? x = Console.ReadLine();
-            int selected = int.Parse(x = x!=null? x:"0");
+            string x = Console.ReadLine();
+            int selected = int.Parse(x != null ? x : "0");
 
             Goal goal = _goalList[selected-1];
-            goal.RecordGoalEvent(this);
+            goal.RecordGoalEvent(helper1: this);
         }
         public void SaveGoalToFile() {
             Console.Write("Please, give the file a name? ");
             string filename = Console.ReadLine();
-            
+            // User may enter a .txt extension or not
             var file = filename.Contains(".txt") ? filename : filename + ".txt";
-            using(StreamWriter outPut = new StreamWriter(filename)) {
+            
+            using(StreamWriter outPut = new StreamWriter(file)) {
                 outPut.WriteLine(GetTotalPoints());
                 Console.WriteLine();
                 foreach (Goal goal in _goalList) {
@@ -60,7 +64,7 @@ namespace EternalGoal {
             string firstPart = clsName[..index]; //string firstPart = clsName.Substring(0, index);
             return $"{firstPart} {secondPart}";
         }
-        public void AssembleAndLoadGoals() {
+        public void RecreateAndLoadGoals() {
             Console.Write("Enter filename: ");
             string filename = Console.ReadLine();
             
@@ -70,7 +74,7 @@ namespace EternalGoal {
             
             // Update the total points when loading file to memory
             int updateTotal = int.Parse(lines[0]);
-            this.AddPoints(updateTotal);
+            this.UpdateTotal(updateTotal);
             
             // Skip the line holding the total points variable
             lines = lines.Skip(1).ToArray();
@@ -90,26 +94,29 @@ namespace EternalGoal {
                 if (gName.Contains("SimpleGoal")) {
                     // Get the status of the object
                     var gStatus = parts[3];
-                    SimpleGoal simple = new SimpleGoal(gN, gDescription, gPoint);
+                    SimpleGoal simple = new SimpleGoal("", gN, gDescription, gPoint);
                     // This part is necessary to ensure the original status is retained during loading
                     if (gStatus is not "true") {
                         simple.SetStatusFalse();
                     }
-                    _goalList.Add(simple);
+                    simple.LoadGoal(simple, this);
+                    //_goalList.Add(simple);
                 } else if (gName.Contains("EternalGoal")) {
-                    EternalGoal eternal = new EternalGoal(gN, gDescription, gPoint);
-                    _goalList.Add(eternal);
+                    EternalGoal eternal = new EternalGoal("", gN, gDescription, gPoint);
+                    eternal.LoadGoal(eternal, this);
+                    //_goalList.Add(eternal);
+                    
                 } else { // else the name is "ChecklistGoal" 
                     int difference = int.Parse(parts[3]); // Difference is actually the bonus points
                     int mCount = int.Parse(parts[4]);
                     int count = int.Parse(parts[5]);
-
-                    ChecklistGoal checklist = new ChecklistGoal(gN, gDescription, gPoint, difference, mCount);
+                    ChecklistGoal checklist = new ChecklistGoal("", gN, gDescription, gPoint, difference, mCount);
                     checklist.SetCount(count);
                     if (mCount == count) {
                         checklist.SetStatus();
                     }
-                    _goalList.Add(checklist);
+                    checklist.LoadGoal(checklist, this);
+                    //_goalList.Add(checklist);
                 }
             }
         }
