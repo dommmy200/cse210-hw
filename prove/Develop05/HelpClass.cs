@@ -60,13 +60,13 @@ namespace EternalGoal {
             }
         }
         // Necessary for splitting class name into components
-        public string FormatGoalName(Goal obj) {
-            string secondPart = "Goal";
-            string clsName = obj.GetType().Name;
-            int index = clsName.IndexOf(secondPart);
-            string firstPart = clsName[..index]; //string firstPart = clsName.Substring(0, index);
-            return $"{firstPart} {secondPart}";
-        }
+        // public string FormatGoalName(Goal obj) {
+        //     string secondPart = "Goal";
+        //     string clsName = obj.GetType().Name;
+        //     int index = clsName.IndexOf(secondPart);
+        //     string firstPart = clsName[..index]; //string firstPart = clsName.Substring(0, index);
+        //     return $"{firstPart} {secondPart}";
+        // }
         public void RecreateAndLoadGoals() {
             Console.Write("Enter filename: ");
             string filename = Console.ReadLine();
@@ -89,7 +89,7 @@ namespace EternalGoal {
                 
                 // split the goal name into its components
                 string [] nameSplit = gName.Split(":");
-                var gN = nameSplit[1].Trim(); // goal name comes bundled and needs to be unbundled and trimmed
+                var goalName1 = nameSplit[1].Trim(); // goal name comes bundled and needs to be unbundled and trimmed
                 
                 var gDescription = parts[1];
                 int gPoint = int.Parse(parts[2]);
@@ -97,29 +97,26 @@ namespace EternalGoal {
                 if (gName.Contains("SimpleGoal")) {
                     // Get the status of the object
                     var gStatus = parts[3];
-                    SimpleGoal simple = new SimpleGoal("", gN, gDescription, gPoint);
+                    SimpleGoal simple = new SimpleGoal(" ", goalName1, gDescription, gPoint);
                     // This part is necessary to ensure the original status is retained during loading
-                    if (gStatus is not "true") {
-                        simple.SetStatusFalse();
+                    if (gStatus is "true") {
+                        simple.UpdateCheck();
                     }
-                    simple.LoadGoal(simple, this);
-                    //_goalList.Add(simple);
+                    _goalList.Add(simple);
                 } else if (gName.Contains("EternalGoal")) {
-                    EternalGoal eternal = new EternalGoal("", gN, gDescription, gPoint);
-                    eternal.LoadGoal(eternal, this);
-                    //_goalList.Add(eternal);
+                    EternalGoal eternal = new EternalGoal(" ", goalName1, gDescription, gPoint);
+                    _goalList.Add(eternal);
                     
                 } else { // else the name is "ChecklistGoal" 
                     int difference = int.Parse(parts[3]); // Difference is actually the bonus points
                     int mCount = int.Parse(parts[4]);
                     int count = int.Parse(parts[5]);
-                    ChecklistGoal checklist = new ChecklistGoal("", gN, gDescription, gPoint, difference, mCount);
+                    ChecklistGoal checklist = new ChecklistGoal(" ", goalName1, gDescription, gPoint, difference, mCount);
                     checklist.SetCount(count);
                     if (mCount == count) {
-                        checklist.SetStatus();
+                        checklist.UpdateCheck();
                     }
-                    checklist.LoadGoal(checklist, this);
-                    //_goalList.Add(checklist);
+                    _goalList.Add(checklist);
                 }
             }
         }

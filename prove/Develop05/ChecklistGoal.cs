@@ -7,12 +7,10 @@ namespace EternalGoal {
         private int _maximumCount;
         private int _bonus;
         private int _count;
-        private bool _status;
         public ChecklistGoal(string check, string goalName, string description, int point, int bonus, int maximumCount) : base(check, goalName,  description, point) {
             _bonus = bonus;
             _count = 0;
             _maximumCount = maximumCount;
-            _status = false;
         }
         public override void DisplaySubclassObjects(int serialNumber) {
             Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()}) --Completed: {GetCount()}/{GetMaximumCount()}");
@@ -37,14 +35,14 @@ namespace EternalGoal {
         public void SetCount(int count) {
             _count = count;
         }
-        public void SetStatus() {
-            _status = true;
-        }
-        public bool GetStatus() {
-            return _status;
-        }
+        // public void SetStatus() {
+        //     _status = true;
+        // }
+        // public bool GetStatus() {
+        //     return _status;
+        // }
         public override string SaveGoal() {
-        string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetBonus()}, {GetMaximumCount()}, {GetCount()}, {GetStatus()}";
+        string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetBonus()}, {GetMaximumCount()}, {GetCount()}";
             return goalStructure;
         }
         public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
