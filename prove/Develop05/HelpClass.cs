@@ -23,6 +23,9 @@ namespace EternalGoal {
         public void UpdateTotal(int total) {
             _totalPoints = total;
         }
+        public void AddBonus(int bonus) {
+            _totalPoints += bonus;
+        }
         public void AddGoalToList(Goal goal) {
             _goalList.Add(goal);
         }
