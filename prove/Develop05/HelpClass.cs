@@ -97,21 +97,21 @@ namespace EternalGoal {
                 if (gName.Contains("SimpleGoal")) {
                     // Get the status of the object
                     var gStatus = parts[3];
-                    SimpleGoal simple = new SimpleGoal(" ", goalName1, gDescription, gPoint);
+                    SimpleGoal simple = new SimpleGoal("", goalName1, gDescription, gPoint);
                     // This part is necessary to ensure the original status is retained during loading
                     if (gStatus is "true") {
                         simple.UpdateCheck();
                     }
                     _goalList.Add(simple);
                 } else if (gName.Contains("EternalGoal")) {
-                    EternalGoal eternal = new EternalGoal(" ", goalName1, gDescription, gPoint);
+                    EternalGoal eternal = new EternalGoal("", goalName1, gDescription, gPoint);
                     _goalList.Add(eternal);
                     
                 } else { // else the name is "ChecklistGoal" 
                     int difference = int.Parse(parts[3]); // Difference is actually the bonus points
                     int mCount = int.Parse(parts[4]);
                     int count = int.Parse(parts[5]);
-                    ChecklistGoal checklist = new ChecklistGoal(" ", goalName1, gDescription, gPoint, difference, mCount);
+                    ChecklistGoal checklist = new ChecklistGoal("", goalName1, gDescription, gPoint, difference, mCount);
                     checklist.SetCount(count);
                     if (mCount == count) {
                         checklist.UpdateCheck();

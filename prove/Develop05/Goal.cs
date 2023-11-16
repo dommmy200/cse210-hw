@@ -6,7 +6,7 @@ namespace EternalGoal {
         // private string _goalType;
         private string _goalName;
         private string _description;
-        private string _check = " ";
+        private string _check = "";
         private int _point;
         // private bool _status = false;
         // HelperClass helper1 = new HelperClass();
@@ -46,7 +46,7 @@ namespace EternalGoal {
             return _point;
         }
         public abstract void DisplaySubclassObjects(int x);
-        public abstract List<Goal> LoadGoal(Goal goal, HelperClass helper);
+        // public abstract List<Goal> LoadGoal(Goal goal, HelperClass helper);
         public abstract string SaveGoal();
         public abstract void RecordGoalEvent(HelperClass helper1);
     }

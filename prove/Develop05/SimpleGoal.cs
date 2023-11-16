@@ -21,10 +21,10 @@ namespace EternalGoal {
             Console.WriteLine($"{serialNumber}. [{GetCheck()}]{GetGoalName()},({GetGoalDescription()})");
         }
         public override string SaveGoal() {
-            string goalStructure = $@"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()}, {GetStatus()} ";
+            string goalStructure = $"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()}, {GetStatus()} ";
             return goalStructure;
         }
-        public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
+        // public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
             
             // string gName = parts[0];
                 
@@ -44,9 +44,9 @@ namespace EternalGoal {
             //     simple.SetStatusFalse();
             // }
             // HelperClass help = new HelperClass();
-            List<Goal> gList = helper.GetGoalsList();
-            return gList;
-        }
+            // List<Goal> gList = helper.GetGoalsList();
+            // return gList;
+        // }
         public override void RecordGoalEvent(HelperClass helper1) {
             bool boo = GetStatus();
             if (boo == false) {

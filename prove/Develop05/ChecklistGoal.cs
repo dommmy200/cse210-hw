@@ -42,10 +42,10 @@ namespace EternalGoal {
         //     return _status;
         // }
         public override string SaveGoal() {
-        string goalStructure = $@"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()},{GetBonus()},{GetMaximumCount()},{GetCount()}";
+        string goalStructure = $"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()},{GetBonus()},{GetMaximumCount()},{GetCount()}";
             return goalStructure;
         }
-        public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
+        // public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
                 
             // string gName = parts[0];
                 
@@ -67,9 +67,9 @@ namespace EternalGoal {
             // HelperClass help = new HelperClass();
             // help.AddGoalToList(checklist);
 
-            List<Goal> gList = helper.GetGoalsList();
-            return gList;
-        }
+        //     List<Goal> gList = helper.GetGoalsList();
+        //     return gList;
+        // }
         public override void RecordGoalEvent(HelperClass helper1) {
             int count = GetCount() + 1;
             int maxCount = GetMaximumCount();

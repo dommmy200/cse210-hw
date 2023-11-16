@@ -1,4 +1,0 @@
-190
-SimpleGoal: Baies, I spelled babies wrongly, 20, True 
-EternalGoal: Angles, They are formed by two lines, 30
-ChecklistGoal: Triangles, They are formed by three lines, 45, 50, 2, 2

@@ -9,10 +9,10 @@ namespace EternalGoal {
             Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()},({GetGoalDescription()})");
         }
         public override string SaveGoal() {
-            string goalStructure = $@"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()}";
+            string goalStructure = $"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()}";
             return goalStructure;
         }
-        public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
+        // public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {
             
             // string gName = parts[0];
                 
@@ -26,9 +26,9 @@ namespace EternalGoal {
             // EternalGoal eternal = new EternalGoal("", gN, gDescription, gPoint);            
             // HelperClass help = new HelperClass();
             // help.AddGoalToList(eternal);
-            List<Goal> gList = helper.GetGoalsList();
-            return gList;
-        }
+            // List<Goal> gList = helper.GetGoalsList();
+            // return gList;
+        // }
         public override void RecordGoalEvent(HelperClass helper1) {
             int point = GetPoint();
             helper1.AddPoints(point);

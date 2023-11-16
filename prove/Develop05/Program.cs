@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EternalGoal {
     class Program {
@@ -55,26 +56,25 @@ namespace EternalGoal {
                 for (int i = 0; i < goals.Count; i++) {
                     Console.WriteLine($"  {i+1}. {goals[i]}");
                 }
+                // List goal types 
                 Console.Write("Which type of goal would you like to create? ");
                 int x = int.Parse(Console.ReadLine());
                 switch (x){
                     case 1:
-                        Console.WriteLine("case 1");
                         int quest = 1;
                         GetGoalQuestions(quest, helper);
                         break;
                     case 2:
-                        Console.WriteLine("case 2");
                         quest = 2;
                         GetGoalQuestions(quest, helper);
                         break;
                     case 3:
-                        Console.WriteLine("case 3");
                         quest = 3;
                         GetGoalQuestions(quest, helper);
                         break;
                 }
             }
+            // List questions according to goal-type
             static void GetGoalQuestions(int x, HelperClass help) {
                 switch (x) {
                     case 1 :
@@ -88,7 +88,7 @@ namespace EternalGoal {
                         break;
                 }     
             }
-
+            // Goal-type questions defined for SimpleGoal and EternalGaol
             static void SimpleAndEternalQuestions(int x, HelperClass help) {
                 Console.Write("What is the name of your goal? ");
                 string? name = Console.ReadLine();
@@ -108,7 +108,7 @@ namespace EternalGoal {
                     help.AddGoalToList(goal2);
                 }
             }
-
+            // Goal-type questions defined for ChecklistGaol
             static void ChecklistQuestions(HelperClass help) {
                 
                 Console.Write("What is the name of your goal? ");
@@ -136,9 +136,13 @@ namespace EternalGoal {
             static void ShowList(HelperClass help) {
                 List<Goal> goalList = help.GetGoalsList();
                 Console.Clear();
-                Console.WriteLine("The goals are:");
-                for (int i = 0; i < goalList.Count; i++) {
-                    goalList[i].DisplaySubclassObjects(i + 1); // goalList[i] is a goal object
+                if (goalList.Count == 0) {
+                    Console.WriteLine("The list is empty");
+                } else {
+                    Console.WriteLine("The goals are:");
+                    for (int i = 0; i < goalList.Count; i++) {
+                        goalList[i].DisplaySubclassObjects(i + 1); // goalList[i] is a goal object
+                    }
                 }
             }
         }
