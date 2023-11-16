@@ -7,6 +7,7 @@ namespace EternalGoal {
         static void Main(string[] args) {
 
             HelperClass helper = new HelperClass();
+            // Main menu list
             List<string> strings = new List<string>(6) {
                 "Create New Goal",
                 "List Goals",
@@ -16,6 +17,7 @@ namespace EternalGoal {
                 "Quit"
             };
             bool Quit = true;
+            // Generate the menu for user selection 
             while (Quit) {
                 int tPoint = helper.GetTotalPoints();
 
@@ -45,7 +47,7 @@ namespace EternalGoal {
                     Quit = false;
                 }
             }
-                    
+            // List goal types for selection
             static void GetGoalType(HelperClass helper) {
                 List<string> goals = new List<string>(3) {
                     "Simple Goal",
@@ -56,22 +58,34 @@ namespace EternalGoal {
                 for (int i = 0; i < goals.Count; i++) {
                     Console.WriteLine($"  {i+1}. {goals[i]}");
                 }
-                // List goal types 
-                Console.Write("Which type of goal would you like to create? ");
-                int x = int.Parse(Console.ReadLine());
-                switch (x){
-                    case 1:
-                        int quest = 1;
-                        GetGoalQuestions(quest, helper);
-                        break;
-                    case 2:
-                        quest = 2;
-                        GetGoalQuestions(quest, helper);
-                        break;
-                    case 3:
-                        quest = 3;
-                        GetGoalQuestions(quest, helper);
-                        break;
+                // Console.Write("Which type of goal would you like to create? ");
+                // int x = int.Parse(Console.ReadLine());
+                
+                // Handle integer input by user
+                // int x;
+                try {
+                    Console.Write("Which type of goal would you like to create? ");
+                    string input = Console.ReadLine();
+                    if (int.TryParse(input, out int x)) {
+                        switch (x){
+                            case 1:
+                                int quest = 1;
+                                GetGoalQuestions(quest, helper);
+                                break;
+                            case 2:
+                                quest = 2;
+                                GetGoalQuestions(quest, helper);
+                                break;
+                            case 3:
+                                quest = 3;
+                                GetGoalQuestions(quest, helper);
+                                break;
+                        }
+                    } else {
+                        Console.WriteLine("\nInvalid input. Please enter a valid integer.");
+                    }
+                } catch (Exception ex){
+                    Console.WriteLine($"An error occurred: {ex.Message}");
                 }
             }
             // List questions according to goal-type
@@ -90,49 +104,74 @@ namespace EternalGoal {
             }
             // Goal-type questions defined for SimpleGoal and EternalGaol
             static void SimpleAndEternalQuestions(int x, HelperClass help) {
-                Console.Write("What is the name of your goal? ");
-                string? name = Console.ReadLine();
+                try {
+                    Console.Write("What is the name of your goal? ");
+                    string name = Console.ReadLine();
 
-                Console.Write("What is a short description of it? ");
-                string? description = Console.ReadLine();
-                
-                Console.Write("What is the amount of points associated with this goal? ");
-                string? pnt = Console.ReadLine();
-                int point = int.Parse(pnt);
-                // These goal types are differentiated by x=1 & 2
-                if (x == 1) {
-                    SimpleGoal goal1 = new SimpleGoal("",name, description, point);
-                    help.AddGoalToList(goal1);
-                } else {
-                    EternalGoal goal2 = new EternalGoal("",name, description, point);
-                    help.AddGoalToList(goal2);
+                    Console.Write("What is a short description of it? ");
+                    string description = Console.ReadLine();
+                    try {
+                        Console.Write("What is the amount of points associated with this goal? ");
+                        string pnt = Console.ReadLine();
+                        int point = int.Parse(pnt);
+                        // These goal types are differentiated by x=1 & 2
+                        if (x == 1) {
+                            SimpleGoal goal1 = new SimpleGoal("",name, description, point);
+                            help.AddGoalToList(goal1);
+                        } else {
+                            EternalGoal goal2 = new EternalGoal("",name, description, point);
+                            help.AddGoalToList(goal2);
+                        }
+                    } catch (FormatException ex) {
+                        // Handle or log the error for integer input in a more detailed manner if needed.
+                        Console.WriteLine($"Error: {ex.Message} \nEnter an integer!");
+                    }
+                }
+                catch (Exception ex) {
+                    // Handle or log the error for string input in a more detailed manner if needed.
+                    Console.WriteLine($"An error occurred: {ex.Message} \nEnter valid string character!");
                 }
             }
             // Goal-type questions defined for ChecklistGaol
             static void ChecklistQuestions(HelperClass help) {
                 
-                Console.Write("What is the name of your goal? ");
-                string? name = Console.ReadLine();
-                    if (name is not null)
+                try {
+                    Console.Write("What is the name of your goal? ");
+                    string name = Console.ReadLine();
 
-                Console.Write("What is a short description of it? ");
-                string? description = Console.ReadLine();
+                    Console.Write("What is a short description of it? ");
+                    string description = Console.ReadLine();
+                    try {
+                        Console.Write("What is the amount of points associated with this goal? ");
+                        string point = Console.ReadLine();
+                        // int point = int.Parse(pnt);
 
-                Console.Write("What is the amount of points associated with this goal? ");
-                string? pnt = Console.ReadLine();
-                int point = int.Parse(pnt);
+                        Console.Write("How many times does this goal need to be accomplished for a bonus? ");
+                        string maxCount = Console.ReadLine();
+                        // int maximumCount = int.Parse(maxCount);
 
-                Console.Write("How many times does this goal need to be accomplished for a bonus? ");
-                string? maxCount = Console.ReadLine();
-                int maximumCount = int.Parse(maxCount);
+                        Console.Write("What is the bonus for accomplishing it that many times? ");
+                        string bonus = Console.ReadLine();
+                        // int bonuses = int.Parse(bonus);
+                        if (int.TryParse(point, out int x) && int.TryParse(maxCount, out int y) && int.TryParse(bonus, out int z)) {
+                            ChecklistGoal goal2 = new ChecklistGoal("",name, description, x, y, z);
+                            help.AddGoalToList(goal2);  
+                        } else {
+                        Console.WriteLine("\nInvalid input. Please enter a valid integer.");
+                    }
+                                          
+                    } catch (FormatException ex) {
+                        // Handle or log the error for integer input in a more detailed manner if needed.
+                        Console.WriteLine($"Error: {ex.Message} \nEnter an integer!");
+                    }
+                }
+                catch (Exception ex) {
+                    // Handle or log the error for string input in a more detailed manner if needed.
+                    Console.WriteLine($"An error occurred: {ex.Message} \nEnter valid string character!");
+                }                
 
-                Console.Write("What is the bonus for accomplishing it that many times? ");
-                string? bonus = Console.ReadLine();
-                int bonuses = int.Parse(bonus);
-                
-                ChecklistGoal goal2 = new ChecklistGoal("",name, description, point, bonuses, maximumCount);
-                help.AddGoalToList(goal2);
             }
+            // Format and display the list
             static void ShowList(HelperClass help) {
                 List<Goal> goalList = help.GetGoalsList();
                 Console.Clear();
