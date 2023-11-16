@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Globalization;
 using System.Collections.Generic;
 
 namespace EternalGoal {
@@ -47,8 +48,9 @@ namespace EternalGoal {
         public void SaveGoalToFile() {
             Console.Write("Please, give the file a name? ");
             string filename = Console.ReadLine();
-            // User may enter a .txt extension or not
-            var file = filename.Contains(".txt") ? filename : filename + ".txt";
+            string formattedFilename = FormatFileName(filename);
+            // User input filename with, or without, extension is made valid
+            var file = formattedFilename.Contains(".txt") ? formattedFilename : formattedFilename + ".txt";
             
             using(StreamWriter outPut = new StreamWriter(file)) {
                 outPut.WriteLine(GetTotalPoints());
@@ -59,6 +61,12 @@ namespace EternalGoal {
                 }
             }
         }
+        // Format filename to TitleCase
+        // public string FormatFileName (string str) {
+        //     TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+        //     string titleCase = textInfo.ToTitleCase(str);
+        //     return titleCase;
+        // }
         // Necessary for splitting class name into components
         // public string FormatGoalName(Goal obj) {
         //     string secondPart = "Goal";
@@ -70,8 +78,8 @@ namespace EternalGoal {
         public void RecreateAndLoadGoals() {
             Console.Write("Enter filename: ");
             string filename = Console.ReadLine();
-            
-            var file = filename.Contains(".txt") ? filename : filename + ".txt";
+            string formattedFilename = FormatFileName(filename);
+            var file = formattedFilename.Contains(".txt") ? formattedFilename : formattedFilename + ".txt";
             
             string[] lines = File.ReadAllLines(file);
             
@@ -119,6 +127,12 @@ namespace EternalGoal {
                     _goalList.Add(checklist);
                 }
             }
+        }
+        // Format filename to TitleCase to accept mix cases of characters
+        public string FormatFileName (string str) {
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            string titleCase = textInfo.ToTitleCase(str);
+            return titleCase;
         }
     }
 }

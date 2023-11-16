@@ -153,6 +153,8 @@ namespace EternalGoal {
                         Console.Write("What is the bonus for accomplishing it that many times? ");
                         string bonus = Console.ReadLine();
                         // int bonuses = int.Parse(bonus);
+                        
+                        // Verify that valid integers are passed
                         if (int.TryParse(point, out int x) && int.TryParse(maxCount, out int y) && int.TryParse(bonus, out int z)) {
                             ChecklistGoal goal2 = new ChecklistGoal("",name, description, x, y, z);
                             help.AddGoalToList(goal2);  
@@ -161,12 +163,12 @@ namespace EternalGoal {
                     }
                                           
                     } catch (FormatException ex) {
-                        // Handle or log the error for integer input in a more detailed manner if needed.
+                        // Handle or log the error for integer input
                         Console.WriteLine($"Error: {ex.Message} \nEnter an integer!");
                     }
                 }
                 catch (Exception ex) {
-                    // Handle or log the error for string input in a more detailed manner if needed.
+                    // Handle or log the error for string input
                     Console.WriteLine($"An error occurred: {ex.Message} \nEnter valid string character!");
                 }                
 

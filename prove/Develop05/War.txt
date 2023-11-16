@@ -1,0 +1,4 @@
+50
+SimpleGoal:Humans,They occupy the earth,50, True 
+EternalGoal:Women,They compliment the men,70
+ChecklistGoal:Men,They like war,40,2,100,0
