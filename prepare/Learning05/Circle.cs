@@ -1,4 +1,5 @@
 using System;
+using static System.Console;
 
 namespace ShapeAndColors {
     public class Circle : Shape {
@@ -9,5 +10,6 @@ namespace ShapeAndColors {
         public override double GetArea() {
             return Math.PI * Math.Pow(_radius, 2);
         }
+        
     }
 }

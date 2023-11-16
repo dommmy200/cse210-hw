@@ -6,10 +6,10 @@ namespace EternalGoal {
         public EternalGoal(string check, string goalName, string description, int point) : base(check, goalName,  description, point){
         }
         public override void DisplaySubclassObjects(int serialNumber) {
-            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()})");
+            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()},({GetGoalDescription()})");
         }
         public override string SaveGoal() {
-            string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}";
+            string goalStructure = $@"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()}";
             return goalStructure;
         }
         public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {

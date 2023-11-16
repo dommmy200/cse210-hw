@@ -1,4 +1,4 @@
-54
-SimpleGoal: Ants,  They are ground protectors, 54, True 
-EternalGoal: Bats,  They own the mangoes of the night, 34
-ChecklistGoal: Men,  They control the earth, 76, 90, 2, 1, False
+220
+SimpleGoal:Ants,  They are ground protectors,54, False 
+EternalGoal:Bats,  They own the mangoes of the night,34
+ChecklistGoal:Men,  They control the earth,76,90,2,2

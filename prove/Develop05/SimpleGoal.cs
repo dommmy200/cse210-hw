@@ -18,10 +18,10 @@ namespace EternalGoal {
             return _status; //you may not need this method eventually. Let's wait for drafting RewardPoints
         }
         public override void DisplaySubclassObjects(int serialNumber) {
-            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()})");
+            Console.WriteLine($"{serialNumber}. [{GetCheck()}]{GetGoalName()},({GetGoalDescription()})");
         }
         public override string SaveGoal() {
-            string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetStatus()} ";
+            string goalStructure = $@"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()}, {GetStatus()} ";
             return goalStructure;
         }
         public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {

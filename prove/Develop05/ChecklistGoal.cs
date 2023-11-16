@@ -13,7 +13,7 @@ namespace EternalGoal {
             _maximumCount = maximumCount;
         }
         public override void DisplaySubclassObjects(int serialNumber) {
-            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()}, ({GetGoalDescription()}) --Completed: {GetCount()}/{GetMaximumCount()}");
+            Console.WriteLine($"{serialNumber}. [{GetCheck()}]{GetGoalName()},({GetGoalDescription()}) --Completed: {GetCount()}/{GetMaximumCount()}");
         }
         public int GetBonus() {
             return _bonus;
@@ -42,7 +42,7 @@ namespace EternalGoal {
         //     return _status;
         // }
         public override string SaveGoal() {
-        string goalStructure = $@"{GetClassName()}: {GetGoalName()}, {GetGoalDescription()}, {GetPoint()}, {GetBonus()}, {GetMaximumCount()}, {GetCount()}";
+        string goalStructure = $@"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()},{GetBonus()},{GetMaximumCount()},{GetCount()}";
             return goalStructure;
         }
         public override List<Goal> LoadGoal(Goal goal, HelperClass helper) {

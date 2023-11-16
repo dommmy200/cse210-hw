@@ -95,7 +95,6 @@ namespace EternalGoal {
 
                 Console.Write("What is a short description of it? ");
                 string? description = Console.ReadLine();
-                if (description != null)
                 
                 Console.Write("What is the amount of points associated with this goal? ");
                 string? pnt = Console.ReadLine();
