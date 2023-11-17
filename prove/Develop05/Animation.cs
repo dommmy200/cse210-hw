@@ -270,7 +270,7 @@ namespace EternalGoal {
         // public List<string> GetColors() {
         //     return _colorString;
         // }
-        public void AnimateShapes(string[] shapes, string[] colors, int x = 100, int y = 79) {
+        public void AnimateShapes(string[] shapes, string[] colors, int x = 26, int y = 19) {
             
 
             string[] strShape = GenerateShape(shapes);
@@ -278,10 +278,11 @@ namespace EternalGoal {
             Console.CursorVisible = false;
             for (int i = 0; i < strShape.Length; i++) {
                 Random randomX = new Random();
-                int xCoord = randomX.Next(x);
+                int xCoord = randomX.Next(1, x);
 
                 Random randomY = new Random();
-                int yCoord = randomY.Next(y);
+                int yCoord = randomY.Next(2, y+x);
+                
                 string colorType = GenerateRandomColor(colors);
                 
                 Console.Clear();
@@ -289,9 +290,9 @@ namespace EternalGoal {
                 Console.ForegroundColor =(ConsoleColor) Enum.Parse(typeof(ConsoleColor), colorType,true);
                 Console.WriteLine(strShape[i]);
                 Thread.Sleep(700);
-                Console.ResetColor();
                 Console.Clear();
             }
+            Console.ResetColor();
             Console.CursorVisible = true;
         }
         public string[] GenerateShape(string[] shapes, int z = 3) {
