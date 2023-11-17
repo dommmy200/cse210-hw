@@ -11,11 +11,11 @@ namespace EternalGoal {
         public void SetStatus() {
             _status = true;
         }
-        public void SetStatusFalse() {
-            _status = false;
-        }
+        // public void SetStatusFalse() {
+        //     _status = false;
+        // }
         public bool GetStatus() {
-            return _status; //you may not need this method eventually. Let's wait for drafting RewardPoints
+            return _status;
         }
         public override void DisplaySubclassObjects(int serialNumber) {
             Console.WriteLine($"{serialNumber}. [{GetCheck()}]{GetGoalName()},({GetGoalDescription()})");
@@ -53,7 +53,7 @@ namespace EternalGoal {
                 int point = GetPoint();
                 helper1.AddPoints(point);
                 this.SetStatus();
-                this.UpdateCheck(); //.....
+                this.UpdateCheck();
             }
         } 
     }

@@ -1,8 +1,8 @@
-using System;
-using System.IO;
-using System.Linq;
+// using System;
+// using System.IO;
+// using System.Linq;
 using System.Globalization;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 
 namespace EternalGoal {
     public class HelperClass {
@@ -103,11 +103,13 @@ namespace EternalGoal {
                 int gPoint = int.Parse(parts[2]);
 
                 if (gName.Contains("SimpleGoal")) {
-                    // Get the status of the object
+                    // Get the string status of the object
                     var gStatus = parts[3];
+                    // convert the string to Boolean for further processing
+                    bool boo = Convert.ToBoolean(gStatus);
                     SimpleGoal simple = new SimpleGoal("", goalName1, gDescription, gPoint);
                     // This part is necessary to ensure the original status is retained during loading
-                    if (gStatus is "true") {
+                    if (boo is true) {
                         simple.UpdateCheck();
                     }
                     _goalList.Add(simple);
