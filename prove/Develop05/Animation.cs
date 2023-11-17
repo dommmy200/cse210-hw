@@ -3,8 +3,7 @@ using System.IO;
 
 namespace EternalGoal {
     public class Animation {
-        private List<List<string>> _listOfList;
-        private List<string> _coloredBalls = new() {
+        private string[] _ballShapes = new string[6]{
             $@"
             ............
             .   oooo   .
@@ -36,7 +35,7 @@ namespace EternalGoal {
             .   oooo   .
             ............"
         };
-        private List<string> _coloredCrosses = new() {
+        private string[] _crossShapes = new string[6]{
             $@"
             ****************
             *******  *******
@@ -44,7 +43,8 @@ namespace EternalGoal {
             ****        ****
             *******  *******
             *******  *******
-            ****************",
+            ****************
+            CONGRATULATIONS!",
             $@"
             ****************
             *      **      *
@@ -52,7 +52,8 @@ namespace EternalGoal {
             *   ***  ***   *
             *      **      *
             *      **      *
-            ****************",
+            ****************
+            CONGRATULATIONS!",
             $@"
             ****************
             *******  *******
@@ -60,7 +61,8 @@ namespace EternalGoal {
             ****        ****
             *******  *******
             *******  *******
-            ****************",
+            ****************
+            CONGRATULATIONS!",
             $@"
             ****************
             *      **      *
@@ -68,7 +70,8 @@ namespace EternalGoal {
             *   ***  ***   *
             *      **      *
             *      **      *
-            ****************",
+            ****************
+            CONGRATULATIONS!",
             $@"
             ****************
             *******  *******
@@ -76,7 +79,8 @@ namespace EternalGoal {
             ****        ****
             *******  *******
             *******  *******
-            ****************",
+            ****************
+            CONGRATULATIONS!",
             $@"
             ****************
             *      **      *
@@ -84,61 +88,62 @@ namespace EternalGoal {
             *   ***  ***   *
             *      **      *
             *      **      *
+            ****************
+            CONGRATULATIONS!"
+        };
+
+        private string[] _waveShapes = new string[6]{
+            $@"
+            ****************
+            **** **  *** ***
+            *** **  *** ****
+            ** **  *** *****
+            ** **  *** *****
+            *** **  *** ****
+            ****************",
+            $@"
+            ****************
+            *** ***  ** ****
+            **** ***  ** ***
+            ***** ***  ** **
+            ***** ***  ** **
+            **** ***  ** ***
+            ****************",
+            $@"
+            ****************
+            **** **  *** ***
+            *** **  *** ****
+            ** **  *** *****
+            ** **  *** *****
+            *** **  *** ****
+            ****************",
+            $@"
+            ****************
+            *** ***  ** ****
+            **** ***  ** ***
+            ***** ***  ** **
+            ***** ***  ** **
+            **** ***  ** ***
+            ****************",
+            $@"
+            ****************
+            **** **  *** ***
+            *** **  *** ****
+            ** **  *** *****
+            ** **  *** *****
+            *** **  *** ****
+            ****************",
+            $@"
+            ****************
+            *** ***  ** ****
+            **** ***  ** ***
+            ***** ***  ** **
+            ***** ***  ** **
+            **** ***  ** ***
             ****************"
         };
 
-        private List<string> _coloredWaves = new() {
-            $@"
-            ****************
-            **** **  *** ***
-            *** **  *** ****
-            ** **  *** *****
-            ** **  *** *****
-            *** **  *** ****
-            ****************",
-            $@"
-            ****************
-            *** ***  ** ****
-            **** ***  ** ***
-            ***** ***  ** **
-            ***** ***  ** **
-            **** ***  ** ***
-            ****************",
-            $@"
-            ****************
-            **** **  *** ***
-            *** **  *** ****
-            ** **  *** *****
-            ** **  *** *****
-            *** **  *** ****
-            ****************",
-            $@"
-            ****************
-            *** ***  ** ****
-            **** ***  ** ***
-            ***** ***  ** **
-            ***** ***  ** **
-            **** ***  ** ***
-            ****************",
-            $@"
-            ****************
-            **** **  *** ***
-            *** **  *** ****
-            ** **  *** *****
-            ** **  *** *****
-            *** **  *** ****
-            ****************",
-            $@"
-            ****************
-            *** ***  ** ****
-            **** ***  ** ***
-            ***** ***  ** **
-            ***** ***  ** **
-            **** ***  ** ***
-            ****************"
-        };
-
-        private List<string> _coloredSquare = new() {
+        private string[] _squareShapes = new string[6]{
             $@"
             ********************************
             *             ******************
@@ -230,54 +235,95 @@ namespace EternalGoal {
             **************             *****
             ********************************"
         };
-        private List<string> _colorString = new() {
+        private string[] _colorString = new string[10]{
             "Blue", "Yellow", "Red", 
             "Green", "Cyan", "Gray",
             "DarkBlue","DarkGray", "DarkCyan", 
             "DarkYellow"
         };
-        public List<List<string>> GetAnimation() {
-            _listOfList.Add(_coloredSquare);
-            _listOfList.Add(_coloredWaves);
-            _listOfList.Add(_coloredBalls);
-            _listOfList.Add(_coloredCrosses);
-            return _listOfList;
+        // public List<List<string>> GetAnimation() {
+        //     _listOfList.Add(_coloredSquare);
+        //     _listOfList.Add(_coloredWaves);
+        //     _listOfList.Add(_coloredBalls);
+        //     _listOfList.Add(_coloredCrosses);
+        //     return _listOfList;
+        // }
+        public string[] GetBallShape() {
+            return _ballShapes;
         }
-         public List<string> GetColors() {
+        public string[] GetCrossShape() {
+            return _crossShapes;
+        }
+        public string[] GetSquareShape() {
+            return _squareShapes;
+        }
+        public string[] GetWaveShape() {
+            return _ballShapes;
+        }
+
+        public string[] GetColors() {
             return _colorString;
         }
-        // public Animation(List<string> colorAnim) {
-        //     _coloredShapes = colorAnim;
-        // }
+        public Animation(string[] colo) {
+            _colorString = colo;
+        }
         // public List<string> GetColors() {
         //     return _colorString;
         // }
-        public void AnimateShapes(List<string> shapes, List<string> colors, int x = 50, int y = 50) {
-            Random randomX = new Random();
-            int xCoord = randomX.Next(x);
+        public void AnimateShapes(string[] shapes, string[] colors, int x = 100, int y = 79) {
+            
 
-            Random randomY = new Random();
-            int yCoord = randomY.Next(y);
-
-            string strShape = GenerateRandomShape(shapes);
-            string colorType = GenerateRandomColor(colors);
+            string[] strShape = GenerateShape(shapes);
 
             Console.CursorVisible = false;
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < strShape.Length; i++) {
+                Random randomX = new Random();
+                int xCoord = randomX.Next(x);
+
+                Random randomY = new Random();
+                int yCoord = randomY.Next(y);
+                string colorType = GenerateRandomColor(colors);
+                
                 Console.Clear();
                 Console.SetCursorPosition(xCoord, yCoord);
                 Console.ForegroundColor =(ConsoleColor) Enum.Parse(typeof(ConsoleColor), colorType,true);
-                Console.WriteLine(strShape);
+                Console.WriteLine(strShape[i]);
+                Thread.Sleep(700);
+                Console.ResetColor();
+                Console.Clear();
             }
             Console.CursorVisible = true;
         }
-        public string GenerateRandomShape(List<string> shapes, int z = 3) {
-            Random randomX = new Random();
-            int index = randomX.Next(z);
-            string shapeAnimation = shapes[index];
-            return shapeAnimation;
+        public string[] GenerateShape(string[] shapes, int z = 3) {
+            // int count = 0;
+            // while (count < 4) {
+            //     Random random = new Random();
+            //     int ind = random.Next(4);
+                
+            //     switch (ind){
+            //             case 1:
+            //                 string[] str1 = GetBallShape();
+            //                 break;
+            //             case 2:
+            //                 string[] str2 = GetCrossShape();
+            //                 break;
+            //             case 3:
+            //                 string[] str3 = GetSquareShape();
+            //                 break;
+            //             case 4:
+            //                 string[] str4 = GetWaveShape();
+            //                 break;
+            //     }
+            // }
+            // for (int i = 0; i < shapes.Length; i++) {
+
+            // }
+            // Random randomX = new Random();
+            // int index = randomX.Next(z);
+            // string shapeAnimation = shapes[index];
+            return shapes;
         }
-        public string GenerateRandomColor(List<string> color, int x = 9) {
+        public string GenerateRandomColor(string[] color, int x = 9) {
             Random randomX = new Random();
             int index = randomX.Next(x);
             string colorType = color[index];

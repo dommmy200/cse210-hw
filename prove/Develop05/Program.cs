@@ -27,23 +27,23 @@ namespace EternalGoal {
                 }
                 Console.Write("Select a choice from the menu: ");
                 int opt = int.Parse(Console.ReadLine());
-                
                 if (strings.IndexOf(strings[0])+1 == opt) {
+                    // Create Goals
                     GetGoalType(helper);
                 } else if (strings.IndexOf(strings[1])+1 == opt) {
-                    Console.WriteLine("List Goals");
+                    // List Goals
                     ShowList(helper);
                 } else if (strings.IndexOf(strings[2])+1 == opt) {
-                    Console.WriteLine("Load Goals 3");
+                    // Load Goals                    
                     helper.RecreateAndLoadGoals();
                 } else if (strings.IndexOf(strings[3])+1 == opt) {
-                    Console.WriteLine("Record Events 4");
+                    // Record Events
                     helper.RewardGoalAchieved();
                 } else if (strings.IndexOf(strings[4])+1 == opt) {
+                    // Save Goals 
                     helper.SaveGoalToFile();
-                    Console.WriteLine("Save Goals 5");
                 } else if (strings.IndexOf(strings[5])+1 == opt) {
-                Console.WriteLine("Quit");
+                    // Quit
                     Quit = false;
                 }
             }
@@ -58,9 +58,6 @@ namespace EternalGoal {
                 for (int i = 0; i < goals.Count; i++) {
                     Console.WriteLine($"  {i+1}. {goals[i]}");
                 }
-                // Console.Write("Which type of goal would you like to create? ");
-                // int x = int.Parse(Console.ReadLine());
-                
                 // Handle integer input by user
                 // int x;
                 try {
@@ -144,19 +141,16 @@ namespace EternalGoal {
                     try {
                         Console.Write("What is the amount of points associated with this goal? ");
                         string point = Console.ReadLine();
-                        // int point = int.Parse(pnt);
 
                         Console.Write("How many times does this goal need to be accomplished for a bonus? ");
                         string maxCount = Console.ReadLine();
-                        // int maximumCount = int.Parse(maxCount);
 
                         Console.Write("What is the bonus for accomplishing it that many times? ");
                         string bonus = Console.ReadLine();
-                        // int bonuses = int.Parse(bonus);
                         
                         // Verify that valid integers are passed
-                        if (int.TryParse(point, out int x) && int.TryParse(maxCount, out int y) && int.TryParse(bonus, out int z)) {
-                            ChecklistGoal goal2 = new ChecklistGoal("",name, description, x, y, z);
+                        if (int.TryParse(point, out int pnt) && int.TryParse(maxCount, out int maxC) && int.TryParse(bonus, out int bns)) {
+                            ChecklistGoal goal2 = new ChecklistGoal("",name, description, pnt, maxC, bns);
                             help.AddGoalToList(goal2);  
                         } else {
                         Console.WriteLine("\nInvalid input. Please enter a valid integer.");

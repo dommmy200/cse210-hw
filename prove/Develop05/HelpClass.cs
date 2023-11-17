@@ -118,10 +118,6 @@ namespace EternalGoal {
                     _goalList.Add(eternal);
                     
                 } else { // else the name is "ChecklistGoal" 
-                    Animation animation = new Animation();
-                    List<List<string>> animationShape = animation.GetAnimation();
-                    List<string> animationColor = animation.GetColors();
-
                     int difference = int.Parse(parts[3]); // Difference is actually the bonus points
                     int mCount = int.Parse(parts[4]);
                     int count = int.Parse(parts[5]);
@@ -129,10 +125,6 @@ namespace EternalGoal {
                     checklist.SetCount(count);
                     if (mCount == count) {
                         checklist.UpdateCheck();
-                        for (int i = 0; i < animationShape.Count; i++) {
-                            List<string> animList = animationShape[i];
-                            animation.AnimateShapes(animList, animationColor);
-                        }
                     }
                     _goalList.Add(checklist);
                 }
