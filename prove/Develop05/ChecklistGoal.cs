@@ -24,11 +24,6 @@ namespace EternalGoal {
         public int GetBonus() {
             return _bonus;
         }
-        // public int GetDifference() {
-        //     int gBonus = GetBonus();
-        //     int gPoint = GetPoint();
-        //     return gBonus - gPoint;
-        // }
         public int GetMaximumCount() {
             return _maximumCount;
         }
@@ -57,9 +52,6 @@ namespace EternalGoal {
             } else if(count == maxCount) {
 
                 Animation animation = new Animation(_colorString);
-                string[] cross =animation.GetCrossShape();
-                string[] animationShape = animation.GenerateShape(cross);
-                string[] animationColor = animation.GetColors();
 
                 int bonus = GetBonus();
                 int point = GetPoint();
@@ -67,10 +59,9 @@ namespace EternalGoal {
                 helper1.AddPoints(point);
                 helper1.AddBonus(bonus);
                 IncrementCount();
-                //this.SetStatus();
                 this.UpdateCheck();
 
-                animation.AnimateShapes(animationShape, animationColor);
+                animation.AnimateShapes();
             }
         }
     }
