@@ -1,3 +1,0 @@
-590
-SimpleGoal:Matter,We are all made of it,70, True 
-ChecklistGoal:Humans,They occupy the earth as rulers,60,210,4,4

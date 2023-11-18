@@ -4,6 +4,8 @@ using System.IO;
 namespace EternalGoal {
     public class Animation {
         private List<string[]> _listOfList = new List<string[]>(5);
+        // Define string shape and held in an array as: _ballShapes, 
+        // _crossShapes,_waveShapes and _squareShapes as shown below:
         private string[] _ballShapes = new string[6]{
             $@"
             ............
@@ -236,12 +238,14 @@ namespace EternalGoal {
             **************             *****
             ********************************"
         };
+        // Various colors held in string array
         private string[] _colorString = new string[10]{
             "Blue", "Yellow", "Red", 
             "Green", "Cyan", "Gray",
             "DarkBlue","DarkGray", "DarkCyan", 
             "DarkYellow"
         };
+        // Method to get the list of string arrays
         public List<string[]> GetAnimation() {
             _listOfList.Add(_ballShapes);
             _listOfList.Add(_crossShapes);
@@ -253,13 +257,15 @@ namespace EternalGoal {
         public string[] GetColors() {
             return _colorString;
         }
+        // Animation Constructor
         public Animation(string[] colo) {
             _colorString = colo;
         }
+        // The animation is processed by this method
         public void AnimateShapes(int x = 26, int y = 19, int z = 9) {
             string[] colors = GetColors();
             List<string[]> xxx = GetAnimation();
-            
+            // Makes cursor invisible during animation
             Console.CursorVisible = false;
             for (int i = 0; i < xxx.Count; i++) {
                 Random random1 = new Random();
@@ -278,12 +284,15 @@ namespace EternalGoal {
                 
                 Console.Clear();
                 Console.SetCursorPosition(xCoord, yCoord);
+                // Color string is converted to ConsoleColor objects
                 Console.ForegroundColor =(ConsoleColor) Enum.Parse(typeof(ConsoleColor), colorType,true);
                 Console.WriteLine(strShape[i]);
                 Thread.Sleep(700);
                 Console.Clear();
             }
+            // Resets color to system default after animation
             Console.ResetColor();
+            // Makes cursor visible after animation
             Console.CursorVisible = true;
         }
     }

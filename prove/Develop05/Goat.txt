@@ -1,2 +1,0 @@
-45
-SimpleGoal:Goats,They eat grasses,45, True 

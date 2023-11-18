@@ -33,6 +33,7 @@ namespace EternalGoal {
         public List<Goal> GetGoalsList() {
             return _goalList;
         }
+        // Interact user to record goals achieved
         public void RewardGoalAchieved() {
             for (int i = 0; i < _goalList.Count; i++) {
                 string goalName = _goalList[i].GetGoalName();
@@ -45,6 +46,7 @@ namespace EternalGoal {
             Goal goal = _goalList[selected-1];
             goal.RecordGoalEvent(helper1: this);
         }
+        // Interact with user to save goals made to file
         public void SaveGoalToFile() {
             Console.Write("Please, give the file a name? ");
             string filename = Console.ReadLine();
@@ -61,20 +63,7 @@ namespace EternalGoal {
                 }
             }
         }
-        // Format filename to TitleCase
-        // public string FormatFileName (string str) {
-        //     TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-        //     string titleCase = textInfo.ToTitleCase(str);
-        //     return titleCase;
-        // }
-        // Necessary for splitting class name into components
-        // public string FormatGoalName(Goal obj) {
-        //     string secondPart = "Goal";
-        //     string clsName = obj.GetType().Name;
-        //     int index = clsName.IndexOf(secondPart);
-        //     string firstPart = clsName[..index]; //string firstPart = clsName.Substring(0, index);
-        //     return $"{firstPart} {secondPart}";
-        // }
+        // interact with user to load specific goals to memory
         public void RecreateAndLoadGoals() {
             Console.Write("Enter filename: ");
             string filename = Console.ReadLine();

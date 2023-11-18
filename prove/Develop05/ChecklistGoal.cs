@@ -13,11 +13,13 @@ namespace EternalGoal {
                     "DarkBlue","DarkGray", "DarkCyan", 
                     "DarkYellow"
                 };
+        // ChecklistGoal Constructor
         public ChecklistGoal(string check, string goalName, string description, int point, int maximumCount, int bonus) : base(check, goalName,  description, point) {
             _bonus = bonus;
             _count = 0;
             _maximumCount = maximumCount;
         }
+        // Defines the listing structure for display on screen
         public override void DisplaySubclassObjects(int serialNumber) {
             Console.WriteLine($"{serialNumber}. [{GetCheck()}]{GetGoalName()},({GetGoalDescription()}) --Completed: {GetCount()}/{GetMaximumCount()}");
         }
@@ -36,7 +38,7 @@ namespace EternalGoal {
         public void SetCount(int count) {
             _count = count;
         }
-        // Defines the Checklist goal structure
+        // Defines the template for storage on file 
         public override string SaveGoal() {
         string goalStructure = $"{GetClassName()}:{GetGoalName()},{GetGoalDescription()},{GetPoint()},{GetBonus()},{GetMaximumCount()},{GetCount()}";
             return goalStructure;
