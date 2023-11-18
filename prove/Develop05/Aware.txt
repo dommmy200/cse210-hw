@@ -1,0 +1,5 @@
+360
+SimpleGoal:Bees,Great at forming colonies,90, True 
+EternalGoal:Scripture,Better understood meditatively,100
+ChecklistGoal:Pains,The great reminder of awareness,110,1200,3,2
+SimpleGoal:Frogs,The great leapers,50, True 

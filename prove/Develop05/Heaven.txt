@@ -1,0 +1,6 @@
+6100
+SimpleGoal:Matter,Everything is made of it,100, False 
+EternalGoal:Scripture,Wisdom depends on it,150
+ChecklistGoal:Salvation,Requirement for heavenly attainment,200,5000,4,4
+EternalGoal:Wisdom,Requirement for survival,150
+SimpleGoal:Sinners,They break the laws of God,50, True 

@@ -100,6 +100,7 @@ namespace EternalGoal {
                     // This part is necessary to ensure the original status is retained during loading
                     if (boo is true) {
                         simple.UpdateCheck();
+                        simple.SetStatus();
                     }
                     _goalList.Add(simple);
                 } else if (gName.Contains("EternalGoal")) {
@@ -107,10 +108,10 @@ namespace EternalGoal {
                     _goalList.Add(eternal);
                     
                 } else { // else the name is "ChecklistGoal" 
-                    int difference = int.Parse(parts[3]); // Difference is actually the bonus points
+                    int bonus = int.Parse(parts[3]); // Difference is actually the bonus points
                     int mCount = int.Parse(parts[4]);
                     int count = int.Parse(parts[5]);
-                    ChecklistGoal checklist = new ChecklistGoal("", goalName1, gDescription, gPoint, difference, mCount);
+                    ChecklistGoal checklist = new ChecklistGoal("", goalName1, gDescription, gPoint, bonus, mCount);
                     checklist.SetCount(count);
                     if (mCount == count) {
                         checklist.UpdateCheck();

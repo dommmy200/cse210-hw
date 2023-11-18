@@ -14,7 +14,7 @@ namespace EternalGoal {
                     "DarkYellow"
                 };
         // ChecklistGoal Constructor
-        public ChecklistGoal(string check, string goalName, string description, int point, int maximumCount, int bonus) : base(check, goalName,  description, point) {
+        public ChecklistGoal(string check, string goalName, string description, int point,  int bonus, int maximumCount) : base(check, goalName,  description, point) {
             _bonus = bonus;
             _count = 0;
             _maximumCount = maximumCount;
@@ -61,7 +61,7 @@ namespace EternalGoal {
                 helper1.AddPoints(point);
                 helper1.AddBonus(bonus);
                 IncrementCount();
-                this.UpdateCheck();
+                UpdateCheck();
 
                 animation.AnimateShapes();
             }

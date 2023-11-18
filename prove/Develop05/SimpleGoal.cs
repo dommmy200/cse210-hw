@@ -6,7 +6,6 @@ namespace EternalGoal {
         private bool _status;
         // SimpleGoal Constructor
         public SimpleGoal(string check, string goalName, string description, int point) : base(check, goalName,  description, point){
-            _status = false;
         }
         public void SetStatus() {
             _status = true;
@@ -29,8 +28,8 @@ namespace EternalGoal {
             if (boo == false) {
                 int point = GetPoint();
                 helper1.AddPoints(point);
-                this.SetStatus();
-                this.UpdateCheck();
+                SetStatus();
+                UpdateCheck();
             }
         } 
     }

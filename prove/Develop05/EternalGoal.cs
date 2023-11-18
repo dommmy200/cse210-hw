@@ -8,7 +8,7 @@ namespace EternalGoal {
         }
         // Defines the listing structure for display on screen
         public override void DisplaySubclassObjects(int serialNumber) {
-            Console.WriteLine($"{serialNumber}. [{GetCheck()}] {GetGoalName()},({GetGoalDescription()})");
+            Console.WriteLine($"{serialNumber}. [{GetCheck()}]{GetGoalName()},({GetGoalDescription()})");
         }
         // Defines the template for storage on file
         public override string SaveGoal() {
