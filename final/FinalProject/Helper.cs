@@ -1,11 +1,13 @@
 using System;
 using System.Globalization;
+using System.IO.IsolatedStorage;
 
 namespace FinancialPrudence {
     public class Helper {
         Information info = new();
         Statement incomeStatement = new IncomeStatement();
         Statement expenseStatement = new IncomeStatement();
+        Savings savings = new Savings();
         private List<Statement> _statement = new List<Statement>();
         public void GetStatements(int oneAndTwo) {
             switch (oneAndTwo) {
@@ -48,6 +50,7 @@ namespace FinancialPrudence {
             int prompt1 = int.Parse(prompt);
             return prompt1;
         }
+        // Method to break out of a while-loop 
         public bool QuitOrContinue() {
             info.QuitContinueInfo();
             // Insert try-catch statement below before submission
@@ -55,6 +58,34 @@ namespace FinancialPrudence {
             if (quit == 2)
                 return true;
             return false;
+        }
+        // Compute total for income and expenses
+        public void SetSurplusAndDeficitTotal(List<Statement> statements) {
+            foreach (Statement statement in statements) {
+                string objectName = statement.GetType().Name;
+                float amt = statement.GetAmount();
+                if (objectName == "incomeStatement") {
+                    statement.SetStatementTotal(amt);
+                } else {
+                    statement.SetStatementTotal(amt);                    
+                }
+            }
+        }
+        // Compute surplus or deficit amount
+        private float GetSurplusOrDeficit() {
+            float totalIncome = incomeStatement.GetTotal();
+            float totalExpenses = expenseStatement.GetTotal();
+            return totalIncome - totalExpenses;
+        }
+        private bool IsSurplusTrue(float amount) {
+            if (amount > 0)
+                return true;
+            return false;
+        }
+        public float ToSavingsOrDebtMgt() {
+            float xyz = GetSurplusOrDeficit();
+            if (IsSurplusTrue(xyz))
+                savings.GetMortgage();
         }
         // Find how to polymorph GetIncomeList() and GetExpensesList() before submission
         public void GetIncomeList(string name, string description, float amount) {

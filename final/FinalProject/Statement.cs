@@ -19,7 +19,10 @@ namespace FinancialPrudence {
         public float GetAmount() {
             return _amount;
         }
+
         public abstract Statement SetStatement(Statement statement);
         public abstract void GetStatement();
+        public abstract void SetStatementTotal(float amount);
+        public abstract float GetTotal();
     }
 }
