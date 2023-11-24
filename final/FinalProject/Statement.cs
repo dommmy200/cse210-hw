@@ -19,8 +19,12 @@ namespace FinancialPrudence {
         public float GetAmount() {
             return _amount;
         }
+        public void SetAmount(float amount) {
+            _amount -= amount;
+        }
 
         public abstract Statement SetStatement(Statement statement);
+        // consider renaming this method if not returning value: UserStatement()
         public abstract void GetStatement();
         public abstract void SetStatementTotal(float amount);
         public abstract float GetTotal();

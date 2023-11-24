@@ -4,24 +4,28 @@ using System.IO.IsolatedStorage;
 
 namespace FinancialPrudence {
     public class Helper {
-        Information info = new();
-        Statement incomeStatement = new IncomeStatement();
-        Statement expenseStatement = new IncomeStatement();
-        Savings savings = new Savings();
+        private Information _info = new();
+        private Statement _incomeStatement = new IncomeStatement();
+        private Statement _expenseStatement = new IncomeStatement();
+        private Savings _savings = new Savings();
+        private DebtManagement _debt = new DebtManagement(""); // Remove this string dummy later
         private List<Statement> _statement = new List<Statement>();
+
+        public Helper() {
+        }
         public void GetStatements(int oneAndTwo) {
             switch (oneAndTwo) {
                 case 1:
                     Console.WriteLine("Create Financial Prudence Goals");
-                    incomeStatement.GetStatement();
-                    expenseStatement.GetStatement();
+                    _incomeStatement.GetStatement();
+                    _expenseStatement.GetStatement();
                     break;
                 case 2:
                     Console.WriteLine("Assess Financial Prudence Plan");
                     break;
             }
         }
-        public float ConvertToMonthly(float amountEarned, int ans) {
+        private float ConvertToMonthly(float amountEarned, int ans) {
             if (ans == 1) {
                 float monthly = amountEarned/12;
                 return monthly;
@@ -31,7 +35,7 @@ namespace FinancialPrudence {
             }
         }
         public float GetMonthlyIncome(float income) {
-            info.DisplayOneTwo();
+            _info.DisplayOneTwo();
             // Insert try-catch statement below before submission
             int oneAndTwo = int.Parse(Console.ReadLine());
             return ConvertToMonthly(income, oneAndTwo);
@@ -52,7 +56,7 @@ namespace FinancialPrudence {
         }
         // Method to break out of a while-loop 
         public bool QuitOrContinue() {
-            info.QuitContinueInfo();
+            _info.QuitContinueInfo();
             // Insert try-catch statement below before submission
             int quit = int.Parse(Console.ReadLine());
             if (quit == 2)
@@ -73,8 +77,8 @@ namespace FinancialPrudence {
         }
         // Compute surplus or deficit amount
         private float GetSurplusOrDeficit() {
-            float totalIncome = incomeStatement.GetTotal();
-            float totalExpenses = expenseStatement.GetTotal();
+            float totalIncome = _incomeStatement.GetTotal();
+            float totalExpenses = _expenseStatement.GetTotal();
             return totalIncome - totalExpenses;
         }
         private bool IsSurplusTrue(float amount) {
@@ -83,9 +87,17 @@ namespace FinancialPrudence {
             return false;
         }
         public float ToSavingsOrDebtMgt() {
-            float xyz = GetSurplusOrDeficit();
-            if (IsSurplusTrue(xyz))
-                savings.GetMortgage();
+            // The difference between income and expenses is computed here
+            float difference = GetSurplusOrDeficit();
+            if (IsSurplusTrue(difference))
+                _savings.GetMortgage();
+            _debt.
+        }
+        public void ReduceAmount(List<Statement> state, int x) {
+            Console.WriteLine($"{state[x-1].GetAmount()}");
+            Console.Write($"Reduce this amount by: ");
+            float amt = float.Parse(Console.ReadLine());
+            state[x-1].SetAmount(amt);
         }
         // Find how to polymorph GetIncomeList() and GetExpensesList() before submission
         public void GetIncomeList(string name, string description, float amount) {

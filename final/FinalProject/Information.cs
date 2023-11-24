@@ -3,6 +3,7 @@ using System;
 namespace FinancialPrudence {
 
     public class Information {
+        private string _name;
         private string _welcomeMsg = $@"
 
         Welcome to Financial Prudence where you
@@ -51,7 +52,34 @@ namespace FinancialPrudence {
         2. Enter Expenses Statement
         
         ";
+        private string _reduceOrIncreaseInfo = $@"
 
+            Please, make a choice below:
+        ===================================
+        1. Increase Income
+        2. Reduce Expenses
+        3. Quit
+        
+        ";
+        private string _reduceOrDelete = $@"
+
+         Please, select your 1 or 2 below:
+        ===================================
+        1. Reduce expense amount
+        2. Delete expense item
+        
+        ";
+        public Information(string name = "User Name") {
+            _name = name;
+        }
+        public int ReduceOrIncreaseInfo() {
+            Console.WriteLine(_reduceOrIncreaseInfo);
+            int select = int.Parse(Console.ReadLine());
+            return select;
+        }
+        public void ReduceOrDeleteInfo() {
+            Console.WriteLine(_reduceOrDelete);
+        }
         public void DisplayInfo() {
             Console.WriteLine(_welcomeMsg);
         }

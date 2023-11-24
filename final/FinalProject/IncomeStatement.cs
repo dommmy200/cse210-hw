@@ -3,8 +3,8 @@ using System;
 namespace FinancialPrudence {
    
     public class IncomeStatement : Statement {
-        Information info = new();
-        Helper helper1 = new();
+        private Information _info = new();
+        private Helper _helper1 = new();
         private float _totalAmount;
         public IncomeStatement(string name = "name", string description = "description", float amount = 0) : base(name, description, amount){
 
@@ -13,7 +13,7 @@ namespace FinancialPrudence {
             bool quit = false;
             while (quit) {
                 // Display a message
-                info.DisplayIncomeInfo();
+                _info.DisplayIncomeInfo();
                 Console.WriteLine("Enter name of income: ");
                 string incomeName = Console.ReadLine();
                 Console.WriteLine("Enter description of income: ");
@@ -21,11 +21,11 @@ namespace FinancialPrudence {
                 Console.WriteLine("Enter the amount of income: ");
                 float incomeEarned = float.Parse(Console.ReadLine());
                 // Convert annual income to monthly income
-                float income = helper1.GetMonthlyIncome(incomeEarned);
+                float income = _helper1.GetMonthlyIncome(incomeEarned);
                 //Append variables to list object
-                helper1.GetIncomeList(incomeName, description, income);
+                _helper1.GetIncomeList(incomeName, description, income);
                 // User quits (or continue) the loop
-                quit = helper1.QuitOrContinue();
+                quit = _helper1.QuitOrContinue();
             }
         }
         public override void SetStatementTotal(float amount) {
@@ -34,6 +34,7 @@ namespace FinancialPrudence {
         public override float GetTotal() {
             return _totalAmount;
         }
+        // consider renaming this method if not returning value: PassStatement()
         public override Statement SetStatement(Statement statement) {
             return statement;
         }
