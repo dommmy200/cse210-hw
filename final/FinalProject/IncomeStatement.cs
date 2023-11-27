@@ -23,7 +23,7 @@ namespace FinancialPrudence {
                 // Convert annual income to monthly income
                 float income = _helper1.GetMonthlyIncome(incomeEarned);
                 //Append variables to list object
-                _helper1.GetIncomeList(incomeName, description, income);
+                _helper1.AddToIncomeList(incomeName, description, income);
                 // User quits (or continue) the loop
                 quit = _helper1.QuitOrContinue();
             }

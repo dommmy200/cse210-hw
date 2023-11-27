@@ -21,7 +21,7 @@ namespace FinancialPrudence {
                 float expenseSpent = float.Parse(Console.ReadLine());
                 float expense = _helper1.GetMonthlyIncome(expenseSpent);
                 //Append variables to helper list object
-                _helper1.GetExpensesList(expenseName, description, expense);
+                _helper1.AddToExpensesList(expenseName, description, expense);
                 quit = _helper1.QuitOrContinue();
             }
         }

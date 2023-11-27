@@ -16,10 +16,12 @@ namespace FinancialPrudence {
 
         private string _startPrompts = $@"
 
-         Please, select your 1 or 2 below:
-        ===================================
+            Please, select 1,2,3 & 4 below:
+        ======================================
         1. Start Financial Prudence exercise
-        2. Assess your Financial Prudence plan 
+        2. Assess your Financial Prudence plan
+        3. Record Achievements
+        4. Quit
         
         ";
         private string _oneOrTwo = $@"
@@ -46,10 +48,10 @@ namespace FinancialPrudence {
         ";
         private string _incomeExpensesInfo = $@"
 
-         Please, select your 1 or 2 below:
-        ===================================
-        1. Enter Income Statement
-        2. Enter Expenses Statement
+             Please, select 1 or 2 below:
+        ======================================
+        1. Enter Income and Expenses Statement
+        2. Quit
         
         ";
         private string _reduceOrIncreaseInfo = $@"

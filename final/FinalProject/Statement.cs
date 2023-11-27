@@ -10,6 +10,9 @@ namespace FinancialPrudence {
             _description = description;
             _amount = amount;
         }
+        // public string Name {get; set;}
+        // public string Description {get; set;}
+        // public float Amount {get; set;}
         public string GetName() {
             return _name;
         }
