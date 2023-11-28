@@ -3,8 +3,8 @@ using System.Globalization;
 
 namespace FinancialPrudence {
     public class FilesHandler {
-        private string _usersFile = @"/users/Dommmy/cse210/Users.txt";
-        private string _goalsFolder = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";
+        private string _usersFile = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/Users.txt";
+        private string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";
         private Helper _helper1 = new();
         // private IncomeStatement _child1 = new();
         // private ExpensesStatement _child2 = new();
@@ -12,8 +12,8 @@ namespace FinancialPrudence {
         public string GetUserFile() {
             return _usersFile;
         }
-        public string GetFolder() {
-            return _goalsFolder;
+        public string GetFilePath() {
+            return _filesPath;
         }
         public void SaveStatementAndGoal(List<Statement> statements) {
             var userFile = GetUserFile();
@@ -46,7 +46,7 @@ namespace FinancialPrudence {
             }
         }
         public void SaveToFile() {
-            var path = GetFolder();
+            var path = GetFilePath();
             if (!Directory.EnumerateFileSystemEntries(path).Any()) {
                 string[] files = Directory.GetFiles(path);
                 int count = 1;
@@ -63,10 +63,11 @@ namespace FinancialPrudence {
                 Console.Write("Enter filename: ");
                 string filename = Console.ReadLine();
                 string formattedFilename = FormatFileName(filename);
-                var path1 = formattedFilename.Contains(".txt") ? $"{GetFolder()}{formattedFilename}" : $"{GetFolder()}{formattedFilename}" + ".txt";
+                var path1 = formattedFilename.Contains(".txt") ? $"{GetFilePath()}{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
                 FileToStreamWrite(path1);
             }
         }
+        // StreamWriter handles file and saving templates
         public void FileToStreamWrite(string file) {
         using(StreamWriter outPut = new StreamWriter(file)) {
                 var statementAndGoalList = _helper1.GetList();
