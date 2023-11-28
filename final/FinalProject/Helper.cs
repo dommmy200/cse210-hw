@@ -9,25 +9,20 @@ namespace FinancialPrudence {
         private Statement _expenseStatement = new IncomeStatement();
         private Savings _savings = new Savings();
         private DebtManagement _debt = new DebtManagement(""); // Remove this string dummy later
-        private List<Statement> _statement = new List<Statement>();
-        // private bool quit;
+        private List<Statement> _statementList = new List<Statement>();
+        private bool quit = true;
 
         public Helper() {
         }
-        public void GetStatements(int oneAnd2, bool quit) {
-            switch (oneAnd2) {
-                case 1:
-                    Console.WriteLine("Create Financial Prudence Goals");//Remove later
-                    while (quit) {
-                        _info.DisplayIncomeExpensesInfo();
-                        int x = int.Parse(Console.ReadLine());
-                        IncomeOrExpenses(x);
-                        quit = QuitOrContinue();
-                    }
-                    break;
-                case 2:
-                    CallQuit(quit);
-                    break;
+        public List<Statement> GetList() {
+            return _statementList;
+        }
+        public void GetStatements() {
+            while (quit) {
+                _info.DisplayIncomeExpensesInfo();
+                int x = int.Parse(Console.ReadLine());
+                IncomeOrExpenses(x);
+                quit = QuitOrContinue();
             }
         }
         private void CallQuit(bool quit) {
@@ -59,18 +54,18 @@ namespace FinancialPrudence {
             int oneAndTwo = int.Parse(Console.ReadLine());
             return ConvertToMonthly(income, oneAndTwo);
         }
-        public List<Statement> GetListObj() {
-            return _statement;
+        public List<Statement> GetListOfObjects() {
+            return _statementList;
         }
         public float GetIncomeTotal() {
-            List<Statement> listOfStatement = GetListObj();
+            List<Statement> listOfStatement = GetListOfObjects();
             SetSurplusAndDeficitTotal(listOfStatement);
             // float incTotal = _incomeStatement.GetTotal();
             float expTotal = _expenseStatement.GetTotal();
             return expTotal;
         }
         public float GetExpenseTotal() {
-            List<Statement> listOfStatement = GetListObj();
+            List<Statement> listOfStatement = GetListOfObjects();
             SetSurplusAndDeficitTotal(listOfStatement);
             float incTotal = _incomeStatement.GetTotal();
             // float expTotal = _expenseStatement.GetTotal();
@@ -92,7 +87,7 @@ namespace FinancialPrudence {
             _info.QuitContinueInfo();
             // Insert try-catch statement below before submission
             int quit = int.Parse(Console.ReadLine());
-            if (quit == 2)
+            if (quit == 1)
                 return true;
             return false;
         }
@@ -101,20 +96,20 @@ namespace FinancialPrudence {
             foreach (Statement statement in statements) {
                 string objectName = statement.GetType().Name;
                 float amt = statement.GetAmount();
-                if (objectName == "incomeStatement") {
+                if (objectName.Contains("incomeStatement")) {
                     statement.SetStatementTotal(amt);
-                } else {
+                } else if (objectName.Contains("expensesStatement")) {
                     statement.SetStatementTotal(amt);                    
                 }
             }
         }
         // Compute surplus or deficit amount
-        private float GetSurplusOrDeficit() {
+        public float GetSurplusOrDeficit() {
             float totalIncome = _incomeStatement.GetTotal();
             float totalExpenses = _expenseStatement.GetTotal();
             return totalIncome - totalExpenses;
         }
-        private bool IsSurplusTrue(float amount) {
+        private bool IsSurplus(float amount) {
             if (amount > 0)
                 return true;
             return false;
@@ -123,26 +118,27 @@ namespace FinancialPrudence {
             switch (x) {
                 case 1:
                 // GetStatement
-                GetStatements(x, quit);
+                GetStatements();
                 break;
                 case 2:
                 // Check financial profile
-                ToSavingsOrDebtMgt();
+                ToSavingsOrDebtManagement();
                 break;
                 case 3:
                 // Record Achievement
                 break;
                 case 4:
                 // Quit program
+                CallQuit(quit);
                 break;
             }
         }
-        public void ToSavingsOrDebtMgt() {
-            List<Statement> listOfStatement = GetListObj();
+        public void ToSavingsOrDebtManagement() {
+            List<Statement> listOfStatement = GetListOfObjects();
             SetSurplusAndDeficitTotal(listOfStatement);
             float incTotal = _incomeStatement.GetTotal();
             float expTotal = _expenseStatement.GetTotal();
-            // Check if user did not make income and/or expenses statements
+            // Check if income and/or expenses statements has zero total
             while (incTotal == 0 || expTotal == 0) {
                 Console.WriteLine("Please, populate either Income or Expenses or both.");
                 if (incTotal == 0) {
@@ -153,12 +149,13 @@ namespace FinancialPrudence {
                     expTotal = GetExpenseTotal();
                 }
             }
-            
             // The difference between income and expenses is computed here
             float difference = GetSurplusOrDeficit();
-            if (IsSurplusTrue(difference))
+            if (IsSurplus(difference)) {
                 _savings.GetStatement();
-            _debt.ManageIncomeAndExpense();
+            } else {
+                _debt.ManageIncomeAndExpense();
+            }
         }
         public void ReduceAmount(List<Statement> state, int x) {
             Console.WriteLine($"{state[x-1].GetAmount()}");
@@ -169,11 +166,13 @@ namespace FinancialPrudence {
         // Find how to polymorph GetIncomeList() and GetExpensesList() before submission
         public void AddToIncomeList(string name, string description, float amount) {
             Statement income = new IncomeStatement(name, description, amount);
-            _statement.Add(income);
+            var helperList = GetList();
+            helperList.Add(income);
         } 
         public void AddToExpensesList(string name, string description, float amount) {
             Statement expenses = new ExpensesStatement(name, description, amount);
-            _statement.Add(expenses);
+            var helperList = GetList();
+            helperList.Add(expenses);
         } 
     }
 }

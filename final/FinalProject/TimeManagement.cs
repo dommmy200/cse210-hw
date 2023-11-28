@@ -2,6 +2,7 @@ using System;
 
 namespace FinancialPrudence {
     public class TimeManagement {
+        private DateTime _timeStamp = DateTime.Now;
         private Dictionary<string, int> _monthlyList = new Dictionary<string, int>(5) {
             {"One Month", 30},
             {"One Quarter", 90},
@@ -10,8 +11,7 @@ namespace FinancialPrudence {
             {"One Year", 360}
         };
         public int GetTimestamp() {
-            DateTime timestamp = DateTime.Now;
-            var day = timestamp.Day;
+            var day = _timeStamp.Day;
             return day;
         }
         public int ElapsedTimestamp(int month = 30) {

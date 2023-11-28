@@ -5,7 +5,7 @@ namespace FinancialPrudence {
         private string _name;
         private string _description;
         private float _amount;
-        public Statement(string name, string description, float amount) {
+        public Statement(string name = "name", string description = "description", float amount = 0) {
             _name = name;
             _description = description;
             _amount = amount;
@@ -25,7 +25,11 @@ namespace FinancialPrudence {
         public void SetAmount(float amount) {
             _amount -= amount;
         }
-
+        public string GetClassName() {
+            var className = GetType().Name;
+            return className;
+        }
+        public abstract string SaveGoal();
         public abstract Statement SetStatement(Statement statement);
         // consider renaming this method if not returning value: UserStatement()
         public abstract void GetStatement();

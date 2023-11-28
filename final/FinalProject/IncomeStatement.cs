@@ -10,7 +10,7 @@ namespace FinancialPrudence {
 
         }
         public override void GetStatement() {
-            bool quit = false;
+            bool quit = true;
             while (quit) {
                 // Display a message
                 _info.DisplayIncomeInfo();
@@ -38,6 +38,9 @@ namespace FinancialPrudence {
         public override Statement SetStatement(Statement statement) {
             return statement;
         }
-        
+        // Display and Filing template for IncomeStatement objects
+        public override string SaveGoal() {
+            return $"{GetClassName()}: {GetName()}, {GetDescription()}, {GetAmount()}";
+        }
     }
 }

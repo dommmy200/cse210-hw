@@ -34,6 +34,9 @@ namespace FinancialPrudence {
         public override Statement SetStatement(Statement statement) {
             return statement;
         }
-            
+        // Display and Filing template for ExpensesStatement objects
+        public override string SaveGoal() {
+            return $"{GetClassName()}: {GetName()}, {GetDescription()}, {GetAmount()}";
+        }    
     }
 }
