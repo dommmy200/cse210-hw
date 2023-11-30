@@ -8,7 +8,7 @@ namespace FinancialPrudence {
             // Generate the menu for user selection 
             Helper helper = new Helper();
             Information info = new Information();
-            info.DisplayInfo();
+            info.DisplayInfo(); //Press any key to continue
             while (Quit) {
                 Console.WriteLine("\n");
                 info.DisplayPrompt();

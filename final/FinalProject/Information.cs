@@ -16,12 +16,11 @@ namespace FinancialPrudence {
 
         private string _startPrompts = $@"
 
-           Please, select 1,2,3 or 4 below:
+           Please, select 1,2 or 3 below:
         ======================================
-        1. Start Financial Prudence exercise
-        2. Assess your Financial Prudence plan
-        3. Record Achievements
-        4. Quit
+        1. Create a new file
+        2. Open an existing file
+        3. Quit
         
         ";
         private string _oneOrTwo = $@"

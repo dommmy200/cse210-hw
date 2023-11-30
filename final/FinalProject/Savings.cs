@@ -5,12 +5,12 @@ namespace FinancialPrudence {
         // private Information _info = new();
         private Helper _helper1 = new();
         private TimeManagement _time = new();
-        private float _totalAmount;
+        // private float _totalAmount;
         private int _timeStamp;
         // private List<Savings> _savingsList = new List<Savings>();
 
-        public Savings(string name = "name", string description = "description", float amount = 0, int timeStamp = 0) : base (name, description, amount) {
-            _timeStamp = timeStamp;
+        public Savings(string name = "name", string description = "description", float amount = 0) : base (name, description, amount) {
+    
         }
         // public List<Savings> GetSavingsList() {
         //     return _savingsList;
@@ -52,7 +52,7 @@ namespace FinancialPrudence {
         //     _savingsList.Add(savings);
         // }
         // Get the savings goals from user
-        public override void GetStatement() {
+        public void SetStatement() {
             bool quit = true;
             // Only 85% of surplus is available for savings
             // 15% set aside for sundry, miscellaneous and inflation
@@ -72,7 +72,7 @@ namespace FinancialPrudence {
                 var afterSaving = available4Saving - amt;
                 SetStatementTotal(afterSaving);
                 // Set the user goal and append to list
-                Savings savings = new Savings(key, value, afterSaving, _timeStamp);
+                Savings savings = new Savings(key, value, afterSaving);
                 // AddToSavingsList(savings); Remove b4 submission
                 List<Statement> myList = _helper1.GetList();
                 myList.Add(savings);
@@ -82,19 +82,19 @@ namespace FinancialPrudence {
         // private string SavingsTemplate() {
             
         // }
-        public override void SetStatementTotal(float amount) {
-            _totalAmount = amount;
-        }
-        public override float GetTotal() {
-            return _totalAmount;
-        }
+        // public override void SetStatementTotal(float amount) {
+        //     _totalAmount = amount;
+        // }
+        // public override float GetTotal() {
+        //     return _totalAmount;
+        // }
         // consider renaming this method if not returning value: PassStatement()
         public override Statement SetStatement(Statement statement) {
             return statement;
         }
         // Display and Filing template for Savings objects
         public override string SaveGoal() {
-            return $"{GetClassName()}: {GetName()}, {GetDescription()}, {GetAmount()} {_time.GetTimestamp()}";
+            return $"{GetClassName()}, {GetName()}, {GetDescription()}, {GetAmount()}, {_time.GetTimestamp()}";
         }
     } 
 }
