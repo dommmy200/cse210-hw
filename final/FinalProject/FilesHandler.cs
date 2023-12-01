@@ -8,6 +8,10 @@ namespace FinancialPrudence {
         private string _autoSave;
         private string _filenameInUse;
         private Helper _helper1 = new();
+        private Statement _incomeStatement = new IncomeStatement();
+        private Statement _expenseStatement = new IncomeStatement();
+        private FilesHandler _filesHandler = new FilesHandler();
+        private Savings _savings = new Savings();
         // private IncomeStatement _child1 = new();
         // private ExpensesStatement _child2 = new();
         // private Savings _child3 = new();
@@ -78,6 +82,7 @@ namespace FinancialPrudence {
             // After file is created and stored globally, what next?
             // Return to file when ready to save
         }
+        // May be commented out and replaced
         public void SaveToFile() {
             var path = GetFilePath();
             // If this directory is not empty
@@ -102,6 +107,7 @@ namespace FinancialPrudence {
             }
         }
         // StreamWriter handles file and saving templates
+        // required in AutoSave()
         public void FileToStreamWrite(string file) {
         using(StreamWriter outPut = new StreamWriter(file)) {
                 var statementAndGoalList = _helper1.GetList();
@@ -122,16 +128,38 @@ namespace FinancialPrudence {
             }
         }
         // Method to automatically save objects after user list compiling
-        // My Note: If there are too make auto save in the program, prevent duplicate
-        // objects from being filed
-        public void AutoSave(Statement objects) {
+        // My Note: Write a subroutine to check that duplicates objects 
+        // are not created during auto save and to delete same is ever
+        public void AutoSave() {
             var file = GetFilenameInUse();
-            var objectList = objects.GetObjectList();
-            foreach (Statement obj in objectList) {
+            var motherList = ConcatenateLists();
+            // var objectList = objects.GetObjectList();
+            var noDuplicate = RemoveDuplicates(motherList);
+            foreach (Statement obj in noDuplicate) {
                 var template = obj.SaveGoal();
                 StringTemplateToFile(template, file);
             }
         }
+        // Method to remove duplicates from a list of Statement object
+        public List<Statement> RemoveDuplicates(List<Statement> withDuplicate) {
+            var noDuplicate = withDuplicate.
+            GroupBy(item => item.GetName()).
+            Select(group => group.First()).
+            ToList();
+            return noDuplicate;
+        }
+        // Combine all lists into a mother list for filing
+        public List<Statement> ConcatenateLists() {
+            var motherList = _helper1.GetListOfObjects();
+            var incList = _incomeStatement.GetObjectList();
+            var expList = _expenseStatement.GetObjectList();
+            var saveList = _savings.GetObjectList();
+            motherList.AddRange(incList);
+            motherList.AddRange(expList);
+            motherList.AddRange(saveList);
+            return motherList;
+        }
+        // Note: Necessary during loading of file to memory
         // Convert file string to object properties
         public void TemplateToObject() {
             var file = GetFilenameInUse();

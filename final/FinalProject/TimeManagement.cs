@@ -10,9 +10,9 @@ namespace FinancialPrudence {
             {"Third Quarter", 270},
             {"One Year", 360}
         };
-        public TimeManagement() {
-            _timeStamp = DateOnly.
-        }
+        // public TimeManagement() {
+        //     _timeStamp = DateOnly.
+        // }
         public int GetTimestamp() {
             var day = _timeStamp.Day;
             return day;

@@ -67,7 +67,7 @@ namespace FinancialPrudence {
             int oneAndTwo = int.Parse(Console.ReadLine());
             return ConvertToMonthly(income, oneAndTwo);
         }
-        // Possible duplicate: consider removing the above one
+        // Possible duplicate: consider removing the one above
         public List<Statement> GetListOfObjects() {
             return _statementList;
         }
@@ -98,7 +98,7 @@ namespace FinancialPrudence {
         public void CreateProperties(Statement objects) {
             objects.GetStatement();
         }
-        // This is still a valid method: do not comment out
+        // This is valid method
         // Method to break out of a while-loop 
         public bool QuitOrContinue() {
             _info.QuitContinueInfo();
