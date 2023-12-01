@@ -7,6 +7,7 @@ namespace FinancialPrudence {
         private string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
         private string _autoSave;
         private string _filenameInUse;
+        private TimeManagement _timeMgt = new TimeManagement();
         private Helper _helper1 = new();
         private Statement _incomeStatement = new IncomeStatement();
         private Statement _expenseStatement = new IncomeStatement();
@@ -188,7 +189,9 @@ namespace FinancialPrudence {
                     var description = parts[2];
                     var amount = parts[3];
                     float amt = float.Parse(amount);
-                    var timeSpan = parts[4]; // Get more info on how to implement
+                    var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
+                    DateTime today = _timeMgt.GetToday();
+                    int elapseDays = (int) (oldDate -today).TotalDays;
                     Savings save = new Savings(itemName, description, amt);
                     var incomeList = save.GetObjectList();
                     incomeList.Add(save);

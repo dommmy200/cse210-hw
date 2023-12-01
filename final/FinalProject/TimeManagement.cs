@@ -3,6 +3,17 @@ using System;
 namespace FinancialPrudence {
     public class TimeManagement {
         private DateTime _timeStamp;
+        private DateTime _today;
+        private int _totalDays;
+        public DateTime GetToday() {
+            return DateTime.Today;
+        }
+        public int GetTotalDays() {
+            return _totalDays;
+        }
+        public void SetTotalDays(int elapseDays) {
+            _totalDays = elapseDays;
+        }
         private Dictionary<string, int> _monthlyList = new Dictionary<string, int>(5) {
             {"One Month", 30},
             {"One Quarter", 90},

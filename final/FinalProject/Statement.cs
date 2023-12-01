@@ -9,10 +9,15 @@ namespace FinancialPrudence {
         private Information _info = new();
         private Helper _helper1 = new();
         private List<Statement> _objectList;
+        private Savings _savings = new Savings();
         public Statement(string name = "name", string description = "description", float amount = 0) {
             _name = name;
             _description = description;
             _amount = amount;
+        }
+        private static bool ReferenceEquals(Savings _savings)
+        {
+            throw new NotImplementedException();
         }
         // public string Name {get; set;}
         // public string Description {get; set;}
@@ -70,6 +75,11 @@ namespace FinancialPrudence {
                 // Convert annual income to monthly income
                 float income = _helper1.GetMonthlyIncome(incomeEarned);
                 SetAmount(income);
+                // If the object refers to an instance of the Savings class
+                // compute and set points
+                if (Statement.ReferenceEquals(_savings)) {
+                    _savings.SetPoints(_savings.ComputePoints(income));
+                }
                 //Append variables to list object
                 // _helper1.AddToIncomeList(incomeName, description, income);
                 // User quits (or continue) the loop

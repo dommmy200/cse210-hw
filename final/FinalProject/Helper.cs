@@ -88,16 +88,16 @@ namespace FinancialPrudence {
             return incTotal;
         }
         // Format filename to TitleCase to accept mix cases of characters
-        public string ToLowerCase (string str) {
-            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-            string titleCase = textInfo.ToLower(str);
-            return titleCase;
-        }
+        // public string ToLowerCase (string str) {
+        //     TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+        //     string titleCase = textInfo.ToLower(str);
+        //     return titleCase;
+        // }
         // May be commented out and replaced
         // User input of set object properties
-        public void CreateProperties(Statement objects) {
-            objects.GetStatement();
-        }
+        // public void CreateProperties(Statement objects) {
+        //     objects.GetStatement();
+        // }
         // This is valid method
         // Method to break out of a while-loop 
         public bool QuitOrContinue() {
@@ -135,6 +135,7 @@ namespace FinancialPrudence {
             return false;
         }
         // This is valid method
+        // The first method to call for selection of the prudence exercise
         public void StartPrudenceExercise(int x, bool quit) {
             switch (x) {
                 case 1:
@@ -158,7 +159,7 @@ namespace FinancialPrudence {
                 break;
             }
         }
-        // May be commented out and replaced
+        // This is valid method
         public void ToSavingsOrDebtManagement() {
             // List<Statement> listOfStatement = GetListOfObjects();
             // SetSurplusAndDeficitTotal(listOfStatement);
@@ -191,6 +192,7 @@ namespace FinancialPrudence {
                 _debt.ManageIncomeAndExpense();
             }
         }
+        // May be commented out and replaced
         public void ReduceAmount(List<Statement> state, int x) {
             Console.WriteLine($"{state[x-1].GetAmount()}");
             Console.Write($"Reduce this amount by: ");
@@ -233,6 +235,7 @@ namespace FinancialPrudence {
                         Console.Write($"Current amount is: {amtOld}. Enter new amount: ");
                         float amtNew = float.Parse(Console.ReadLine());
                         object2.SetAmount(amtNew);
+                        _savings.SetPoints(_savings.ComputePoints(amtNew));
                     }
                 }
             }

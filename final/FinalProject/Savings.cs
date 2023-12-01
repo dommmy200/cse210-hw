@@ -5,16 +5,15 @@ namespace FinancialPrudence {
         // private Information _info = new();
         private Helper _helper1 = new();
         private TimeManagement _time = new();
-        // private float _totalAmount;
-        private int _timeStamp;
+         private Statement _incomeStatement = new IncomeStatement();
+        private Statement _expenseStatement = new IncomeStatement();
+        private int _points;
+        private int _totalPoints;
+        
         // private List<Savings> _savingsList = new List<Savings>();
 
         public Savings(string name = "name", string description = "description", float amount = 0) : base (name, description, amount) {
-    
         }
-        // public List<Savings> GetSavingsList() {
-        //     return _savingsList;
-        // }
 
         private Dictionary<string, string> _dict = new Dictionary<string, string>(6){
             {"EmergencyFund", "Savings for emergency situation must be easily accessible"},
@@ -29,9 +28,33 @@ namespace FinancialPrudence {
         }
         // This method is needed when displaying or saving to file: 
         // Remember to add GetTimestamp() for storage of time
-        public string GoalStructure(int serialNumber) {
-            string goalStructure = $"{serialNumber}. {GetName}: {GetDescription} -{GetAmount}, {_time.GetTimestamp()}";
-            return goalStructure;
+        // public string GoalStructure(int serialNumber) {
+        //     string goalStructure = $"{serialNumber}. {GetName}: {GetDescription} -{GetAmount}, {_time.GetTimestamp()}";
+        //     return goalStructure;
+        // }
+        // public float GetDifference() {
+        //     float incTotal = _incomeStatement.GetTotal();
+        //     float expTotal = _expenseStatement.GetTotal();
+        //     var difference = incTotal - expTotal;
+        //     return difference;
+        // }
+        public int GetPoints() {
+            return _points;
+        }
+        public void SetPoints(int points) {
+            _points = points;
+        }
+        public int GetTotalPoints() {
+            return _totalPoints;
+        }
+        public void SetTotalPoints(int totalPoints) {
+            _totalPoints = totalPoints;
+        }
+        public int ComputePoints(float amount) {
+            float surplus = _helper1.GetSurplusOrDeficit();
+            var y = surplus/6;
+            var z = amount/y * 10;
+            return (int) Math.Floor(z);
         }
         // Using to notify user of options to select
         public void DisplayDictionary() {
@@ -94,7 +117,7 @@ namespace FinancialPrudence {
         }
         // Display and Filing template for Savings objects
         public override string SaveGoal() {
-            return $"{GetClassName()}, {GetName()}, {GetDescription()}, {GetAmount()}, {_time.GetTimestamp()}";
+            return $"{GetClassName()}, {GetName()}, {GetDescription()}, {GetAmount()}, {GetPoints()}{_time.GetToday}, {_time.GetTotalDays()}";
         }
     } 
 }
