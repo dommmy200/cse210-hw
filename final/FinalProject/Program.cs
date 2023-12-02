@@ -17,17 +17,18 @@ namespace FinancialPrudence {
                 switch (prompt1) {
                     case 1:
                     Console.WriteLine($"CreateNewFile");
-                    // FilesHandler _filesHandler = new FilesHandler();
                     // Create a new file and set income and expenses statements
-                    FilesHandler.CreateNewFile();
-                    Helper.GetTwoStatements();
+                    Program.CreateNewFile();
+                    // FilesHandler.CreateNewFile(); //Note: verify why on 2nd run the 'GetTwoStatements()' is skipped
+                    // Helper.GetTwoStatements();
                     // ToSavingsOrDebtManagement();
                     break;
                     case 2:
-                    Console.WriteLine("OpenExistingFile()");
+                    Console.WriteLine("OpenExistingFile");
                     // Open an existing file and Check financial profile
-                    // _filesHandler.OpenExistingFile();
-                    // FineTuneFPrudence();
+                    Program.OpenAnExistingFile();
+                    // FilesHandler.OpenExistingFile();
+                    // Helper.FineTuneFinancialPrudence();
                     break;
                     case 3:
                     Console.WriteLine("goals setting");
@@ -39,6 +40,17 @@ namespace FinancialPrudence {
                     break;
                 }
             }
+            
+        }
+       
+        public static void CreateNewFile() {
+            FilesHandler.CreateNewFile(); //Note: verify why on 2nd run the 'GetTwoStatements()' is skipped
+            Helper.GetTwoStatements();
+            
+        }
+        public static void OpenAnExistingFile() {
+            FilesHandler.OpenExistingFile();
+            Helper.FineTuneFinancialPrudence();
         }
     }
 }

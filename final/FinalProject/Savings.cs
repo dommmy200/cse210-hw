@@ -27,9 +27,9 @@ namespace FinancialPrudence {
         public void SetPoints(int points) {
             _points = points;
         }
-//         public int GetTotalPoints() {
-//             return _totalPoints;
-//         }
+        public int GetTotalPoints() {
+            return _totalPoints;
+        }
 //         public void SetTotalPoints(int totalPoints) {
 //             _totalPoints = totalPoints;
 //         }

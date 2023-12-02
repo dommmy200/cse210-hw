@@ -14,10 +14,10 @@ namespace FinancialPrudence {
             _description = description;
             _amount = amount;
         }
-        private static bool ReferenceEquals(Savings _savings)
-        {
-            throw new NotImplementedException();
-        }
+        // private static bool ReferenceEquals(Savings _savings)
+        // {
+        //     throw new NotImplementedException();
+        // }
         public string GetName() {
             return _name;
         }
@@ -42,12 +42,12 @@ namespace FinancialPrudence {
         public float GetTotal() {
             return _totalAmount;
         }
-        public void AddToObjectList(Statement obj){
-            _objectList.Add(obj);
-        }
-        public void ResetObjectList() {
-            _objectList = null;
-        }
+        // public void AddToObjectList(Statement obj){
+        //     _objectList.Add(obj);
+        // }
+        // public void ResetObjectList() {
+        //     _objectList = null;
+        // }
         public List<Statement> GetObjectList() {
             return _objectList;
         }
@@ -72,15 +72,17 @@ namespace FinancialPrudence {
                 // Convert annual income to monthly income
                 float income = Helper.GetMonthlyIncome(incomeEarned);
                 SetAmount(income);
+
                 // If the object refers to an instance of the Savings class
                 // compute and set points
-                
                 // if (Statement.ReferenceEquals(_savings)) {
                 //     _savings.SetPoints(Savings.ComputePoints(income));
                 // }
-                // // User quits (or continue) the loop
-                // var objList = GetObjectList();
-                // objList.Add(this);
+
+                // Add this object to its list
+                var objList = GetObjectList();
+                objList.Add(this);                
+                // User quits (or continue) the loop
                 quit = Helper.QuitOrContinue();
             }
         }

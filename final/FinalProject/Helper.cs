@@ -27,6 +27,9 @@ namespace FinancialPrudence {
         // public Helper(string name = "helper") {
         //     _name = name;
         // }
+        public static void SetList(List<Statement> statementList) {
+            _statementList = statementList;
+        }
 
         // This is valid method
         public static int GetStartPrompt() {
