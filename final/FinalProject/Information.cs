@@ -42,7 +42,7 @@ Please, choose the spread:
 2. Monthly ";
         private static string _promptInfo = $@"
 
-    Please, select 1, 2, 3 or 4 below:
+  Please, select 1, 2, 3 or 4 below:
 ======================================
 1. Create a new file
 2. Open an existing file

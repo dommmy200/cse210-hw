@@ -7,14 +7,10 @@ namespace FinancialPrudence {
         private static IncomeStatement _incomeStatement = new IncomeStatement(); 
         private static ExpensesStatement _expenseStatement = new ExpensesStatement();
         // private static bool quit = true;
-        private static string _usersFile = @"Users.txt";
+        // private static string _usersFile = @"Users.txt";
         private static string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
-        // private string _autoSave;
         private static string _filenameInUse;
         private static Savings _savings = new Savings();
-        public static string GetUsersFile() {
-            return _filesPath + _usersFile;
-        }
         public static string GetFilenameInUse() {
             return _filenameInUse;
         }
@@ -40,49 +36,69 @@ namespace FinancialPrudence {
         //     }
         // }
         // Called in OpenExistingFile() to supply stored filenames
-        private static string[] GetFileNames () {
-            string[] xyz = null;
-            var userFile = GetUsersFile();
-            if (userFile != null) {
-                string[] lines = File.ReadAllLines(userFile);
-                    return lines;
-            } else {
-                Console.WriteLine("\nThis file is empty.\n");
-                return xyz;
-            }
-        }
+        // private static string[] GetFileNames () {
+        //     string[] xyz = null;
+        //     var userFile = GetUsersFile();
+        //     if (userFile != null) {
+        //         string[] lines = File.ReadAllLines(userFile);
+        //             return lines;
+        //     } else {
+        //         Console.WriteLine("\nThis file is empty.\n");
+        //         return xyz;
+        //     }
+        // }
         // Called at the beginning of the program to open a file
-        public static void OpenExistingFile() {
-            var lines = GetFileNames();
-            for (int i = 0; i < lines.Length; i++) {
-                string line = lines[i];
-                string filename = Path.GetFileNameWithoutExtension(line);
-                Console.WriteLine($"{i + 1}. {filename}");
-            }
-            Console.WriteLine();
-            int selected = int.Parse(Console.ReadLine());
-            var selectedFile = lines[selected - 1];
-            SetFilenameInUse(selectedFile);
-            AutoSave();
-            // After file is opened and stored globally, what next?
-            // Return to file when ready to save from list
-            // Note: GoTo FineTuneFPrudence()
-        }
+        // public static void OpenExistingFile() {
+        //     var lines = GetFileNames();
+        //     for (int i = 0; i < lines.Length; i++) {
+        //         string line = lines[i];
+        //         string filename = Path.GetFileNameWithoutExtension(line);
+        //         Console.WriteLine($"{i + 1}. {filename}");
+        //     }
+        //     Console.WriteLine();
+        //     int selected = int.Parse(Console.ReadLine());
+        //     var selectedFile = lines[selected - 1];
+        //     SetFilenameInUse(selectedFile);
+        //     AutoSave();
+        //     // After file is opened and stored globally, what next?
+        //     // Return to file when ready to save from list
+        //     // Note: GoTo FineTuneFPrudence()
+        // }
         // Called at the beginning of the program to create a new file
         public static void CreateNewFile() {
             Console.Write("Enter Filename: ");
             string filename = Console.ReadLine();
             var formattedFilename = FormatFileName(filename);
-            var filenameFormat = formattedFilename.Contains(".txt") ? $"{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
+            var filenameFormat = formattedFilename.Contains(".Txt") ? $"{formattedFilename}" : $"{formattedFilename}" + ".txt";
             var filePath = GetFilePath();
             var fullPath = filePath + filenameFormat;
             SetFilenameInUse(fullPath);
+            var template = UserFileTemplate(fullPath);
+            SaveUserFile(fullPath, template);
             AutoSave();
             // After file is created and stored globally, what next?
             // Return to file when ready to save
         }
         // This method may not be necessary(replaced by Autosave)
         // Note: Necessary during saving of file
+        public static void OpenAFileForUse() {
+            var path = GetFilePath();
+            // If this directory is not empty
+            if (!Directory.EnumerateFileSystemEntries(path).Any()) {
+                string[] files = Directory.GetFiles(path);
+                int count = 1;
+                foreach (string file in files) {
+                    Console.WriteLine($"{count}. {file}\n");
+                    count++;
+                }
+                int number = int.Parse(Console.ReadLine());
+                string path1 = files[number];
+                // Call the method and pass the filename to save as
+                SetFilenameInUse(path1);
+            } else {
+                CreateNewFile();
+            }
+        }
         // public static void SaveToFile() {
         //     var path = GetFilePath();
         //     // If this directory is not empty
@@ -108,15 +124,15 @@ namespace FinancialPrudence {
         // }
         // StreamWriter handles file and saving templates
         // required in AutoSave()
-        // public static void FileToStreamWrite(string file) {
-        // using(StreamWriter outPut = new StreamWriter(file)) {
-        //         var statementAndGoalList = Helper.GetListOfObjects();
-        //         foreach (Statement statementGoal in statementAndGoalList) {
-        //             var templates = statementGoal.SaveGoal();
-        //             outPut.WriteLine(templates);
-        //         }
-        //     }
-        // }
+        public static void SaveUserFile(string file, string template) {
+            using(StreamWriter outPut = new StreamWriter(file)) {
+                outPut.WriteLine(template);
+            }
+        }
+        public static string UserFileTemplate(string filename) {
+            var template = $"{filename}";
+            return template;
+        }
         // Note: May not be used eventually
         // public static void StringTemplateToFile(string template, string file) {
         // using(StreamWriter outPut = new StreamWriter(file)) {
@@ -218,6 +234,12 @@ namespace FinancialPrudence {
         private static string FormatFileName (string str) {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToTitleCase(str);
+            return titleCase;
+        }
+        // May be discarded
+        private static string FormatFileNameLower (string str) {
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            string titleCase = textInfo.ToLower(str);
             return titleCase;
         }
     }

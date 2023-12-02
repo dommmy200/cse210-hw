@@ -49,7 +49,7 @@ namespace FinancialPrudence {
             
         }
         public static void OpenAnExistingFile() {
-            FilesHandler.OpenExistingFile();
+            FilesHandler.OpenAFileForUse();
             Helper.FineTuneFinancialPrudence();
         }
     }

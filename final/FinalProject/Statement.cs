@@ -6,7 +6,7 @@ namespace FinancialPrudence {
         private string _description;
         private float _amount;
         private float _totalAmount;
-        private List<Statement> _objectList;
+        private List<Statement> _objectList = new List<Statement>();
         // private Savings _savings = new Savings();
         // FilesHandler _filesHandler = new FilesHandler();
         public Statement(string name = "name", string description = "description", float amount = 0) {

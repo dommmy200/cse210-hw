@@ -13,7 +13,7 @@ namespace FinancialPrudence {
 //         private List<Statement> _statementList = new List<Statement>();
         // private string _name;
         private static bool quit = true;
-        private static List<Statement> _statementList;
+        private static List<Statement> _statementList = new List<Statement>();
 
         public static bool QuitOrContinue() {
             Information.QuitContinueInfo();
