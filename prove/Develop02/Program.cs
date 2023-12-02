@@ -17,7 +17,7 @@ namespace MyMainProgram
             {
                 // instantiate a Choice object and call the displayChoice method
                 Choice ch = new();
-                ch.displayChoices();
+                Choice.displayChoices();
 
                 Console.WriteLine("Please select one of the following choices: ");
                 int selected = int.Parse(Console.ReadLine());

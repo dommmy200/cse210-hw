@@ -22,7 +22,7 @@ namespace Mindfulness {
             set { _duration = value; }
         }
         // Method to format options statement to obtain the class names
-        public string FormatClassName (string subString) {
+        public static string FormatClassName (string subString) {
             string formatted = subString.Substring(6);
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToTitleCase(formatted);
@@ -34,7 +34,7 @@ namespace Mindfulness {
             RotateSlashAnimation(6);
         }
         // Method to animate countdown
-        public void CountdownAnimation(int count) {
+        public static void CountdownAnimation(int count) {
             for (int i = count; i >= 0; i--) {
                 Console.Write(i);
                 Thread.Sleep(1000);
@@ -43,7 +43,7 @@ namespace Mindfulness {
             Console.WriteLine();
         }
         // Method to animate colored flip-flop dashes before every game
-        public void DrawDashAnimation(int i) {
+        public static void DrawDashAnimation(int i) {
             var count = 0;
             while (count <= i) {
                 
@@ -61,7 +61,7 @@ namespace Mindfulness {
             }
         }
         // Method to animate rotating slashes at the prompt
-        public void RotateSlashAnimation(int secs) {
+        public static void RotateSlashAnimation(int secs) {
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(secs);
 
@@ -82,12 +82,12 @@ namespace Mindfulness {
             Console.WriteLine();
         }
         // Method to display "Welcome message"
-        public void DisplayStartMessage(string className) {
+        public static void DisplayStartMessage(string className) {
             Console.Clear();
             Console.WriteLine($"Welcome to the {className}\n");
         }
         // Method to accept game duration from user
-        public int GetUserDuration() {
+        public static int GetUserDuration() {
             Console.Write("\nHow long, in seconds, would you like for your session? ");
             string response = Console.ReadLine();
             return response != null ? Convert.ToInt32(response) : 0;

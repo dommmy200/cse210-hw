@@ -6,10 +6,9 @@ namespace FinancialPrudence {
         private string _description;
         private float _amount;
         private float _totalAmount;
-        private Information _info = new();
-        private Helper _helper1 = new();
         private List<Statement> _objectList;
-        private Savings _savings = new Savings();
+        // private Savings _savings = new Savings();
+        // FilesHandler _filesHandler = new FilesHandler();
         public Statement(string name = "name", string description = "description", float amount = 0) {
             _name = name;
             _description = description;
@@ -19,9 +18,6 @@ namespace FinancialPrudence {
         {
             throw new NotImplementedException();
         }
-        // public string Name {get; set;}
-        // public string Description {get; set;}
-        // public float Amount {get; set;}
         public string GetName() {
             return _name;
         }
@@ -59,40 +55,36 @@ namespace FinancialPrudence {
             var className = GetType().Name;
             return className;
         }
-         public void GetStatement() {
+        public void GetStatement() {
+            
             bool quit = true;
             while (quit) {
                 // Display a message
-                _info.DisplayIncomeInfo();
-                Console.WriteLine("Enter name of income, expenses or goal: ");
+                Information.DisplayIncomeInfo();
+                Console.Write("Enter name of income, expenses or goal: ");
                 string name = Console.ReadLine();
                 SetName(name);
-                Console.WriteLine("Enter description of income, expenses or goal: ");
+                Console.Write("Enter description of income, expenses or goal: ");
                 string description = Console.ReadLine();
                 SetDescription(description);
-                Console.WriteLine("Enter the amount of income, expenses or goal: ");
+                Console.Write("Enter the amount of income, expenses or goal: ");
                 float incomeEarned = float.Parse(Console.ReadLine());
                 // Convert annual income to monthly income
-                float income = _helper1.GetMonthlyIncome(incomeEarned);
+                float income = Helper.GetMonthlyIncome(incomeEarned);
                 SetAmount(income);
                 // If the object refers to an instance of the Savings class
                 // compute and set points
-                if (Statement.ReferenceEquals(_savings)) {
-                    _savings.SetPoints(_savings.ComputePoints(income));
-                }
-                //Append variables to list object
-                // _helper1.AddToIncomeList(incomeName, description, income);
-                // User quits (or continue) the loop
-                var objList = GetObjectList();
-                objList.Add(this);
-                quit = _helper1.QuitOrContinue();
+                
+                // if (Statement.ReferenceEquals(_savings)) {
+                //     _savings.SetPoints(Savings.ComputePoints(income));
+                // }
+                // // User quits (or continue) the loop
+                // var objList = GetObjectList();
+                // objList.Add(this);
+                quit = Helper.QuitOrContinue();
             }
         }
         public abstract string SaveGoal();
         public abstract Statement SetStatement(Statement statement);
-        // consider renaming this method if not returning value: UserStatement()
-        // public abstract void GetStatement();
-        // public abstract void SetStatementTotal(float amount);
-        // public abstract float GetTotal();
     }
 }

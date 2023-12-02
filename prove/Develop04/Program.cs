@@ -31,18 +31,18 @@ namespace Mindfulness {
                     choices = int.Parse(choice);
                 if (choices == 1) {
                     BreathingActivity breathingActivity = new BreathingActivity(classNm[0], describe[0]);
-                    string className = breathingActivity.FormatClassName(classNm[0]);
-                    breathingActivity.DrawDashAnimation(1);
+                    string className = Activity.FormatClassName(classNm[0]);
+                    Activity.DrawDashAnimation(1);
                     breathingActivity.PlayBreathingActivity(className);
                 } else if (choices == 2) {
                     ReflectionActivity reflectionActivity = new ReflectionActivity(classNm[1], describe[1]);
-                    string className = reflectionActivity.FormatClassName(classNm[1]);
-                    reflectionActivity.DrawDashAnimation(1);
+                    string className = Activity.FormatClassName(classNm[1]);
+                    Activity.DrawDashAnimation(1);
                     reflectionActivity.ReflectionExercise(className);
                 } else if (choices == 3) {
                     ListingActivity listingActivity = new ListingActivity(classNm[2], describe[2]);
-                    string className = listingActivity.FormatClassName(classNm[2]);
-                    listingActivity.DrawDashAnimation(1);
+                    string className = Activity.FormatClassName(classNm[2]);
+                    Activity.DrawDashAnimation(1);
                     listingActivity.ListingExercise(className);
                 } else if (choices == 4) {
                     // Quit the loop and exit the program

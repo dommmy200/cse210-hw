@@ -64,7 +64,7 @@ namespace MyMainProgram.Journal01
             Choice dt = new();
             
             // Return the Tuple
-            var myDateHourMins = dt.DateTimeString();
+            var myDateHourMins = Choice.DateTimeString();
 
             // Separate the Tuple items
             string mDate = myDateHourMins.Item1;

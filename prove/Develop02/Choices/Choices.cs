@@ -7,7 +7,7 @@ namespace MyMainProgram.Choice1
     public class Choice
     {
         //Method to Display choices for user selection
-        public void displayChoices()
+        public static void displayChoices()
         {
             List<string> choice = new()
                 {
@@ -53,7 +53,7 @@ namespace MyMainProgram.Choice1
   
 
         // Use a Tuple to return multiple string values of DateTime
-        public Tuple<string, string, string> DateTimeString()
+        public static Tuple<string, string, string> DateTimeString()
         {
             DateTime dateTime = DateTime.Now;
             TimeSpan myTime = DateTime.Now.TimeOfDay;

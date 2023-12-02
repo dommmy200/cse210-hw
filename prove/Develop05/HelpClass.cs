@@ -121,7 +121,7 @@ namespace EternalGoal {
             }
         }
         // Format filename to TitleCase to accept mix cases of characters
-        public string FormatFileName (string str) {
+        public static string FormatFileName (string str) {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToTitleCase(str);
             return titleCase;

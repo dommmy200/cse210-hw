@@ -8,7 +8,7 @@ namespace Mindfulness {
             _description = description;
         }
         // Method to generate just one random prompts for each round of the reflection exercise
-        private string GenerateReflection() {
+        private static string GenerateReflection() {
             List<string> prompts = new() {
                 "Think of a time when you stood up for someone else.",
                 "Think of a time when you did something really difficult.",

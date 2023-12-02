@@ -23,7 +23,7 @@ public class Scriptures
 
             Reference reference = new Reference();
 
-            reference.DisplayQuote(quoRef, strings1);
+            Memorizer.Reference.DisplayQuote(quoRef, strings1);
 
 
             // if string replacement is not fully completed recurse "wordsGenerator"

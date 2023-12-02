@@ -22,7 +22,7 @@ namespace Mindfulness {
             DisplayEndMessage(duration,clsName);
         }
         // Method for random generation of prompt questions
-        private string GenerateListing() {
+        private static string GenerateListing() {
             List<string> prompts = new(){
                 "Who are people that you appreciate?",
                 "What are personal strengths of yours?",
@@ -36,7 +36,7 @@ namespace Mindfulness {
             return prompts[index];
         }
         // Method to get user duration and play the exercise in a "while-loop"
-        private void ResponseListing(int duration){
+        private static void ResponseListing(int duration){
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(duration);
             List<string> strings = new List<string>();

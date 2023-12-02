@@ -2,89 +2,92 @@ using System;
 using System.Globalization;
 
 namespace FinancialPrudence {
-    public class FilesHandler {
-        private string _usersFile = @"Users.txt";
-        private string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
-        private string _autoSave;
-        private string _filenameInUse;
-        private TimeManagement _timeMgt = new TimeManagement();
-        private Helper _helper1 = new();
-        private Statement _incomeStatement = new IncomeStatement();
-        private Statement _expenseStatement = new IncomeStatement();
-        private FilesHandler _filesHandler = new FilesHandler();
-        private Savings _savings = new Savings();
+    public static class FilesHandler {
+        private static IncomeStatement _incomeStatement = new IncomeStatement(); 
+        private static ExpensesStatement _expenseStatement = new ExpensesStatement();
+        // private static bool quit = true;
+        private static string _usersFile = @"Users.txt";
+        private static string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
+//         private string _autoSave;
+        private static string _filenameInUse;
+        // private TimeManagement _timeMgt = new TimeManagement();
+        // private Helper _helper1 = new();
+        // private Statement _incomeStatement = new IncomeStatement();
+        // private Statement _expenseStatement = new IncomeStatement();
+        // private FilesHandler _filesHandler = new FilesHandler();
+        private static Savings _savings = new Savings();
         // private IncomeStatement _child1 = new();
         // private ExpensesStatement _child2 = new();
         // private Savings _child3 = new();
-        public string GetUsersFile() {
+        public static string GetUsersFile() {
             return _filesPath + _usersFile;
         }
-        public string GetFilenameInUse() {
+        public static string GetFilenameInUse() {
             return _filenameInUse;
         }
-        public void SetFilenameInUse(string filename) {
+        public static void SetFilenameInUse(string filename) {
             _filenameInUse = filename;
         }
-        public string GetFilePath() {
+        public static string GetFilePath() {
             return _filesPath;
         }
-        public string GetAutoSave() {
-            return _autoSave;
-        }
-        public void SetAutoSave(string filename) {
-            _autoSave = filename;
-        }
-        public void SaveStatementAndGoal(List<Statement> statements) {
+        // public string GetAutoSave() {
+        //     return _autoSave;
+        // }
+        // public void SetAutoSave(string filename) {
+        //     _autoSave = filename;
+        // }
+        public static void SaveStatementAndGoal(List<Statement> statements) {
             var userFile = GetUsersFile();
             using (StreamWriter outPut = new StreamWriter(userFile)) {
                 foreach (Statement objects in statements) {
-                    var helperList = _helper1.GetList();
+                    var helperList = Helper.GetListOfObjects();
                     helperList.Add(objects);
                 }
             }
         }
         // Called in OpenExistingFile() to supply stored filenames
-        private string[] GetFileNames () {
-            string[] xyz = null;
-            var userFile = GetUsersFile();
-            if (userFile != null) {
-                string[] lines = File.ReadAllLines(userFile);
-                    return lines;
-            } else {
-                Console.WriteLine("\nThis file is empty.\n");
-                return xyz;
-            }
-        }
-        // Called at the beginning of the program to open a file
-        public void OpenExistingFile() {
-            var lines = GetFileNames();
-            for (int i = 0; i < lines.Length; i++) {
-                string line = lines[i];
-                string filename = Path.GetFileNameWithoutExtension(line);
-                Console.WriteLine($"{i + 1}. {filename}");
-            }
-            Console.WriteLine();
-            int selected = int.Parse(Console.ReadLine());
-            var selectedFile = lines[selected - 1];
-            SetFilenameInUse(selectedFile);
+        // private string[] GetFileNames () {
+        //     string[] xyz = null;
+        //     var userFile = GetUsersFile();
+        //     if (userFile != null) {
+        //         string[] lines = File.ReadAllLines(userFile);
+        //             return lines;
+        //     } else {
+        //         Console.WriteLine("\nThis file is empty.\n");
+        //         return xyz;
+        //     }
+        // }
+        // // Called at the beginning of the program to open a file
+        // public void OpenExistingFile() {
+        //     var lines = GetFileNames();
+        //     for (int i = 0; i < lines.Length; i++) {
+        //         string line = lines[i];
+        //         string filename = Path.GetFileNameWithoutExtension(line);
+        //         Console.WriteLine($"{i + 1}. {filename}");
+        //     }
+        //     Console.WriteLine();
+        //     int selected = int.Parse(Console.ReadLine());
+        //     var selectedFile = lines[selected - 1];
+        //     SetFilenameInUse(selectedFile);
             // After file is opened and stored globally, what next?
             // Return to file when ready to save from list
             // Note: GoTo FineTuneFPrudence()
-        }
+        // }
         // Called at the beginning of the program to create a new file
-        public void CreateNewFile() {
+        public static void CreateNewFile() {
             Console.Write("Enter Filename: ");
             string filename = Console.ReadLine();
             var formattedFilename = FormatFileName(filename);
             var filenameFormat = formattedFilename.Contains(".txt") ? $"{GetFilePath()}{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
             var filePath = GetFilePath();
-            var fullPath = filePath + filenameFormat; 
+            var fullPath = filePath + filenameFormat;
             SetFilenameInUse(fullPath);
             // After file is created and stored globally, what next?
             // Return to file when ready to save
         }
         // May be commented out and replaced
-        public void SaveToFile() {
+        public static void SaveToFile() {
             var path = GetFilePath();
             // If this directory is not empty
             if (!Directory.EnumerateFileSystemEntries(path).Any()) {
@@ -107,11 +110,11 @@ namespace FinancialPrudence {
                 FileToStreamWrite(path1);
             }
         }
-        // StreamWriter handles file and saving templates
-        // required in AutoSave()
-        public void FileToStreamWrite(string file) {
+        // // StreamWriter handles file and saving templates
+        // // required in AutoSave()
+        public static void FileToStreamWrite(string file) {
         using(StreamWriter outPut = new StreamWriter(file)) {
-                var statementAndGoalList = _helper1.GetList();
+                var statementAndGoalList = Helper.GetListOfObjects();
                 foreach (Statement statementGoal in statementAndGoalList) {
                     var templates = statementGoal.SaveGoal();
                     outPut.WriteLine(templates);
@@ -119,9 +122,9 @@ namespace FinancialPrudence {
             }
         }
         // Note: May not be used eventually
-        public void StringTemplateToFile(string template, string file) {
+        public static void StringTemplateToFile(string template, string file) {
         using(StreamWriter outPut = new StreamWriter(file)) {
-                var statementAndGoalList = _helper1.GetList();
+                var statementAndGoalList = Helper.GetListOfObjects();
                 foreach (Statement statementGoal in statementAndGoalList) {
                     var templates = statementGoal.SaveGoal();
                     outPut.WriteLine(templates);
@@ -131,7 +134,7 @@ namespace FinancialPrudence {
         // Method to automatically save objects after user list compiling
         // My Note: Write a subroutine to check that duplicates objects 
         // are not created during auto save and to delete same is ever
-        public void AutoSave() {
+        public static void AutoSave() {
             var file = GetFilenameInUse();
             var motherList = ConcatenateLists();
             // var objectList = objects.GetObjectList();
@@ -142,7 +145,7 @@ namespace FinancialPrudence {
             }
         }
         // Method to remove duplicates from a list of Statement object
-        public List<Statement> RemoveDuplicates(List<Statement> withDuplicate) {
+        public static List<Statement> RemoveDuplicates(List<Statement> withDuplicate) {
             var noDuplicate = withDuplicate.
             GroupBy(item => item.GetName()).
             Select(group => group.First()).
@@ -150,8 +153,8 @@ namespace FinancialPrudence {
             return noDuplicate;
         }
         // Combine all lists into a mother list for filing
-        public List<Statement> ConcatenateLists() {
-            var motherList = _helper1.GetListOfObjects();
+        public static List<Statement> ConcatenateLists() {
+            var motherList = Helper.GetListOfObjects();
             var incList = _incomeStatement.GetObjectList();
             var expList = _expenseStatement.GetObjectList();
             var saveList = _savings.GetObjectList();
@@ -162,7 +165,7 @@ namespace FinancialPrudence {
         }
         // Note: Necessary during loading of file to memory
         // Convert file string to object properties
-        public void TemplateToObject() {
+        public static void TemplateToObject() {
             var file = GetFilenameInUse();
             string[] lines = File.ReadAllLines(file);
             foreach ( string line in lines) {
@@ -190,32 +193,32 @@ namespace FinancialPrudence {
                     var amount = parts[3];
                     float amt = float.Parse(amount);
                     var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
-                    DateTime today = _timeMgt.GetToday();
-                    int elapseDays = (int) (oldDate -today).TotalDays;
+                    DateTime today = TimeManagement.GetToday();
+                    int elapseDays = (int) (oldDate -today).TotalDays; // Take note herew
                     Savings save = new Savings(itemName, description, amt);
                     var incomeList = save.GetObjectList();
                     incomeList.Add(save);
                 }
             }
         } 
-        // public void OpenExistingFile() {
-        //     // string[] xyz = null;
-        //     var userFile = GetUsersFile();
-        //     if (userFile != null) {
-        //         string[] lines = File.ReadAllLines(userFile);
-        //     } else {
-        //         Console.WriteLine("\nThis file is empty.\n");
-        //         Console.Write("Enter Filename: ");
-        //         string filename = Console.ReadLine();
-        //         var formattedFilename = FormatFileName(filename);
-        //         var filenameFormat = formattedFilename.Contains(".txt") ? $"{GetFilePath()}{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
-        //         var filePath = GetFilePath();
-        //         var fullPath = filePath + filenameFormat;
-        //         SetFilenameInUse(fullPath);
-        //     }
-        // }
+        public static void OpenExistingFile() {
+            // string[] xyz = null;
+            var userFile = GetUsersFile();
+            if (userFile != null) {
+                string[] lines = File.ReadAllLines(userFile);
+            } else {
+                Console.WriteLine("\nThis file is empty.\n");
+                Console.Write("Enter Filename: ");
+                string filename = Console.ReadLine();
+                var formattedFilename = FormatFileName(filename);
+                var filenameFormat = formattedFilename.Contains(".txt") ? $"{GetFilePath()}{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
+                var filePath = GetFilePath();
+                var fullPath = filePath + filenameFormat;
+                SetFilenameInUse(fullPath);
+            }
+        }
         // Format filename to TitleCase to accept mix cases of characters
-        private string FormatFileName (string str) {
+        private static string FormatFileName (string str) {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToTitleCase(str);
             return titleCase;

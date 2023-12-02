@@ -33,8 +33,8 @@ Console.WriteLine("Welcome to Scripture Memorizer!\n");
             string scriptureQuote = referenceAndQuote.Quote; 
             string quoteReference = referenceAndQuote.Reference;
 
-            // Display the unmodified quote
-            reference.DisplayQuote(quoteReference, scriptureQuote);
+    // Display the unmodified quote
+    Reference.DisplayQuote(quoteReference, scriptureQuote);
             // Call the WordsGenerator() to modify the quote
             Scriptures.WordsGenerator(quoteReference, scriptureQuote);
             continue;
