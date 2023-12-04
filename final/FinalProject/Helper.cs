@@ -33,6 +33,7 @@ namespace FinancialPrudence {
 
         // This is valid method
         public static int GetStartPrompt() {
+            // Insert try-catch statement below before submission
             string prompt = Console.ReadLine();
             int prompt1 = int.Parse(prompt);
             return prompt1;
@@ -56,7 +57,7 @@ namespace FinancialPrudence {
                 }
             }
         }
-        // This is valid method
+        // This is not fully valid method
         // private static void CallQuit() {
         //     quit = false;
         // }
@@ -72,6 +73,8 @@ namespace FinancialPrudence {
         //         break;
         //     }
         // }
+
+        // This is valid method(|)
         public static void PressToContinue() {
             Information.PressToContinueInfo();
             Console.ReadKey();
@@ -103,7 +106,6 @@ namespace FinancialPrudence {
         public static float GetIncomeTotal() {
             List<Statement> listOfStatement = GetListOfObjects();
             SetSurplusAndDeficitTotal(listOfStatement);
-            // float incTotal = _incomeStatement.GetTotal();
             float expTotal = _expenseStatement.GetTotal();
             return expTotal;
         }
@@ -112,7 +114,6 @@ namespace FinancialPrudence {
             List<Statement> listOfStatement = GetListOfObjects();
             SetSurplusAndDeficitTotal(listOfStatement);
             float incTotal = _incomeStatement.GetTotal();
-            // float expTotal = _expenseStatement.GetTotal();
             return incTotal;
         }
        // This is valid method(|)
@@ -172,7 +173,7 @@ namespace FinancialPrudence {
         //         // break;
         //     }
         // }
-        // This is valid method(|)
+        // Note: This may not be valid method(X). Please, crosscheck!
         public static void ToSavingsOrDebtManagement() {
             float incTotal = _incomeStatement.GetTotal();
             float expTotal = _expenseStatement.GetTotal();
@@ -183,7 +184,7 @@ namespace FinancialPrudence {
                     Console.WriteLine();
                     Console.WriteLine(@"You do not have either Income or Expenses
                                                     statements.");
-                    Console.WriteLine();
+                    Helper.PressToContinue();
                 if (incTotal == 0) {
                     _incomeStatement.GetStatement();
                     incTotal = GetIncomeTotal();
@@ -193,7 +194,7 @@ namespace FinancialPrudence {
                     expTotal = GetExpenseTotal();
                     Helper.QuitOrContinue();
                 }
-                Helper.QuitOrContinue();
+                // Helper.QuitOrContinue();
             }
             // The difference between income and expenses is computed here
             float difference = GetSurplusOrDeficit();
@@ -218,9 +219,11 @@ namespace FinancialPrudence {
                 Console.WriteLine($"{count}. {objAndGoal.GetName()}, {objAndGoal.GetDescription()}, {objAndGoal.GetAmount()}");
                 count++;
             }
+            // Insert try-catch statement below before submission
             int sN = int.Parse(Console.ReadLine());
             var obj1 = objList[sN - 1];
             Information.ReduceOrDeleteInfo();
+            // Insert try-catch statement below before submission
             int xy = int.Parse(Console.ReadLine());
             Helper.DeleteOrUpdate(objList, obj1, xy);
         }
