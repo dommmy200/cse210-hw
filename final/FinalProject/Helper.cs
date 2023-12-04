@@ -224,20 +224,20 @@ namespace FinancialPrudence {
             var obj1 = objList[sN - 1];
             Information.ReduceOrDeleteInfo();
             // Insert try-catch statement below before submission
-            int xy = int.Parse(Console.ReadLine());
-            Helper.DeleteOrUpdate(objList, obj1, xy);
+            int selected = int.Parse(Console.ReadLine());
+            Helper.DeleteOrUpdate(objList, obj1, selected);
         }
         // This is valid method(|)
         // This method is called by UpdateStatementAndGoal()
-        private static void DeleteOrUpdate(List<Statement> object1, Statement obj, int x) {
-            if (x == 1) {
+        private static void DeleteOrUpdate(List<Statement> object1, Statement obj, int selected) {
+            if (selected == 1) {
                 // Delete the selected goal or statement
                 foreach (Statement object2 in object1) {
                     if (object2 == obj) {
                         object1.Remove(obj);
                     }
                 }
-            } else if (x == 2) {
+            } else if (selected == 2) {
                 // Make adjustment to the amount on the selected goal or statement
                 foreach (Statement object2 in object1) {
                     if (object2 == obj) {
