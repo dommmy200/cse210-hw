@@ -5,9 +5,12 @@ namespace FinancialPrudence {
         // private Helper _helper1 = new();
         // private TimeManagement _time = new();
         private int _points;
-        private int _totalPoints;
+       
+        private int _totalPoints = 60;
+        // private string _stringDate = new DateTime().ToString("yyyyy-MM-dd");
 
         public Savings(string name = "name", string description = "description", float amount = 0) : base (name, description, amount) {
+            // _oldDate = oldDate;
         }
 
 //         private Dictionary<string, string> _dict = new Dictionary<string, string>(6){
@@ -30,15 +33,24 @@ namespace FinancialPrudence {
         public int GetTotalPoints() {
             return _totalPoints;
         }
-//         public void SetTotalPoints(int totalPoints) {
-//             _totalPoints = totalPoints;
-//         }
-        public static int ComputePoints(float amount) {
-            float surplus = Helper.GetSurplusOrDeficit();
-            var y = surplus/6;
-            var z = amount/y * 10;
-            return (int) Math.Floor(z);
+        public void DisplayTemplates() {
+            int count = 1;
+            FilesHandler.TemplateToObject();
+            var goalList = GetObjectList();
+
+            foreach (Statement child in goalList) {
+                var childType = child.GetType().Name;
+                if (childType.Contains("saving")) {
+    
+                    string template = $"{count}. {child.GetName()}, {child.GetDescription()}, {child.GetAmount()}, {child.GetMaxAmount()}, {TimeManagement.GetToday()}, {TimeManagement.GetTotalDays()}";
+                    Console.WriteLine(template);
+                }
+                count++;
+            }
         }
+
+        
+
 //         // Using to notify user of options to select
 //         public void DisplayDictionary() {
 //             var dict = GetDictionary();
@@ -86,7 +98,7 @@ namespace FinancialPrudence {
         }
         // Display and Filing template for Savings objects
         public override string SaveGoal() {
-            return $"{GetClassName()}, {GetName()}, {GetDescription()}, {GetAmount()}, {GetPoints()}{TimeManagement.GetToday}, {TimeManagement.GetTotalDays()}";
+            return $"{GetClassName()}, {GetName()}, {GetDescription()}, {GetAmount()}, {GetPoints()}{TimeManagement.GetToday()}, {GetOldDate()}";
         }
     } 
 }

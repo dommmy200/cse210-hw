@@ -71,10 +71,12 @@ namespace FinancialPrudence {
             var formattedFilename = FormatFileName(filename);
             var filenameFormat = formattedFilename.Contains(".Txt") ? $"{formattedFilename}" : $"{formattedFilename}" + ".txt";
             var filePath = GetFilePath();
-            var fullPath = filePath + filenameFormat;
+            var fullPath = Path.Combine(filePath, filenameFormat); // filePath + filenameFormat;
             SetFilenameInUse(fullPath);
-            var template = UserFileTemplate(fullPath);
-            SaveUserFile(fullPath, template);
+            Helper.GetTwoStatements();
+            Helper.ToSavingsOrDebtManagement();
+            // var template = UserFileTemplate(filenameFormat);
+            // SaveUserFile(fullPath, template);
             AutoSave();
             // After file is created and stored globally, what next?
             // Return to file when ready to save
@@ -95,6 +97,10 @@ namespace FinancialPrudence {
                 string path1 = files[number];
                 // Call the method and pass the filename to save as
                 SetFilenameInUse(path1);
+                // Now that SetFilenameInUse is opened. I think user should do something
+                // like given the option to set goals or quit
+                TemplateToObject();
+                Helper.FineTuneFinancialPrudence();
             } else {
                 CreateNewFile();
             }
@@ -205,14 +211,19 @@ namespace FinancialPrudence {
                     var description = parts[2];
                     var amount = parts[3];
                     float amt = float.Parse(amount);
-                    var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
-                    DateTime today = TimeManagement.GetToday();
-                    int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
+                    // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
+                    string oldDateString = parts[4];
+                    _savings.SetOldDate(oldDateString);
+                    var oldDate = _savings.GetOldDate();
+                    // DateTime today = TimeManagement.GetToday();
+                    // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
+
                     Savings save = new Savings(itemName, description, amt);
                     var incomeList = save.GetObjectList();
                     incomeList.Add(save);
                 }
             }
+            // Possibly calling the ConcatenateLists() method here
         } 
         // public static void OpenExistingFile() {
         //     // string[] xyz = null;

@@ -6,7 +6,7 @@ namespace FinancialPrudence {
         static void Main(string[] args) {
             bool Quit = true;
             // Play animation and generate the menu for user selection
-            Animation.AnimateShapes();
+            // Animation.AnimateShapes();
             Information.DisplayInfo();
             Helper.PressToContinue();
             while (Quit) {
@@ -16,7 +16,7 @@ namespace FinancialPrudence {
                 // int prompt1 = int.Parse(prompt);
                 switch (prompt1) {
                     case 1:
-                    Console.WriteLine($"CreateNewFile");
+                    Console.WriteLine($"CreateNewFile\n");
                     // Create a new file and set income and expenses statements
                     Program.CreateNewFile();
                     // FilesHandler.CreateNewFile(); //Note: verify why on 2nd run the 'GetTwoStatements()' is skipped

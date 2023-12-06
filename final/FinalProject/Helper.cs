@@ -12,7 +12,7 @@ namespace FinancialPrudence {
 //         private DebtManagement _debt = new DebtManagement(""); // Remove this string dummy later
 //         private List<Statement> _statementList = new List<Statement>();
         // private string _name;
-        private static bool quit = true;
+        // private static bool quit = true;
         private static List<Statement> _statementList = new List<Statement>();
 
         public static bool QuitOrContinue() {
@@ -27,9 +27,9 @@ namespace FinancialPrudence {
         // public Helper(string name = "helper") {
         //     _name = name;
         // }
-        public static void SetList(List<Statement> statementList) {
-            _statementList = statementList;
-        }
+        // public static void SetList(List<Statement> statementList) {
+        //     _statementList = statementList;
+        // }
 
         // This is valid method
         public static int GetStartPrompt() {
@@ -40,6 +40,7 @@ namespace FinancialPrudence {
         }
         // This is valid method
         public static void GetTwoStatements() {
+            bool quit = true;
             while (quit) {
                 Information.DisplayIncomeExpensesInfo();
                 int x = int.Parse(Console.ReadLine());
@@ -109,6 +110,7 @@ namespace FinancialPrudence {
             float expTotal = _expenseStatement.GetTotal();
             return expTotal;
         }
+
         // This is valid method(|)
         public static float GetExpenseTotal() {
             List<Statement> listOfStatement = GetListOfObjects();
@@ -179,28 +181,31 @@ namespace FinancialPrudence {
             float expTotal = _expenseStatement.GetTotal();
             bool quit = true;
             // Check if income and/or expenses statements has zero total
-            while (incTotal == 0 && expTotal == 0 || quit) {
-                if (incTotal == 0 || expTotal == 0)
+            while (quit) {
+                if (incTotal.Equals(0f)) {
                     Console.WriteLine();
-                    Console.WriteLine(@"You do not have either Income or Expenses
-                                                    statements.");
+                    Console.Write(@"You have not made Income statements. ");
                     Helper.PressToContinue();
-                if (incTotal == 0) {
-                    _incomeStatement.GetStatement();
-                    incTotal = GetIncomeTotal();
-                    Helper.QuitOrContinue();
-                } else if (expTotal == 0) {
+                     _incomeStatement.GetStatement();
+                } else if (expTotal.Equals(0f)) {
+                    Console.WriteLine();
+                    Console.Write(@"You have not made Expenses statements. ");
+                    Helper.PressToContinue();
                     _expenseStatement.GetStatement();
-                    expTotal = GetExpenseTotal();
-                    Helper.QuitOrContinue();
+                } else {
+                    quit = Helper.QuitOrContinue();
                 }
                 // Helper.QuitOrContinue();
             }
             // The difference between income and expenses is computed here
             float difference = GetSurplusOrDeficit();
             if (IsSurplus(difference)) {
+                Information.SavingsNotice();
+                Helper.PressToContinue();
                 _savings.GetStatement();
             } else {
+                Information.DeficitNotice();
+                Helper.PressToContinue();
                 DebtManagement.ManageIncomeAndExpense();
             }
         }
@@ -215,14 +220,18 @@ namespace FinancialPrudence {
         // This method is called by FineTuneFPrudence()
         private static void UpdateStatementAndGoal(List<Statement> objList) {
             int count = 1;
+            Console.WriteLine();
             foreach (Statement objAndGoal in objList) {
-                Console.WriteLine($"{count}. {objAndGoal.GetName()}, {objAndGoal.GetDescription()}, {objAndGoal.GetAmount()}");
+                Console.WriteLine($"{count}. {objAndGoal.GetName()}, {objAndGoal.GetDescription()}, (-{objAndGoal.GetAmount()}-)");
                 count++;
             }
+            Information.SelectAnyInfo();
             // Insert try-catch statement below before submission
             int sN = int.Parse(Console.ReadLine());
             var obj1 = objList[sN - 1];
+            Console.WriteLine();
             Information.ReduceOrDeleteInfo();
+            Console.WriteLine();
             // Insert try-catch statement below before submission
             int selected = int.Parse(Console.ReadLine());
             Helper.DeleteOrUpdate(objList, obj1, selected);
@@ -232,20 +241,24 @@ namespace FinancialPrudence {
         private static void DeleteOrUpdate(List<Statement> object1, Statement obj, int selected) {
             if (selected == 1) {
                 // Delete the selected goal or statement
-                foreach (Statement object2 in object1) {
-                    if (object2 == obj) {
-                        object1.Remove(obj);
+                for (int i = 0; i < object1.Count; i++) {
+                    if (object1[i] == obj) {
+                        object1.RemoveAt(i);
+                        Information.RemoveObjectInfo(obj);
+                        Console.WriteLine();
+                        Information.PressToContinueInfo();
                     }
                 }
             } else if (selected == 2) {
                 // Make adjustment to the amount on the selected goal or statement
-                foreach (Statement object2 in object1) {
-                    if (object2 == obj) {
-                        float amtOld = obj.GetAmount();
-                        Console.Write($"Current amount is: {amtOld}. Enter new amount: ");
+                for (int i = 0; i < object1.Count; i++) {
+                    if (object1[i] == obj) {
+                        float amtOld = object1[i].GetAmount();
+                        // Console.Write($"Current amount is: {amtOld}. Enter new amount: ");
+                        Information.AdjustAmountInfo(amtOld);
                         float amtNew = float.Parse(Console.ReadLine());
-                        obj.SetAmount(amtNew);
-                        _savings.SetPoints(Savings.ComputePoints(amtNew));
+                        object1[i].SetAmount(amtNew);
+                        _savings.SetPoints(_savings.ComputePoints(amtNew));
                     }
                 }
             }

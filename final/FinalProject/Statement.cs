@@ -6,6 +6,7 @@ namespace FinancialPrudence {
         private string _description;
         private float _amount;
         private float _totalAmount;
+        private string _oldDate= "yyyy-MM-dd";
         private List<Statement> _objectList = new List<Statement>();
         // private Savings _savings = new Savings();
         // FilesHandler _filesHandler = new FilesHandler();
@@ -18,6 +19,12 @@ namespace FinancialPrudence {
         // {
         //     throw new NotImplementedException();
         // }
+        public void SetOldDate(string oldDate) {
+            _oldDate = oldDate;
+        }
+        public string GetOldDate() {
+            return _oldDate;
+        }
         public string GetName() {
             return _name;
         }
@@ -55,23 +62,33 @@ namespace FinancialPrudence {
             var className = GetType().Name;
             return className;
         }
+        public float GetMaxAmount() {
+            float surplus = Helper.GetSurplusOrDeficit(); // Returns difference between income and expenses
+            var maxAmountPerGoal = surplus/6; // Due to 6 savings predetermine goals
+            return maxAmountPerGoal;
+        }
+        public int ComputePoints(float userAmount) {
+            var maxAmount = GetMaxAmount();
+            var points = userAmount/maxAmount * 10; // 
+            return (int) Math.Floor(points);
+        }
         public void GetStatement() {
             
             bool quit = true;
             while (quit) {
                 // Display a message
                 Information.DisplayIncomeInfo();
-                Console.Write("Enter name of income, expenses or goal: ");
+                Console.Write("Enter name of statement: ");
                 string name = Console.ReadLine();
                 SetName(name);
-                Console.Write("Enter description of income, expenses or goal: ");
+                Console.Write("Enter description of statement: ");
                 string description = Console.ReadLine();
                 SetDescription(description);
-                Console.Write("Enter the amount of income, expenses or goal: ");
+                Console.Write("Enter the amount for statement: ");
                 float incomeEarned = float.Parse(Console.ReadLine());
                 // Convert annual income to monthly income
                 float income = Helper.GetMonthlyIncome(incomeEarned);
-                SetAmount(income);
+                SetStatementTotal(income);
 
                 // If the object refers to an instance of the Savings class
                 // compute and set points
