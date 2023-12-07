@@ -3,21 +3,22 @@ using System.Globalization;
 // This program aims to save automatically requiring user to only enter filename
 // at the beginning
 namespace FinancialPrudence {
-    public static class FilesHandler {
-        private static IncomeStatement _incomeStatement = new IncomeStatement(); 
-        private static ExpensesStatement _expenseStatement = new ExpensesStatement();
+    public class FilesHandler {
+        private Helper _helper = new Helper();
+        // private static IncomeStatement _incomeStatement = new IncomeStatement(); 
+        // private static ExpensesStatement _expenseStatement = new ExpensesStatement();
         // private static bool quit = true;
         // private static string _usersFile = @"Users.txt";
-        private static string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
-        private static string _filenameInUse;
-        private static Savings _savings = new Savings();
-        public static string GetFilenameInUse() {
-            return _filenameInUse;
+        private string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
+        private static string _fileInUse;
+        private Savings _savings = new Savings();
+        public static string GetFileInUse() {
+            return _fileInUse;
         }
-        public static void SetFilenameInUse(string filename) {
-            _filenameInUse = filename;
+        public void SetFileInUse(string fullPath) {
+            _fileInUse = fullPath;
         }
-        public static string GetFilePath() {
+        public string GetFilePath() {
             return _filesPath;
         }
         // public string GetAutoSave() {
@@ -65,15 +66,15 @@ namespace FinancialPrudence {
         //     // Note: GoTo FineTuneFPrudence()
         // }
         // Called at the beginning of the program to create a new file
-        public static void CreateNewFile() {
+        public void CreateNewFile() {
             Console.Write("Enter Filename: ");
             string filename = Console.ReadLine();
             var formattedFilename = FormatFileName(filename);
             var filenameFormat = formattedFilename.Contains(".Txt") ? $"{formattedFilename}" : $"{formattedFilename}" + ".txt";
             var filePath = GetFilePath();
             var fullPath = Path.Combine(filePath, filenameFormat); // filePath + filenameFormat;
-            SetFilenameInUse(fullPath);
-            Helper.GetTwoStatements();
+            SetFileInUse(fullPath);
+            _helper.GetTwoStatements();
             Helper.ToSavingsOrDebtManagement();
             // var template = UserFileTemplate(filenameFormat);
             // SaveUserFile(fullPath, template);
@@ -83,24 +84,25 @@ namespace FinancialPrudence {
         }
         // This method may not be necessary(replaced by Autosave)
         // Note: Necessary during saving of file
-        public static void OpenAFileForUse() {
+        public void OpenAFileForUse() {
             var path = GetFilePath();
             // If this directory is not empty
             if (!Directory.EnumerateFileSystemEntries(path).Any()) {
                 string[] files = Directory.GetFiles(path);
                 int count = 1;
                 foreach (string file in files) {
+                    // Note: Split the file and get the filename for display
                     Console.WriteLine($"{count}. {file}\n");
                     count++;
                 }
                 int number = int.Parse(Console.ReadLine());
                 string path1 = files[number];
                 // Call the method and pass the filename to save as
-                SetFilenameInUse(path1);
+                SetFileInUse(path1);
                 // Now that SetFilenameInUse is opened. I think user should do something
                 // like given the option to set goals or quit
                 TemplateToObject();
-                Helper.FineTuneFinancialPrudence();
+                _helper.FineTuneFinancialPrudence();
             } else {
                 CreateNewFile();
             }
@@ -152,9 +154,9 @@ namespace FinancialPrudence {
         // Method to automatically save objects after user list compiling
         // My Note: Write a subroutine to check that duplicates objects 
         // are not created during auto save
-        public static void AutoSave() { 
-            var file = GetFilenameInUse();
-            var motherList = ConcatenateLists();
+        public void AutoSave() { 
+            var file = GetFileInUse();
+            var motherList = Helper.GetAllObjectsList();
             using(StreamWriter outPut = new StreamWriter(file)){
                 var noDuplicate = RemoveDuplicates(motherList);
                 foreach (Statement obj in noDuplicate) {
@@ -172,39 +174,39 @@ namespace FinancialPrudence {
             return noDuplicate;
         }
         // Combine all lists into a mother list for filing
-        public static List<Statement> ConcatenateLists() {
-            var motherList = Helper.GetListOfObjects();
-            var incList = _incomeStatement.GetObjectList();
-            var expList = _expenseStatement.GetObjectList();
-            var saveList = _savings.GetObjectList();
-            motherList.AddRange(incList);
-            motherList.AddRange(expList);
-            motherList.AddRange(saveList);
-            return motherList;
-        }
+        // public static List<Statement> ConcatenateLists() {
+        //     var motherList = Helper.GetAllObjectsList();
+        //     var incList = Helper.GetIncomeList();
+        //     var expList = Helper.GetExpensesList();
+        //     var saveList = Helper.GetSavingsList();
+        //     motherList.AddRange(incList);
+        //     motherList.AddRange(expList);
+        //     motherList.AddRange(saveList);
+        //     return motherList;
+        // }
         // Note: Necessary during loading of file to memory
         // Convert file string to object properties
         public static void TemplateToObject() {
-            var file = GetFilenameInUse();
+            var file = GetFileInUse();
             string[] lines = File.ReadAllLines(file);
             foreach (string line in lines) {
                 var parts = line.Split(",");
                 var objectName = parts[0];
-                if (objectName.Contains("income")) {
+                if (objectName.Contains("IncomeStatement")) {
                     var itemName = parts[1];
                     var description = parts[2];
                     var amount = parts[3];
                     float amt = float.Parse(amount);
                     IncomeStatement income = new IncomeStatement(itemName, description, amt);
-                    var incomeList = income.GetObjectList();
+                    var incomeList = Helper.GetIncomeList();
                     incomeList.Add(income);
-                } else if (objectName.Contains("expenses")) {
+                } else if (objectName.Contains("ExpensesStatement")) {
                     var itemName = parts[1];
                     var description = parts[2];
                     var amount = parts[3];
                     float amt = float.Parse(amount);
                     ExpensesStatement expenses = new ExpensesStatement(itemName, description, amt);
-                    var incomeList = expenses.GetObjectList();
+                    var incomeList = Helper.GetExpensesList();
                     incomeList.Add(expenses);
                 } else {
                     var itemName = parts[1];
@@ -213,13 +215,13 @@ namespace FinancialPrudence {
                     float amt = float.Parse(amount);
                     // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
                     string oldDateString = parts[4];
-                    _savings.SetOldDate(oldDateString);
-                    var oldDate = _savings.GetOldDate();
+                    Savings.SetOldDate(oldDateString);
+                    var oldDate = Savings.GetOldDate();
                     // DateTime today = TimeManagement.GetToday();
                     // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
 
                     Savings save = new Savings(itemName, description, amt);
-                    var incomeList = save.GetObjectList();
+                    var incomeList = Helper.GetSavingsList();
                     incomeList.Add(save);
                 }
             }
@@ -242,13 +244,13 @@ namespace FinancialPrudence {
         //     }
         // }
         // Format filename to TitleCase to accept mix cases of characters
-        private static string FormatFileName (string str) {
+        private string FormatFileName (string str) {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToTitleCase(str);
             return titleCase;
         }
         // May be discarded
-        private static string FormatFileNameLower (string str) {
+        private string FormatFileNameLower (string str) {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToLower(str);
             return titleCase;

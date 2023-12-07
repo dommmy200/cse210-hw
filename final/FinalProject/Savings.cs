@@ -4,6 +4,7 @@ namespace FinancialPrudence {
     public class Savings : Statement {
         // private Helper _helper1 = new();
         // private TimeManagement _time = new();
+        // private FilesHandler _filesHandler = new();
         private int _points;
        
         private int _totalPoints = 60;
@@ -36,15 +37,11 @@ namespace FinancialPrudence {
         public void DisplayTemplates() {
             int count = 1;
             FilesHandler.TemplateToObject();
-            var goalList = GetObjectList();
+            var savingsList = Helper.GetSavingsList();
 
-            foreach (Statement child in goalList) {
-                var childType = child.GetType().Name;
-                if (childType.Contains("saving")) {
-    
-                    string template = $"{count}. {child.GetName()}, {child.GetDescription()}, {child.GetAmount()}, {child.GetMaxAmount()}, {TimeManagement.GetToday()}, {TimeManagement.GetTotalDays()}";
-                    Console.WriteLine(template);
-                }
+            for (int i = 0; i < savingsList.Count; i++) {
+                string template = $"{count}. {savingsList[i].GetName()}, {savingsList[i].GetDescription()}, {savingsList[i].GetAmount()}, {savingsList[i].GetMaxAmount()}, {TimeManagement.GetToday()}, {TimeManagement.GetTotalDays()}";
+                Console.WriteLine(template);
                 count++;
             }
         }

@@ -3,18 +3,44 @@ using System.Globalization;
 using System.IO.IsolatedStorage;
 
 namespace FinancialPrudence {
-    public static class Helper {
+    public class Helper {
         // private Information _info = new();
         private static Statement _incomeStatement = new IncomeStatement(); 
         private static Statement _expenseStatement = new ExpensesStatement();
-//         private FilesHandler _filesHandler = new FilesHandler();
-        private static Savings _savings = new Savings();
-//         private DebtManagement _debt = new DebtManagement(""); // Remove this string dummy later
-//         private List<Statement> _statementList = new List<Statement>();
-        // private string _name;
-        // private static bool quit = true;
-        private static List<Statement> _statementList = new List<Statement>();
+        private static List<Statement> _incomeList = new List<Statement>(); 
+        private static List<Statement> _expensesList = new List<Statement>();
+        private static List<Statement> _savingsList = new List<Statement>(); 
 
+
+        // private FilesHandler _filesHandler = new FilesHandler();
+        private static Savings _savings = new Savings();
+        private static DebtManagement _debt = new DebtManagement(); // Remove this string dummy later
+        // private List<Statement> _statementList = new List<Statement>();
+        // private string _name;
+        // private bool quit = true;
+        private static List<Statement> _allObjectsList = new List<Statement>();
+        // private List<Statement> _allObjectsListX;
+        public static List<Statement> GetAllObjectsList() {
+            return _allObjectsList;
+        }
+        public static List<Statement> GetIncomeList() {
+            return _incomeList;
+        }
+        public static List<Statement> GetExpensesList() {
+            return _expensesList;
+        }
+        public static List<Statement> GetSavingsList() {
+            return _savingsList;
+        }
+        public static void SetIncList(List<Statement> incObj) {
+            _incomeList = incObj;
+        }
+        public static void SetExpList(List<Statement> expObj) {
+            _expensesList = expObj;
+        }
+        public static void SetSavList(List<Statement> savObj) {
+            _savingsList = savObj;
+        }
         public static bool QuitOrContinue() {
             Information.QuitContinueInfo();
             // Insert try-catch statement below before submission
@@ -23,11 +49,19 @@ namespace FinancialPrudence {
                 return true;
             return false;
         }
+        public static void GetAndAddIncList() {
+            _incomeStatement.GetStatement();
+            _incomeList.Add(_incomeStatement);
+        }
+        public static void GetAndAddExpList() {
+            _expenseStatement.GetStatement();
+            _expensesList.Add(_expenseStatement);
+        }
 
         // public Helper(string name = "helper") {
         //     _name = name;
         // }
-        // public static void SetList(List<Statement> statementList) {
+        // public void SetList(List<Statement> statementList) {
         //     _statementList = statementList;
         // }
 
@@ -39,18 +73,18 @@ namespace FinancialPrudence {
             return prompt1;
         }
         // This is valid method
-        public static void GetTwoStatements() {
+        public void GetTwoStatements() {
             bool quit = true;
             while (quit) {
                 Information.DisplayIncomeExpensesInfo();
                 int x = int.Parse(Console.ReadLine());
                 // IncomeOrExpenses(x);
                 switch (x) {
-                    case 1:
-                    _incomeStatement.GetStatement();
+                    case 1: 
+                    GetAndAddIncList();
                     break;
                     case 2:
-                    _expenseStatement.GetStatement();
+                    GetAndAddExpList();
                     break;
                     case 3:
                     quit = false;
@@ -59,12 +93,12 @@ namespace FinancialPrudence {
             }
         }
         // This is not fully valid method
-        // private static void CallQuit() {
+        // private void CallQuit() {
         //     quit = false;
         // }
         // This is valid method(|)
         // Switch between income and expenses for user input statements
-        // public static void IncomeOrExpenses(int x) {
+        // public void IncomeOrExpenses(int x) {
         //     switch (x) {
         //         case 1:
         //         _incomeStatement.GetStatement();
@@ -100,42 +134,50 @@ namespace FinancialPrudence {
             return ConvertToMonthly(income, oneAndTwo);
         }
         // This is valid method(|)
-        public static List<Statement> GetListOfObjects() {
-            return _statementList;
-        }
+        // public List<Statement> GetListOfObjects() {
+        //     return _statementList;
+        // }
         // This is valid method(|)
         public static float GetIncomeTotal() {
-            List<Statement> listOfStatement = GetListOfObjects();
-            SetSurplusAndDeficitTotal(listOfStatement);
-            float expTotal = _expenseStatement.GetTotal();
+            var allObj = GetAllObjectsList();
+            var incList = GetIncomeList();
+            for (int i = 0; i < allObj.Count; i++) {
+                if (allObj[i].GetType().Name == "IncomeStatement") {
+                    incList.Add(allObj[i]);
+                }
+            }
+            SetIncomeOrExpensesTotal(incList);
+            float expTotal = _incomeStatement.GetTotal();
             return expTotal;
         }
 
         // This is valid method(|)
-        public static float GetExpenseTotal() {
-            List<Statement> listOfStatement = GetListOfObjects();
-            SetSurplusAndDeficitTotal(listOfStatement);
-            float incTotal = _incomeStatement.GetTotal();
-            return incTotal;
+        public static float GetExpensesTotal() {
+            var allObj = GetAllObjectsList();
+            var incList = GetIncomeList();
+            for (int i = 0; i < allObj.Count; i++) {
+                if (allObj[i].GetType().Name == "ExpensesStatement") {
+                    incList.Add(allObj[i]);
+                }
+            }
+            SetIncomeOrExpensesTotal(incList);
+            float expTotal = _expenseStatement.GetTotal();
+            return expTotal;
         }
        // This is valid method(|)
         // Compute total for income and expenses
-        public static void SetSurplusAndDeficitTotal(List<Statement> statements) {
-            foreach (Statement statement in statements) {
-                string objectName = statement.GetType().Name;
+        public static void SetIncomeOrExpensesTotal(List<Statement> objectList) {
+            foreach (Statement statement in objectList) {
                 float amt = statement.GetAmount();
-                if (objectName.Contains("incomeStatement")) {
-                    statement.SetStatementTotal(amt);
-                } else if (objectName.Contains("expensesStatement")) {
-                    statement.SetStatementTotal(amt);                    
-                }
+                statement.SetStatementTotal(amt);                    
             }
         }
+        
         // This is valid method(|)
         // Compute surplus or deficit amount
         public static float GetSurplusOrDeficit() {
-            float totalIncome = _incomeStatement.GetTotal();
-            float totalExpenses = _expenseStatement.GetTotal();
+            float totalIncome = GetIncomeTotal();
+            float totalExpenses = GetExpensesTotal();
             return totalIncome - totalExpenses;
         }
         // This is valid method(|)
@@ -147,7 +189,7 @@ namespace FinancialPrudence {
         // Note: The method below has been transferred to Program.cs for now 
 
         // The first method to call for selection of the prudence exercise
-        // public static void StartPrudenceExercise() {
+        // public void StartPrudenceExercise() {
         //     string prompt = Console.ReadLine();
         //     int prompt1 = int.Parse(prompt);
         //     switch (prompt1) {
@@ -185,15 +227,15 @@ namespace FinancialPrudence {
                 if (incTotal.Equals(0f)) {
                     Console.WriteLine();
                     Console.Write(@"You have not made Income statements. ");
-                    Helper.PressToContinue();
+                    PressToContinue();
                      _incomeStatement.GetStatement();
                 } else if (expTotal.Equals(0f)) {
                     Console.WriteLine();
                     Console.Write(@"You have not made Expenses statements. ");
-                    Helper.PressToContinue();
+                    PressToContinue();
                     _expenseStatement.GetStatement();
                 } else {
-                    quit = Helper.QuitOrContinue();
+                    quit = QuitOrContinue();
                 }
                 // Helper.QuitOrContinue();
             }
@@ -201,12 +243,12 @@ namespace FinancialPrudence {
             float difference = GetSurplusOrDeficit();
             if (IsSurplus(difference)) {
                 Information.SavingsNotice();
-                Helper.PressToContinue();
+                PressToContinue();
                 _savings.GetStatement();
             } else {
                 Information.DeficitNotice();
-                Helper.PressToContinue();
-                DebtManagement.ManageIncomeAndExpense();
+                PressToContinue();
+                _debt.ManageIncomeAndExpense();
             }
         }
         // May be commented out and replaced(X)
@@ -234,7 +276,7 @@ namespace FinancialPrudence {
             Console.WriteLine();
             // Insert try-catch statement below before submission
             int selected = int.Parse(Console.ReadLine());
-            Helper.DeleteOrUpdate(objList, obj1, selected);
+            DeleteOrUpdate(objList, obj1, selected);
         }
         // This is valid method(|)
         // This method is called by UpdateStatementAndGoal()
@@ -266,11 +308,11 @@ namespace FinancialPrudence {
         // This is valid method(|)
         // Call this method when saved goals needs fine tuning ie
         // adjusting the goals' amount
-        public static void FineTuneFinancialPrudence() {
+        public void FineTuneFinancialPrudence() {
             bool quit = true;
             while (quit) {
-                List<Statement> incList = _incomeStatement.GetObjectList();
-                List<Statement> expList = _expenseStatement.GetObjectList();
+                List<Statement> incList = GetIncomeList();
+                List<Statement> expList = GetExpensesList();
                 // Treats the case where income and expenses lists are empty
                 if (incList.Count != 0 && expList.Count != 0) {
                     var difference =  GetSurplusOrDeficit();
@@ -279,7 +321,7 @@ namespace FinancialPrudence {
                     if (difference <  0){
                         GetTwoStatements();
                     } else {
-                        var list = _savings.GetObjectList(); //Else, set goal from surplus
+                        var list = GetSavingsList(); //Else, set goal from surplus
                         if (list.Count != 0) {
                             // Adjust the goals
                             UpdateStatementAndGoal(list);
@@ -294,9 +336,9 @@ namespace FinancialPrudence {
                     // Treats the case where expenses list is empty
                     _expenseStatement.GetStatement();
                 }
-                quit = Helper.QuitOrContinue();
+                quit = QuitOrContinue();
             }
-
+        
         }
     }
 }

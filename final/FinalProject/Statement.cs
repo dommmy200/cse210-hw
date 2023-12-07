@@ -6,8 +6,9 @@ namespace FinancialPrudence {
         private string _description;
         private float _amount;
         private float _totalAmount;
-        private string _oldDate= "yyyy-MM-dd";
+        private static string _oldDate= "yyyy-MM-dd";
         private List<Statement> _objectList = new List<Statement>();
+        // private Helper _helper = new Helper();
         // private Savings _savings = new Savings();
         // FilesHandler _filesHandler = new FilesHandler();
         public Statement(string name = "name", string description = "description", float amount = 0) {
@@ -19,10 +20,10 @@ namespace FinancialPrudence {
         // {
         //     throw new NotImplementedException();
         // }
-        public void SetOldDate(string oldDate) {
+        public static void SetOldDate(string oldDate) {
             _oldDate = oldDate;
         }
-        public string GetOldDate() {
+        public static string GetOldDate() {
             return _oldDate;
         }
         public string GetName() {
@@ -88,6 +89,7 @@ namespace FinancialPrudence {
                 float incomeEarned = float.Parse(Console.ReadLine());
                 // Convert annual income to monthly income
                 float income = Helper.GetMonthlyIncome(incomeEarned);
+                SetAmount(income);
                 SetStatementTotal(income);
 
                 // If the object refers to an instance of the Savings class
@@ -97,8 +99,8 @@ namespace FinancialPrudence {
                 // }
 
                 // Add this object to its list
-                var objList = GetObjectList();
-                objList.Add(this);                
+                // var objList = GetObjectList();
+                // objList.Add(this);                
                 // User quits (or continue) the loop
                 quit = Helper.QuitOrContinue();
             }
