@@ -2,14 +2,8 @@ using System;
 
 namespace FinancialPrudence {
     public class DebtManagement {
-        // private string _name;
-        // private Information _info = new Information();
         private Helper _helper = new Helper();
         private Statement _statement1 = new IncomeStatement();
-        // Debt management is done here by amount reduction or deletion
-        // public DebtManagement(string name) {
-        //     _name = name;
-        // }
         private void ReduceDebt() {
             List<Statement> expenses = _helper.GetExpensesList();
             for (int i = 0; i < expenses.Count; i++) {

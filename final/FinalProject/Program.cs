@@ -9,7 +9,7 @@ namespace FinancialPrudence {
             Helper helper = new Helper();
             FilesHandler filesHandler = new FilesHandler();
             // Play animation and generate the menu for user selection
-            // Animation.AnimateShapes();
+            Animation.AnimateShapes();
             Information.DisplayInfo();
             Helper.PressToContinue();
             bool Quit = true;

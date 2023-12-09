@@ -22,50 +22,6 @@ namespace FinancialPrudence {
         public string GetFilePath() {
             return _filesPath;
         }
-        // public string GetAutoSave() {
-        //     return _autoSave;
-        // }
-        // public void SetAutoSave(string filename) {
-        //     _autoSave = filename;
-        // }
-        // public static void SaveStatementAndGoal(List<Statement> statements) {
-        //     var userFile = GetUsersFile();
-        //     using (StreamWriter outPut = new StreamWriter(userFile)) {
-        //         foreach (Statement objects in statements) {
-        //             var helperList = Helper.GetListOfObjects();
-        //             helperList.Add(objects);
-        //         }
-        //     }
-        // }
-        // Called in OpenExistingFile() to supply stored filenames
-        // private static string[] GetFileNames () {
-        //     string[] xyz = null;
-        //     var userFile = GetUsersFile();
-        //     if (userFile != null) {
-        //         string[] lines = File.ReadAllLines(userFile);
-        //             return lines;
-        //     } else {
-        //         Console.WriteLine("\nThis file is empty.\n");
-        //         return xyz;
-        //     }
-        // }
-        // Called at the beginning of the program to open a file
-        // public static void OpenExistingFile() {
-        //     var lines = GetFileNames();
-        //     for (int i = 0; i < lines.Length; i++) {
-        //         string line = lines[i];
-        //         string filename = Path.GetFileNameWithoutExtension(line);
-        //         Console.WriteLine($"{i + 1}. {filename}");
-        //     }
-        //     Console.WriteLine();
-        //     int selected = int.Parse(Console.ReadLine());
-        //     var selectedFile = lines[selected - 1];
-        //     SetFilenameInUse(selectedFile);
-        //     AutoSave();
-        //     // After file is opened and stored globally, what next?
-        //     // Return to file when ready to save from list
-        //     // Note: GoTo FineTuneFPrudence()
-        // }
         // Called at the beginning of the program to create a new file
         public void CreateNewFile() {
             Console.Write("Enter Filename: ");
@@ -73,20 +29,12 @@ namespace FinancialPrudence {
             var formattedFilename = FormatFileName(filename);
             var filenameFormat = formattedFilename.Contains(".Txt") ? $"{formattedFilename}" : $"{formattedFilename}" + ".txt";
             var filePath = GetFilePath();
-            var fullPath = Path.Combine(filePath, filenameFormat); // filePath + filenameFormat;
+            var fullPath = Path.Combine(filePath, filenameFormat); 
             SetFileInUse(fullPath);
             using (FileStream fs = File.Create(fullPath))
             Console.WriteLine();
             Information.SuccessfullyCreated();
-            // Information.PressToContinueInfo();
             Helper.PressToContinue();
-            // _helper.GetTwoStatements();
-            // Helper.ToSavingsOrDebtManagement();
-            // var template = UserFileTemplate(filenameFormat);
-            // SaveUserFile(fullPath, template);
-            // AutoSave();
-            // After file is created and stored globally, what next?
-            // Return to file when ready to save
         }
         // This method may not be necessary(replaced by Autosave)
         // Note: Necessary during saving of file
@@ -120,29 +68,6 @@ namespace FinancialPrudence {
                 Helper.PressToContinue();
             }
         }
-        // public static void SaveToFile() {
-        //     var path = GetFilePath();
-        //     // If this directory is not empty
-        //     if (!Directory.EnumerateFileSystemEntries(path).Any()) {
-        //         string[] files = Directory.GetFiles(path);
-        //         int count = 1;
-        //         foreach (string file in files) {
-        //             Console.WriteLine($"{count}. {file}\n");
-        //             count++;
-        //         }
-        //         int number = int.Parse(Console.ReadLine());
-        //         string path1 = files[number];
-        //         // Call the method and pass the filename to save as
-        //         FileToStreamWrite(path1);
-        //     } else {
-        //         // Get user to input filename
-        //         Console.Write("Enter filename: ");
-        //         string filename = Console.ReadLine();
-        //         string formattedFilename = FormatFileName(filename);
-        //         var path1 = formattedFilename.Contains(".txt") ? $"{GetFilePath()}{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
-        //         FileToStreamWrite(path1);
-        //     }
-        // }
         // StreamWriter handles file and saving templates
         // required in AutoSave()
         public static void SaveUserFile(string file, string template) {
@@ -154,16 +79,6 @@ namespace FinancialPrudence {
             var template = $"{filename}";
             return template;
         }
-        // Note: May not be used eventually
-        // public static void StringTemplateToFile(string template, string file) {
-        // using(StreamWriter outPut = new StreamWriter(file)) {
-        //         // var statementAndGoalList = Helper.GetListOfObjects();
-        //         foreach (Statement statementGoal in template) {
-        //             var templates = statementGoal.SaveGoal();
-        //             outPut.WriteLine(templates);
-        //         }
-        //     }
-        // }
         // Method to automatically save objects before quitting
         public void AutoSave() { 
             var file = GetFileInUse();
@@ -230,13 +145,8 @@ namespace FinancialPrudence {
                             var description = parts[2];
                             var amount = parts[3];
                             float amt = float.Parse(amount);
-                            // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
                             string oldDateString = parts[4];
                             Savings.SetOldDate(oldDateString);
-                            // var oldDate = Savings.GetOldDate();
-                            // DateTime today = TimeManagement.GetToday();
-                            // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
-
                             Savings save = new Savings(itemName, description, amt);
                             var savingsList = _helper.GetSavingsList();
                             savingsList.Add(save);
@@ -245,7 +155,7 @@ namespace FinancialPrudence {
                 } else {
                     Console.Clear();
                     Console.WriteLine("This file is empty!");
-                    Console.ReadKey();
+                    Helper.PressToContinue();
                 }
         
             } catch (ArgumentNullException ex) {
@@ -256,24 +166,6 @@ namespace FinancialPrudence {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
-        //     // Possibly calling the ConcatenateLists() method here
-        // } 
-        // public static void OpenExistingFile() {
-        //     // string[] xyz = null;
-        //     var userFile = GetUsersFile();
-        //     if (userFile != null) {
-        //         string[] lines = File.ReadAllLines(userFile);
-        //     } else {
-        //         Console.WriteLine("\nThis file is empty.\n");
-        //         Console.Write("Enter Filename: ");
-        //         string filename = Console.ReadLine();
-        //         var formattedFilename = FormatFileName(filename);
-        //         var filenameFormat = formattedFilename.Contains(".txt") ? $"{GetFilePath()}{formattedFilename}" : $"{GetFilePath()}{formattedFilename}" + ".txt";
-        //         var filePath = GetFilePath();
-        //         var fullPath = filePath + filenameFormat;
-        //         SetFilenameInUse(fullPath);
-        //     }
-        // }
         // Format filename to TitleCase to accept mix cases of characters
         private string FormatFileName (string str) {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
@@ -309,7 +201,6 @@ namespace FinancialPrudence {
                 }
             }
         }
-        // This is valid method(|)
         // Call this method when saved goals needs fine tuning ie
         // adjusting the goals' amount
         public void FineTuneFinancialPrudence() {
@@ -327,7 +218,7 @@ namespace FinancialPrudence {
                     if (difference <  0 || 1 == x){
                         _helper.GetTwoStatements();
                     } else {
-                        var list = _helper.GetSavingsList(); //Else, set goal from surplus
+                        var list = _helper.GetSavingsList(); 
                         if (list.Count != 0) {
                             // Adjust the goals
                             _helper.UpdateStatementAndGoal(list);
@@ -362,8 +253,6 @@ namespace FinancialPrudence {
             bool quit = true;
             // Check if income and/or expenses statements has zero total
             while (quit) {
-                // SetIncomeTotalNew();
-                // SetExpensesTotalNew();
                 float incTotal = _incomeStatement.GetTotal();
                 float expTotal = _expenseStatement.GetTotal();
                 if (incTotal.Equals(0f)) {
@@ -371,21 +260,20 @@ namespace FinancialPrudence {
                     Information.NoIncStatementMade();
                     Helper.PressToContinue();
                     _incomeStatement.GetStatement();
-                    //SaveToObjectList(_incomeStatement);
                     var iList = _helper.GetIncomeList();
                     iList.Add(_incomeStatement);
+                    _helper.SetIncList(iList);
                 } else if (expTotal.Equals(0f)) {
                     Console.WriteLine();
                     Information.NoExpStatementMade();
                     Helper.PressToContinue();
                     _expenseStatement.GetStatement();
-                    //SaveToObjectList(_expenseStatement);
                     var iList = _helper.GetExpensesList();
                     iList.Add(_expenseStatement);
+                    _helper.SetExpList(iList);
                 } else {
                     quit = false;
                 }
-                // Helper.QuitOrContinue();
             }
             // The difference between income and expenses is computed here
             float difference = _incomeStatement.GetTotal() - _expenseStatement.GetTotal();
@@ -396,6 +284,7 @@ namespace FinancialPrudence {
                 //SaveToObjectList(_savings);
                 var iList = _helper.GetSavingsList();
                 iList.Add(_savings);
+                _helper.SetSavList(iList);
                 Information.SurplusMadeInfo();
                 Helper.PressToContinue();
             } else {
@@ -404,6 +293,5 @@ namespace FinancialPrudence {
                 debt.ManageIncomeAndExpense();
             }
         }
-        
     }
 }

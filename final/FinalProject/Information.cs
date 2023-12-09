@@ -3,18 +3,14 @@ using System;
 namespace FinancialPrudence {
 
     public class Information {
-        // private string _name;
-
-        // public Information(string name = "User Name") {
-        //     _name = name;
-        // }
         private static string _mainInfo = $@"
 
-        Welcome to Financial Prudence where you
-        get the best guide on how to set your
-        financial goals and keep track of them 
-        to help you enjoy all the benefits that 
-        sprout out of being financially prudent. ";
+                            Welcome to Financial Prudence where you
+                            get the best guide on how to set your
+                            financial goals and keep track of them 
+                            to help you enjoy all the benefits that 
+                            sprout out of being financially prudent. 
+                            ";
         private static string _quitInfo = $@"
 
         Please, select 1 or 2 below:
@@ -46,19 +42,19 @@ namespace FinancialPrudence {
         ";
         private static string _promptInfo = $@"
 
-            Please, select 1 to 6 below:
-        ======================================
-        1. Create a new file
-        2. Select a file
-        3. Adjust savings goals
-        4. Update selected file
-        5. Display points from savings
-        6. Quit program
+    Please, select 1 to 6 below:
+======================================
+1. Create a new file
+2. Select a file
+3. Adjust savings goals
+4. Update selected file
+5. Display points from savings
+6. Quit program
         ";
         private static string _incomeInfo = $@"
 
-        Please, input statement name, description, 
-        and amount.
+Please, input statement name, description, 
+and amount.
         ";
         private static string _savingNotice = $@"You have a surplus and are about to make goals statement.";
         private static string _noExpStatement = $@"Please, make expenses statements.";
@@ -74,26 +70,26 @@ namespace FinancialPrudence {
 
         private static string _selectAnyInfo = $@"
 
-        Please, select any savings above to adjust  ";
+Please, select any savings above to adjust  ";
         private static string _reduceIncreaseInfo = $@"
 
-            Please, make a choice below:
-        ===================================
-        1. Increase Income
-        2. Reduce Expenses
-        3. Quit
+    Please, make a choice below:
+===================================
+1. Increase Income
+2. Reduce Expenses
+3. Quit
         ";
         private static string _statementInfo = $@"
 
-            Please, make a choice below:
-        ===================================
-        1. Make Income statement
-        2. Make Expenses statement
-        3. Quit
+    Please, make a choice below:
+===================================
+1. Make Income statement
+2. Make Expenses statement
+3. Quit
         ";
         private static string _pressToContinueInfo = $@"
 
-        Press any key to continue...";
+Press any key to continue...";
         public static int ReduceOrIncreaseInfo() {
             Console.WriteLine(_reduceIncreaseInfo);
             int select = int.Parse(Console.ReadLine());

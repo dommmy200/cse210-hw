@@ -2,9 +2,6 @@ using System;
 using System.IO;
 namespace FinancialPrudence {
     public static class Animation {
-        // Still under construction
-        private static List<string[]> _listOfList = new List<string[]>(5);
-        // Testing purpose
         private static string _welcomeMessage = 
             $@" 
             /**   *  /**  *****  /**  *****   ******  **********   *****     
@@ -45,10 +42,6 @@ namespace FinancialPrudence {
             "DarkBlue","DarkGray", "DarkCyan", 
             "DarkYellow"
         };
-        // public static List<string[]> GetAnimation() {
-        //     _listOfList.Add(_welcomeMessage);
-        //     return _listOfList;
-        // }
         private static string[] GetColors() {
             return _colorString;
         }
