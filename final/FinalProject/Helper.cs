@@ -91,18 +91,28 @@ namespace FinancialPrudence {
                 switch (x) {
                     case 1: 
                     _incomeStatement.GetStatement();
-                    var iList = GetIncomeList();
-                    iList.Add(_incomeStatement);
+                    SaveToObjectList(_incomeStatement);
                     break;
                     case 2:
                     _expenseStatement.GetStatement();
-                    var eList = GetExpensesList();
-                    eList.Add(_expenseStatement);
+                    SaveToObjectList(_expenseStatement);
                     break;
                     case 3:
                     quit = false;
                     break;
                 }
+            }
+        }
+        public void SaveToObjectList(Statement instance) {
+            if (instance.GetType().Name == "IncomeStatement") {
+                var iList = GetIncomeList();
+                iList.Add(instance);
+            } else if (instance.GetType().Name == "ExpensesStatement") {
+                var iList = GetExpensesList();
+                iList.Add(instance);
+            } else {
+                var iList = GetSavingsList();
+                iList.Add(instance);
             }
         }
         // This is not fully valid method
@@ -182,7 +192,7 @@ namespace FinancialPrudence {
             return totalIncome - totalExpenses;
         }
         // This is valid method(|)
-        private static bool IsSurplus(float amount) {
+        public static bool IsSurplus(float amount) {
             if (amount > 0)
                 return true;
             return false;
@@ -219,41 +229,50 @@ namespace FinancialPrudence {
         //     }
         // }
         // Note: This may not be valid method(X). Please, crosscheck!
-        public void ToSavingsOrDebtManagement() {
-            SetIncomeTotalNew();
-            SetExpensesTotalNew();
-            float incTotal = _incomeStatement.GetTotal();
-            float expTotal = _expenseStatement.GetTotal();
-            bool quit = true;
-            // Check if income and/or expenses statements has zero total
-            while (quit) {
-                if (incTotal.Equals(0f)) {
-                    Console.WriteLine();
-                    Console.Write(@"You have not made Income statements. ");
-                    PressToContinue();
-                     _incomeStatement.GetStatement();
-                } else if (expTotal.Equals(0f)) {
-                    Console.WriteLine();
-                    Console.Write(@"You have not made Expenses statements. ");
-                    PressToContinue();
-                    _expenseStatement.GetStatement();
-                } else {
-                    quit = QuitOrContinue();
-                }
-                // Helper.QuitOrContinue();
-            }
-            // The difference between income and expenses is computed here
-            float difference = GetSurplusOrDeficit();
-            if (IsSurplus(difference)) {
-                Information.SavingsNotice();
-                PressToContinue();
-                _savings.GetStatement();
-            } else {
-                Information.DeficitNotice();
-                PressToContinue();
-                _debt.ManageIncomeAndExpense();
-            }
-        }
+        // public void ToSavingsOrDebtManagement() {
+        //     bool quit = true;
+        //     // Check if income and/or expenses statements has zero total
+        //     while (quit) {
+        //         // SetIncomeTotalNew();
+        //         // SetExpensesTotalNew();
+        //         float incTotal = _incomeStatement.GetTotal();
+        //         float expTotal = _expenseStatement.GetTotal();
+        //         if (incTotal.Equals(0f)) {
+        //             Console.WriteLine();
+        //             Information.NoIncStatementMade();
+        //             PressToContinue();
+        //             _incomeStatement.GetStatement();
+        //             //SaveToObjectList(_incomeStatement);
+        //             var iList = GetIncomeList();
+        //             iList.Add(_incomeStatement);
+        //         } else if (expTotal.Equals(0f)) {
+        //             Console.WriteLine();
+        //             Information.NoExpStatementMade();
+        //             PressToContinue();
+        //             _expenseStatement.GetStatement();
+        //             //SaveToObjectList(_expenseStatement);
+        //             var iList = GetExpensesList();
+        //             iList.Add(_expenseStatement);
+        //         } else {
+        //             quit = false;
+        //         }
+        //         // Helper.QuitOrContinue();
+        //     }
+        //     // The difference between income and expenses is computed here
+        //     float difference = _incomeStatement.GetTotal() - _expenseStatement.GetTotal();
+        //     if (IsSurplus(difference)) {
+        //         Information.SavingsNotice();
+        //         PressToContinue();
+        //         _savings.GetStatement();
+        //         //SaveToObjectList(_savings);
+        //         var iList = GetSavingsList();
+        //         iList.Add(_savings);
+        //     } else {
+        //         Information.DeficitNotice();
+        //         PressToContinue();
+        //         _debt.ManageIncomeAndExpense();
+        //     }
+        // }
         // May be commented out and replaced(X)
         public static void ReduceAmount(List<Statement> state, int x) {
             Console.WriteLine($"{state[x-1].GetAmount()}");
@@ -261,7 +280,6 @@ namespace FinancialPrudence {
             float amt = float.Parse(Console.ReadLine());
             state[x-1].SetAmount(amt);
         }
-        // This is valid method(|)
         // This method is called by FineTuneFPrudence()
         public void UpdateStatementAndGoal(List<Statement> objList) {
             int count = 1;
@@ -281,7 +299,6 @@ namespace FinancialPrudence {
             int selected = int.Parse(Console.ReadLine());
             DeleteOrUpdate(objList, obj1, selected);
         }
-        // This is valid method(|)
         // This method is called by UpdateStatementAndGoal()
         private static void DeleteOrUpdate(List<Statement> object1, Statement obj, int selected) {
             if (selected == 1) {

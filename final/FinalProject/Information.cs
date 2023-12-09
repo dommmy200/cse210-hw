@@ -64,11 +64,13 @@ private static string _savingNotice = $@"You have a surplus and are about to mak
 private static string _noExpStatement = $@"Please, make expenses statements.";
 private static string _noIncStatement = $@"Please, make income statements.";
 private static string _savingsStatement = $@"You are about to make savings statements.";
+private static string _surplusMade = $"You have just made a savings statement.\nYou can make adjustments in the main menu.";
 private static string _successfullyCreatedNotice = $"You have successfully created a new file.\nYou may now quit to select it.";
 private static string _successfullyOpenedNotice = $"You have successfully opened a file.\nYou may now quit to quit to adjust it.";
-private static string _NoFileOpenedNotice = $"You have no file opened.\nSelect or create a new file.";
-
+private static string _noFileOpenedNotice = $"You have no file opened.\nSelect or create a new file.";
+private static string _aboutToAnalyze = $"You are about to analyze your financial profile.";
 private static string _deficitNotice = $@"Your expenses are more than income. Please, consider adjusting.";
+private static string _oneZero = $@"Enter 1 to add more statements or any other number not to";
 
         private static string _selectAnyInfo = $@"
 
@@ -105,11 +107,20 @@ Press any key to continue...";
         public static void ReduceOrDeleteInfo() {
             Console.WriteLine(_deleteInfo);
         }
+        public static void SurplusMadeInfo() {
+            Console.WriteLine(_surplusMade);
+        }
         public static void NoIncStatementMade() {
             Console.WriteLine(_noIncStatement);
         }
         public static void NoExpStatementMade() {
             Console.WriteLine(_noExpStatement);
+        }
+        public static void AboutToAnalyze() {
+            Console.WriteLine(_aboutToAnalyze);
+        }
+        public static void OneOrZero() {
+            Console.WriteLine(_oneZero);
         }
         public static void SavingsStatementInfo() {
             Console.WriteLine(_savingsStatement);
@@ -118,7 +129,7 @@ Press any key to continue...";
             Console.WriteLine(_successfullyCreatedNotice);
         }
         public static void NoFileOpened() {
-            Console.WriteLine(_NoFileOpenedNotice);
+            Console.WriteLine(_noFileOpenedNotice);
         }
         public static void SuccessfullyOpened() {
             Console.WriteLine(_successfullyOpenedNotice);

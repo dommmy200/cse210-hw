@@ -5,7 +5,7 @@ namespace FinancialPrudence {
         private string _name;
         private string _description;
         private float _amount;
-        private float _totalAmount;
+        private float _totalAmount = 0;
         private static string _oldDate= "yyyy-MM-dd";
         private List<Statement> _objectList = new List<Statement>();
         // private Helper _helper = new Helper();

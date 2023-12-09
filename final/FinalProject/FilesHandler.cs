@@ -5,6 +5,7 @@ using System.Globalization;
 namespace FinancialPrudence {
     public class FilesHandler {
         private Helper _helper = new Helper();
+        DebtManagement debt = new DebtManagement();
         private IncomeStatement _incomeStatement = new IncomeStatement(); 
         private ExpensesStatement _expenseStatement = new ExpensesStatement();
         // private static bool quit = true;
@@ -95,9 +96,7 @@ namespace FinancialPrudence {
             string[] files = Directory.GetFiles(path);
 
             if (files.Length > 0)
-            //if (!Directory.EnumerateFileSystemEntries(path).Any()) 
                 {
-                // string[] files = Directory.GetFiles(path);
                 int count = 1;
                 foreach (string file in files) {
                     // Note: Split the file and get the filename for display
@@ -111,16 +110,14 @@ namespace FinancialPrudence {
                 SetFileInUse(path1);
                 Console.Clear();
                 Information.SuccessfullyOpened();
-                // Now that SetFilenameInUse is opened. I think user should do something
-                // like given the option to set goals or quit
-
-
-            //     TemplateToObject();
-            //     _helper.FineTuneFinancialPrudence();
+                Console.WriteLine();
+                Information.AboutToAnalyze();
+                Information.PressToContinueInfo();
+                Console.Clear();
+                
             } else {
                 Information.NoFileOpened();
                 Helper.PressToContinue();
-                // CreateNewFile();
             }
         }
         // public static void SaveToFile() {
@@ -203,49 +200,60 @@ namespace FinancialPrudence {
         // Convert file string to object properties
         public void TemplateToObject() {
             var file = GetFileInUse();
-            FileInfo fileInfo = new FileInfo(file);
-            // Check if the file exists and is not empty
-            if (fileInfo.Exists && fileInfo.Length > 0) { 
-                string[] lines = File.ReadAllLines(file);
-                foreach (string line in lines) {
-                    var parts = line.Split(",");
-                    var objectName = parts[0];
-                    if (objectName.Contains("IncomeStatement")) {
-                        var itemName = parts[1];
-                        var description = parts[2];
-                        var amount = parts[3];
-                        float amt = float.Parse(amount);
-                        IncomeStatement income = new IncomeStatement(itemName, description, amt);
-                        var incomeList = _helper.GetIncomeList();
-                        incomeList.Add(income);
-                    } else if (objectName.Contains("ExpensesStatement")) {
-                        var itemName = parts[1];
-                        var description = parts[2];
-                        var amount = parts[3];
-                        float amt = float.Parse(amount);
-                        ExpensesStatement expenses = new ExpensesStatement(itemName, description, amt);
-                        var incomeList = _helper.GetExpensesList();
-                        incomeList.Add(expenses);
-                    } else {
-                        var itemName = parts[1];
-                        var description = parts[2];
-                        var amount = parts[3];
-                        float amt = float.Parse(amount);
-                        // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
-                        string oldDateString = parts[4];
-                        Savings.SetOldDate(oldDateString);
-                        // var oldDate = Savings.GetOldDate();
-                        // DateTime today = TimeManagement.GetToday();
-                        // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
+            try {
+                FileInfo fileInfo = new FileInfo(file);
+            
+                // Check if the file exists and is not empty
+                if (fileInfo.Exists && fileInfo.Length > 0) { 
+                    string[] lines = File.ReadAllLines(file);
+                    foreach (string line in lines) {
+                        var parts = line.Split(",");
+                        var objectName = parts[0];
+                        if (objectName.Contains("IncomeStatement")) {
+                            var itemName = parts[1];
+                            var description = parts[2];
+                            var amount = parts[3];
+                            float amt = float.Parse(amount);
+                            IncomeStatement income = new IncomeStatement(itemName, description, amt);
+                            var incomeList = _helper.GetIncomeList();
+                            incomeList.Add(income);
+                        } else if (objectName.Contains("ExpensesStatement")) {
+                            var itemName = parts[1];
+                            var description = parts[2];
+                            var amount = parts[3];
+                            float amt = float.Parse(amount);
+                            ExpensesStatement expenses = new ExpensesStatement(itemName, description, amt);
+                            var expenseList = _helper.GetExpensesList();
+                            expenseList.Add(expenses);
+                        } else {
+                            var itemName = parts[1];
+                            var description = parts[2];
+                            var amount = parts[3];
+                            float amt = float.Parse(amount);
+                            // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
+                            string oldDateString = parts[4];
+                            Savings.SetOldDate(oldDateString);
+                            // var oldDate = Savings.GetOldDate();
+                            // DateTime today = TimeManagement.GetToday();
+                            // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
 
-                        Savings save = new Savings(itemName, description, amt);
-                        var incomeList = _helper.GetSavingsList();
-                        incomeList.Add(save);
+                            Savings save = new Savings(itemName, description, amt);
+                            var savingsList = _helper.GetSavingsList();
+                            savingsList.Add(save);
+                        }
                     }
+                } else {
+                    Console.Clear();
+                    Console.WriteLine("This file is empty!");
+                    Console.ReadKey();
                 }
-            } else {
-                Console.Clear();
-                Console.WriteLine("This file is empty!");
+        
+            } catch (ArgumentNullException ex) {
+                // Handle the exception
+                Console.WriteLine($"ArgumentNullException caught: {ex.Message}");
+            } catch (Exception ex) {
+                // Handle other exceptions, if needed
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
         //     // Possibly calling the ConcatenateLists() method here
@@ -314,7 +322,9 @@ namespace FinancialPrudence {
                     var difference =  _helper.GetSurplusOrDeficit();
                     // If true, manage the deficit by making more income
                     // or reducing expenses
-                    if (difference <  0){
+                    Information.OneOrZero();
+                    int x = int.Parse(Console.ReadLine());
+                    if (difference <  0 || 1 == x){
                         _helper.GetTwoStatements();
                     } else {
                         var list = _helper.GetSavingsList(); //Else, set goal from surplus
@@ -348,5 +358,52 @@ namespace FinancialPrudence {
             }
         
         }
+        public void ToSavingsOrDebtManagement() {
+            bool quit = true;
+            // Check if income and/or expenses statements has zero total
+            while (quit) {
+                // SetIncomeTotalNew();
+                // SetExpensesTotalNew();
+                float incTotal = _incomeStatement.GetTotal();
+                float expTotal = _expenseStatement.GetTotal();
+                if (incTotal.Equals(0f)) {
+                    Console.WriteLine();
+                    Information.NoIncStatementMade();
+                    Helper.PressToContinue();
+                    _incomeStatement.GetStatement();
+                    //SaveToObjectList(_incomeStatement);
+                    var iList = _helper.GetIncomeList();
+                    iList.Add(_incomeStatement);
+                } else if (expTotal.Equals(0f)) {
+                    Console.WriteLine();
+                    Information.NoExpStatementMade();
+                    Helper.PressToContinue();
+                    _expenseStatement.GetStatement();
+                    //SaveToObjectList(_expenseStatement);
+                    var iList = _helper.GetExpensesList();
+                    iList.Add(_expenseStatement);
+                } else {
+                    quit = false;
+                }
+                // Helper.QuitOrContinue();
+            }
+            // The difference between income and expenses is computed here
+            float difference = _incomeStatement.GetTotal() - _expenseStatement.GetTotal();
+            if (Helper.IsSurplus(difference)) {
+                Information.SavingsNotice();
+                Helper.PressToContinue();
+                _savings.GetStatement();
+                //SaveToObjectList(_savings);
+                var iList = _helper.GetSavingsList();
+                iList.Add(_savings);
+                Information.SurplusMadeInfo();
+                Helper.PressToContinue();
+            } else {
+                Information.DeficitNotice();
+                Helper.PressToContinue();
+                debt.ManageIncomeAndExpense();
+            }
+        }
+        
     }
 }
