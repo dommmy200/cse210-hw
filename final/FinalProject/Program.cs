@@ -47,6 +47,7 @@ namespace FinancialPrudence {
                     // Save an opened file automatically and quit Program
                     filesHandler.AutoSave();
                     Quit = false;
+                    Animation.AnimateGoodbye();
                     break;
                 }
             }
