@@ -63,48 +63,30 @@ namespace FinancialPrudence {
             var className = GetType().Name;
             return className;
         }
-        public float GetMaxAmount() {
-            float surplus = Helper.GetSurplusOrDeficit(); // Returns difference between income and expenses
-            var maxAmountPerGoal = surplus/6; // Due to 6 savings predetermine goals
-            return maxAmountPerGoal;
-        }
-        public int ComputePoints(float userAmount) {
-            var maxAmount = GetMaxAmount();
-            var points = userAmount/maxAmount * 10; // 
-            return (int) Math.Floor(points);
-        }
+        // public float GetMaxAmount() {
+        //     float surplus = Helper.GetSurplusOrDeficit(); // Returns difference between income and expenses
+        //     var maxAmountPerGoal = surplus/6; // Due to 6 savings predetermine goals
+        //     return maxAmountPerGoal;
+        // }
+        // public int ComputePoints(float userAmount) {
+        //     var maxAmount = GetMaxAmount();
+        //     var points = userAmount/maxAmount * 10; // 
+        //     return (int) Math.Floor(points);
+        // }
         public void GetStatement() {
-            
-            bool quit = true;
-            while (quit) {
-                // Display a message
-                Information.DisplayIncomeInfo();
-                Console.Write("Enter name of statement: ");
-                string name = Console.ReadLine();
-                SetName(name);
-                Console.Write("Enter description of statement: ");
-                string description = Console.ReadLine();
-                SetDescription(description);
-                Console.Write("Enter the amount for statement: ");
-                float incomeEarned = float.Parse(Console.ReadLine());
-                // Convert annual income to monthly income
-                float income = Helper.GetMonthlyIncome(incomeEarned);
-                SetAmount(income);
-                SetStatementTotal(income);
-
-                // If the object refers to an instance of the Savings class
-                // compute and set points
-                // if (Statement.ReferenceEquals(_savings)) {
-                //     _savings.SetPoints(Savings.ComputePoints(income));
-                // }
-
-                // Add this object to its list
-                // var objList = GetObjectList();
-                // objList.Add(this);                
-                // User quits (or continue) the loop
-                quit = Helper.QuitOrContinue();
+            Console.Write("Enter name of statement: ");
+            string name = Console.ReadLine();
+            SetName(name);
+            Console.Write("Enter description of statement: ");
+            string description = Console.ReadLine();
+            SetDescription(description);
+            Console.Write("Enter the amount for statement: ");
+            float incomeEarned = float.Parse(Console.ReadLine());
+            // Convert annual income to monthly income
+            float income = Helper.GetMonthlyIncome(incomeEarned);
+            SetAmount(income);
+            SetStatementTotal(income);
             }
-        }
         public abstract string SaveGoal();
         public abstract Statement SetStatement(Statement statement);
     }

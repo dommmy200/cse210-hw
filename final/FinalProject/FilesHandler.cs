@@ -5,11 +5,11 @@ using System.Globalization;
 namespace FinancialPrudence {
     public class FilesHandler {
         private Helper _helper = new Helper();
-        // private static IncomeStatement _incomeStatement = new IncomeStatement(); 
-        // private static ExpensesStatement _expenseStatement = new ExpensesStatement();
+        private IncomeStatement _incomeStatement = new IncomeStatement(); 
+        private ExpensesStatement _expenseStatement = new ExpensesStatement();
         // private static bool quit = true;
         // private static string _usersFile = @"Users.txt";
-        private string _filesPath = @"/users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles/";// Is a folder
+        private string _filesPath = @"/Users/Dommmy/cse210/cse210-hw/final/FinalProject/TextFiles";// Is a folder
         private static string _fileInUse;
         private Savings _savings = new Savings();
         public static string GetFileInUse() {
@@ -74,11 +74,16 @@ namespace FinancialPrudence {
             var filePath = GetFilePath();
             var fullPath = Path.Combine(filePath, filenameFormat); // filePath + filenameFormat;
             SetFileInUse(fullPath);
-            _helper.GetTwoStatements();
-            Helper.ToSavingsOrDebtManagement();
+            using (FileStream fs = File.Create(fullPath))
+            Console.WriteLine();
+            Information.SuccessfullyCreated();
+            // Information.PressToContinueInfo();
+            Helper.PressToContinue();
+            // _helper.GetTwoStatements();
+            // Helper.ToSavingsOrDebtManagement();
             // var template = UserFileTemplate(filenameFormat);
             // SaveUserFile(fullPath, template);
-            AutoSave();
+            // AutoSave();
             // After file is created and stored globally, what next?
             // Return to file when ready to save
         }
@@ -87,24 +92,35 @@ namespace FinancialPrudence {
         public void OpenAFileForUse() {
             var path = GetFilePath();
             // If this directory is not empty
-            if (!Directory.EnumerateFileSystemEntries(path).Any()) {
-                string[] files = Directory.GetFiles(path);
+            string[] files = Directory.GetFiles(path);
+
+            if (files.Length > 0)
+            //if (!Directory.EnumerateFileSystemEntries(path).Any()) 
+                {
+                // string[] files = Directory.GetFiles(path);
                 int count = 1;
                 foreach (string file in files) {
                     // Note: Split the file and get the filename for display
-                    Console.WriteLine($"{count}. {file}\n");
+                    string fileName = Path.GetFileName(file);
+                    Console.WriteLine($"{count}. {fileName}\n");
                     count++;
                 }
                 int number = int.Parse(Console.ReadLine());
-                string path1 = files[number];
+                string path1 = files[number-1];
                 // Call the method and pass the filename to save as
                 SetFileInUse(path1);
+                Console.Clear();
+                Information.SuccessfullyOpened();
                 // Now that SetFilenameInUse is opened. I think user should do something
                 // like given the option to set goals or quit
-                TemplateToObject();
-                _helper.FineTuneFinancialPrudence();
+
+
+            //     TemplateToObject();
+            //     _helper.FineTuneFinancialPrudence();
             } else {
-                CreateNewFile();
+                Information.NoFileOpened();
+                Helper.PressToContinue();
+                // CreateNewFile();
             }
         }
         // public static void SaveToFile() {
@@ -151,12 +167,10 @@ namespace FinancialPrudence {
         //         }
         //     }
         // }
-        // Method to automatically save objects after user list compiling
-        // My Note: Write a subroutine to check that duplicates objects 
-        // are not created during auto save
+        // Method to automatically save objects before quitting
         public void AutoSave() { 
             var file = GetFileInUse();
-            var motherList = Helper.GetAllObjectsList();
+            var motherList = ConcatenateLists();
             using(StreamWriter outPut = new StreamWriter(file)){
                 var noDuplicate = RemoveDuplicates(motherList);
                 foreach (Statement obj in noDuplicate) {
@@ -173,60 +187,69 @@ namespace FinancialPrudence {
             ToList();
             return noDuplicate;
         }
-        // Combine all lists into a mother list for filing
-        // public static List<Statement> ConcatenateLists() {
-        //     var motherList = Helper.GetAllObjectsList();
-        //     var incList = Helper.GetIncomeList();
-        //     var expList = Helper.GetExpensesList();
-        //     var saveList = Helper.GetSavingsList();
-        //     motherList.AddRange(incList);
-        //     motherList.AddRange(expList);
-        //     motherList.AddRange(saveList);
-        //     return motherList;
-        // }
+        //Combine all lists into a mother list for filing
+        public List<Statement> ConcatenateLists() {
+            var motherList = Helper.GetAllObjectsList();
+            var incList = _helper.GetIncomeList();
+            var expList = _helper.GetExpensesList();
+            var saveList = _helper.GetSavingsList();
+            motherList.AddRange(incList);
+            motherList.AddRange(expList);
+            motherList.AddRange(saveList);
+            return motherList;
+        }
+
         // Note: Necessary during loading of file to memory
         // Convert file string to object properties
-        public static void TemplateToObject() {
+        public void TemplateToObject() {
             var file = GetFileInUse();
-            string[] lines = File.ReadAllLines(file);
-            foreach (string line in lines) {
-                var parts = line.Split(",");
-                var objectName = parts[0];
-                if (objectName.Contains("IncomeStatement")) {
-                    var itemName = parts[1];
-                    var description = parts[2];
-                    var amount = parts[3];
-                    float amt = float.Parse(amount);
-                    IncomeStatement income = new IncomeStatement(itemName, description, amt);
-                    var incomeList = Helper.GetIncomeList();
-                    incomeList.Add(income);
-                } else if (objectName.Contains("ExpensesStatement")) {
-                    var itemName = parts[1];
-                    var description = parts[2];
-                    var amount = parts[3];
-                    float amt = float.Parse(amount);
-                    ExpensesStatement expenses = new ExpensesStatement(itemName, description, amt);
-                    var incomeList = Helper.GetExpensesList();
-                    incomeList.Add(expenses);
-                } else {
-                    var itemName = parts[1];
-                    var description = parts[2];
-                    var amount = parts[3];
-                    float amt = float.Parse(amount);
-                    // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
-                    string oldDateString = parts[4];
-                    Savings.SetOldDate(oldDateString);
-                    var oldDate = Savings.GetOldDate();
-                    // DateTime today = TimeManagement.GetToday();
-                    // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
+            FileInfo fileInfo = new FileInfo(file);
+            // Check if the file exists and is not empty
+            if (fileInfo.Exists && fileInfo.Length > 0) { 
+                string[] lines = File.ReadAllLines(file);
+                foreach (string line in lines) {
+                    var parts = line.Split(",");
+                    var objectName = parts[0];
+                    if (objectName.Contains("IncomeStatement")) {
+                        var itemName = parts[1];
+                        var description = parts[2];
+                        var amount = parts[3];
+                        float amt = float.Parse(amount);
+                        IncomeStatement income = new IncomeStatement(itemName, description, amt);
+                        var incomeList = _helper.GetIncomeList();
+                        incomeList.Add(income);
+                    } else if (objectName.Contains("ExpensesStatement")) {
+                        var itemName = parts[1];
+                        var description = parts[2];
+                        var amount = parts[3];
+                        float amt = float.Parse(amount);
+                        ExpensesStatement expenses = new ExpensesStatement(itemName, description, amt);
+                        var incomeList = _helper.GetExpensesList();
+                        incomeList.Add(expenses);
+                    } else {
+                        var itemName = parts[1];
+                        var description = parts[2];
+                        var amount = parts[3];
+                        float amt = float.Parse(amount);
+                        // var oldDate = DateTime.ParseExact(parts[4], "yyyy-MM-dd", null); // Get more info on how to implement
+                        string oldDateString = parts[4];
+                        Savings.SetOldDate(oldDateString);
+                        // var oldDate = Savings.GetOldDate();
+                        // DateTime today = TimeManagement.GetToday();
+                        // int elapseDays = (int) (oldDate -today).TotalDays; // Take note here to transfer to time Mgt class
 
-                    Savings save = new Savings(itemName, description, amt);
-                    var incomeList = Helper.GetSavingsList();
-                    incomeList.Add(save);
+                        Savings save = new Savings(itemName, description, amt);
+                        var incomeList = _helper.GetSavingsList();
+                        incomeList.Add(save);
+                    }
                 }
+            } else {
+                Console.Clear();
+                Console.WriteLine("This file is empty!");
             }
-            // Possibly calling the ConcatenateLists() method here
-        } 
+        }
+        //     // Possibly calling the ConcatenateLists() method here
+        // } 
         // public static void OpenExistingFile() {
         //     // string[] xyz = null;
         //     var userFile = GetUsersFile();
@@ -254,6 +277,76 @@ namespace FinancialPrudence {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             string titleCase = textInfo.ToLower(str);
             return titleCase;
+        }
+        public static void GetInExStatements(Helper help) {
+            bool quit = true;
+            while (quit) {
+                var selected = Information.SelectStatementInfo();
+                try {
+                    // These goal types are differentiated by x=1 & 2
+                    if (selected == 1) {
+                        IncomeStatement goal1 = new IncomeStatement();
+                        goal1.GetStatement();
+                        help.AddToIncomeList(goal1);
+                    } else if (selected == 2){
+                        ExpensesStatement goal2 = new ExpensesStatement();
+                        goal2.GetStatement();
+                        help.AddToExpensesList(goal2);
+                    } else if (selected == 3){
+                        quit = false;
+                    }
+                } catch (FormatException ex) {
+                    // Handle or log the error for integer input in a more detailed manner if needed.
+                    Console.WriteLine($"Error: {ex.Message} \nEnter an integer!");
+                }
+            }
+        }
+        // This is valid method(|)
+        // Call this method when saved goals needs fine tuning ie
+        // adjusting the goals' amount
+        public void FineTuneFinancialPrudence() {
+            bool quit = true;
+            while (quit) {
+                List<Statement> incList = _helper.GetIncomeList();
+                List<Statement> expList = _helper.GetExpensesList();
+                // Treats the case where income and expenses lists are empty
+                if (incList.Count != 0 && expList.Count != 0) {
+                    var difference =  _helper.GetSurplusOrDeficit();
+                    // If true, manage the deficit by making more income
+                    // or reducing expenses
+                    if (difference <  0){
+                        _helper.GetTwoStatements();
+                    } else {
+                        var list = _helper.GetSavingsList(); //Else, set goal from surplus
+                        if (list.Count != 0) {
+                            // Adjust the goals
+                            _helper.UpdateStatementAndGoal(list);
+                        } else {
+                            Console.Clear();
+                            Information.SavingsStatementInfo();
+                            _savings.GetStatement();
+                            var iList = _helper.GetSavingsList();
+                            iList.Add(_savings);
+                        }
+                    }
+                } else if (incList.Count == 0) {
+                    // Treats the case where income list is empty
+                    Console.Clear();
+                    Information.NoIncStatementMade();
+                    _incomeStatement.GetStatement();
+                    var iList = _helper.GetIncomeList();
+                    iList.Add(_incomeStatement);
+                } else {
+                    // Treats the case where expenses list is empty
+                    Console.Clear();
+                    Information.NoExpStatementMade();
+                    _expenseStatement.GetStatement();
+                    var iList = _helper.GetExpensesList();
+                    iList.Add(_expenseStatement);
+                }
+                quit = Helper.QuitOrContinue();
+            }
+        
         }
     }
 }

@@ -26,8 +26,8 @@ Please, select 1 or 2 below:
 
 Please, select 1 or 2 below:
 ============================
-1. Reduce expense amount
-2. Delete expense item
+1. Delete expense item
+2. Reduce expense amount
 ";
         private static string _incExpInfo = $@"
 
@@ -46,12 +46,14 @@ Please, choose the spread:
 ";
         private static string _promptInfo = $@"
 
-  Please, select 1, 2, 3 or 4 below:
+     Please, select 1 to 6 below:
 ======================================
 1. Create a new file
-2. Open an existing file
-3. Set savings goals
-4. Quit
+2. Select a file
+3. Adjust savings goals
+4. Update selected file
+5. Display points from savings
+6. Quit program
 ";
         private static string _incomeInfo = $@"
 
@@ -59,17 +61,32 @@ Please, input statement name, description,
 and amount.
 ";
 private static string _savingNotice = $@"You have a surplus and are about to make goals statement.";
+private static string _noExpStatement = $@"Please, make expenses statements.";
+private static string _noIncStatement = $@"Please, make income statements.";
+private static string _savingsStatement = $@"You are about to make savings statements.";
+private static string _successfullyCreatedNotice = $"You have successfully created a new file.\nYou may now quit to select it.";
+private static string _successfullyOpenedNotice = $"You have successfully opened a file.\nYou may now quit to quit to adjust it.";
+private static string _NoFileOpenedNotice = $"You have no file opened.\nSelect or create a new file.";
+
 private static string _deficitNotice = $@"Your expenses are more than income. Please, consider adjusting.";
 
         private static string _selectAnyInfo = $@"
 
-Please, select any one above to adjust  ";
+Please, select any savings above to adjust  ";
         private static string _reduceIncreaseInfo = $@"
 
     Please, make a choice below:
 ===================================
 1. Increase Income
 2. Reduce Expenses
+3. Quit
+";
+        private static string _statementInfo = $@"
+
+    Please, make a choice below:
+===================================
+1. Make Income statement
+2. Make Expenses statement
 3. Quit
 ";
         private static string _pressToContinueInfo = $@"
@@ -80,8 +97,31 @@ Press any key to continue...";
             int select = int.Parse(Console.ReadLine());
             return select;
         }
+        public static int SelectStatementInfo() {
+            Console.WriteLine(_statementInfo);
+            int select = int.Parse(Console.ReadLine());
+            return select;
+        }
         public static void ReduceOrDeleteInfo() {
             Console.WriteLine(_deleteInfo);
+        }
+        public static void NoIncStatementMade() {
+            Console.WriteLine(_noIncStatement);
+        }
+        public static void NoExpStatementMade() {
+            Console.WriteLine(_noExpStatement);
+        }
+        public static void SavingsStatementInfo() {
+            Console.WriteLine(_savingsStatement);
+        }
+        public static void SuccessfullyCreated() {
+            Console.WriteLine(_successfullyCreatedNotice);
+        }
+        public static void NoFileOpened() {
+            Console.WriteLine(_NoFileOpenedNotice);
+        }
+        public static void SuccessfullyOpened() {
+            Console.WriteLine(_successfullyOpenedNotice);
         }
         public static void SelectAnyInfo() {
             Console.WriteLine(_selectAnyInfo);

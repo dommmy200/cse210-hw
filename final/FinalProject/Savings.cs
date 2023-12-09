@@ -34,17 +34,17 @@ namespace FinancialPrudence {
         public int GetTotalPoints() {
             return _totalPoints;
         }
-        public void DisplayTemplates() {
-            int count = 1;
-            FilesHandler.TemplateToObject();
-            var savingsList = Helper.GetSavingsList();
+        // public static void DisplayTemplates() {
+        //     int count = 1;
+        //     FilesHandler.TemplateToObject();
+        //     var savingsList = Helper.GetSavingsList();
 
-            for (int i = 0; i < savingsList.Count; i++) {
-                string template = $"{count}. {savingsList[i].GetName()}, {savingsList[i].GetDescription()}, {savingsList[i].GetAmount()}, {savingsList[i].GetMaxAmount()}, {TimeManagement.GetToday()}, {TimeManagement.GetTotalDays()}";
-                Console.WriteLine(template);
-                count++;
-            }
-        }
+        //     for (int i = 0; i < savingsList.Count; i++) {
+        //         string template = $"{count}. {savingsList[i].GetName()}, {savingsList[i].GetDescription()}, {savingsList[i].GetAmount()}, {savingsList[i].GetMaxAmount()}, {TimeManagement.GetToday()}, {TimeManagement.GetTotalDays()}";
+        //         Console.WriteLine(template);
+        //         count++;
+        //     }
+        // }
 
         
 

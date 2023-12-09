@@ -21,31 +21,40 @@ namespace FinancialPrudence {
                 // int prompt1 = int.Parse(prompt);
                 switch (prompt1) {
                     case 1:
-                    Console.WriteLine($"CreateNewFile\n");
+                    Console.WriteLine($"Create a New File\n");
                     // Create a new file and set income and expenses statements
-                    // CreateNewFile();
-                    filesHandler.CreateNewFile(); //Note: verify why on 2nd run the 'GetTwoStatements()' is skipped
-                    helper.GetTwoStatements();
-                    // ToSavingsOrDebtManagement();
+                    filesHandler.CreateNewFile();
+                    FilesHandler.GetInExStatements(helper);
                     break;
                     case 2:
-                    Console.WriteLine("OpenExistingFile");
-                    // Open an existing file and Check financial profile
-                    // OpenAnExistingFile();
+                    Console.WriteLine($"Load and save file\n");
+                    Console.WriteLine("Select File To View\n"); //Remove this
                     filesHandler.OpenAFileForUse();
-                    helper.FineTuneFinancialPrudence();
+                    // helper.FineTuneFinancialPrudence();
                     break;
                     case 3:
-                    Console.WriteLine("goals setting");
-                    // Check goals setting progress
+                    Console.WriteLine($"Goals adjustment\n");
+                    filesHandler.FineTuneFinancialPrudence();
+                    // var x = Information.SelectStatementInfo();
+                    // FilesHandler.GetInExStatements(x, helper);
                     break;
                     case 4:
-                    // Quit program
-                    Quit = false; // _filesHandler.QuitOrContinue();
+                    Console.WriteLine("Adjust Selected File\n");
+                    filesHandler.TemplateToObject();
+                    break;
+                    case 5:
+                    Console.WriteLine("Display points obtained\n");
+                    helper.DisplayGoalAndPoints();
+                    break;
+                    case 6:
+                    Console.WriteLine("Quit Program\n");
+                    filesHandler.AutoSave();
+                    Quit = false;
                     break;
                 }
             }
         }
+                
 
         // static void CreateNewFile() {
         //     FilesHandler.CreateNewFile(); //Note: verify why on 2nd run the 'GetTwoStatements()' is skipped

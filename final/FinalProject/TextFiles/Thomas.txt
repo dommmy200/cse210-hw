@@ -1,0 +1,3 @@
+IncomeStatement, Salary, Monthly wages, 7000
+ExpensesStatement, Electricity, Bills for light, 54
+Savings, Mortgage, Family home, 600, 012/9/2023 12:00:00 AM, yyyy-MM-dd
