@@ -13,32 +13,33 @@ namespace FinancialPrudence {
                             ";
         private static string _quitInfo = $@"
 
-        Please, select 1 or 2 below:
-        =================================
-        1. Continue to add statement
-        2. Quit 
+Please, select 1 or 2 below:
+=================================
+1. Continue to add statement
+2. Quit 
         ";
         private static string _deleteInfo = $@"
 
-        Please, select 1 or 2 below:
-        ============================
-        1. Delete expense item
-        2. Reduce expense amount
+Please, select 1 or 2 below:
+============================
+1. Delete expense item
+2. Reduce expense amount
+3. Add goal
         ";
         private static string _incExpInfo = $@"
 
-        Please, make a choice below:
-        ============================
-        1. Make Income Statements
-        2. Make Expenses Statements
-        3. Quit
+Please, make a choice below:
+============================
+1. Make Income Statements
+2. Make Expenses Statements
+3. Quit
         ";
         private static string _oneTwoInfo = $@"
 
-        Please, choose the spread:
-        ==========================
-        1. Annually
-        2. Monthly
+Please, choose the spread:
+==========================
+1. Annually
+2. Monthly
         ";
         private static string _promptInfo = $@"
 
@@ -47,9 +48,10 @@ namespace FinancialPrudence {
 1. Create a new file
 2. Select a file
 3. Adjust savings goals
-4. Update selected file
+4. Update and display selected file
 5. Display points from savings
-6. Quit program
+6. Delete a file
+7. Quit program
         ";
         private static string _incomeInfo = $@"
 
@@ -61,7 +63,7 @@ and amount.
         private static string _noIncStatement = $@"Please, make income statements.";
         private static string _savingsStatement = $@"You are about to make savings statements.";
         private static string _surplusMade = $"You have just made a savings statement.\nYou can make adjustments in the main menu.";
-        private static string _successfullyCreatedNotice = $"You have successfully created a new file.\nYou may now quit to select it.";
+        private static string _successfullyCreatedNotice = $"You have successfully created a new file.\nYou may now make statements or quit.";
         private static string _successfullyOpenedNotice = $"You have successfully opened a file.\nYou may now quit to quit to adjust it.";
         private static string _noFileOpenedNotice = $"You have no file opened.\nSelect or create a new file.";
         private static string _aboutToAnalyze = $"You are about to analyze your financial profile.";
@@ -162,6 +164,9 @@ Press any key to continue...";
         }
         public static void RemoveObjectInfo(Statement obj) {
             Console.WriteLine($"{obj.GetName()} has been removed from the list of goals.");
+        }
+        public static void AddObjectInfo(Statement obj) {
+            Console.WriteLine($"{obj.GetName()} has been added to the list of goals.");
         }
         public static void AdjustAmountInfo(float amtOld) {
         Console.Write($"Current amount is: {amtOld}. Enter new amount: ");

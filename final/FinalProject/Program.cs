@@ -20,7 +20,7 @@ namespace FinancialPrudence {
                     case 1:
                     // Create a new file and set income and expenses statements
                     filesHandler.CreateNewFile();
-                    FilesHandler.GetInExStatements(helper);
+                    filesHandler.GetInExStatements(helper);
                     break;
                     case 2:
                     // Analyze financial statements in memory
@@ -44,6 +44,10 @@ namespace FinancialPrudence {
                     helper.DisplayGoalAndPoints();
                     break;
                     case 6:
+                    // Delete file
+                    filesHandler.DeleteAFile();
+                    break;
+                    case 7:
                     // Save an opened file automatically and quit Program
                     filesHandler.AutoSave();
                     Quit = false;

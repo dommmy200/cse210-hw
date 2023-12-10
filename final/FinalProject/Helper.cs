@@ -24,9 +24,6 @@ namespace FinancialPrudence {
         public void AddToExpensesList(ExpensesStatement expenses) {
             _incomeList.Add(expenses);
         }
-        public void AddToSavingsList(Savings save) {
-            _incomeList.Add(save);
-        }
         public List<Statement> GetExpensesList() {
             return _expensesList;
         }
@@ -78,7 +75,7 @@ namespace FinancialPrudence {
                 }
             }
         }
-        // 
+        // Used in uploading files to memory
         public void SaveToObjectList(Statement instance) {
             if (instance.GetType().Name == "IncomeStatement") {
                 var iList = GetIncomeList();
@@ -108,7 +105,7 @@ namespace FinancialPrudence {
                 return monthly;
             }
         }
-        // 
+        // Used to get user choice
         public static float GetMonthlyIncome(float income) {
 
             Information.DisplayOneTwo();
@@ -144,7 +141,7 @@ namespace FinancialPrudence {
             float totalExpenses = GetExpensesTotal();
             return totalIncome - totalExpenses;
         }
-        // This is valid method(|)
+        // Conditional statement
         public static bool IsSurplus(float amount) {
             if (amount > 0)
                 return true;
@@ -166,13 +163,13 @@ namespace FinancialPrudence {
                 count++;
             }
             Information.SelectAnyInfo();
-            // Insert try-catch statement below before submission
+            // Insert try-catch statement if time permits
             int sN = int.Parse(Console.ReadLine());
             var obj1 = objList[sN - 1];
             Console.WriteLine();
             Information.ReduceOrDeleteInfo();
             Console.WriteLine();
-            // Insert try-catch statement below before submission
+            // Insert try-catch statement if time permits
             int selected = int.Parse(Console.ReadLine());
             DeleteOrUpdate(objList, obj1, selected);
         }
@@ -193,12 +190,17 @@ namespace FinancialPrudence {
                 for (int i = 0; i < object1.Count; i++) {
                     if (object1[i] == obj) {
                         float amtOld = object1[i].GetAmount();
-                        // Console.Write($"Current amount is: {amtOld}. Enter new amount: ");
                         Information.AdjustAmountInfo(amtOld);
                         float amtNew = float.Parse(Console.ReadLine());
                         object1[i].SetAmount(amtNew);
                     }
                 }
+            } else if (selected == 3){
+                obj.GetStatement();
+                object1.Add(obj);
+                Information.AddObjectInfo(obj);
+                Console.WriteLine();
+                Information.PressToContinueInfo();
             }
         }
         public void SetIncomeTotalNew() {

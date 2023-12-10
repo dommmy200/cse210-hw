@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 // This program aims to save automatically requiring user to only enter filename
 // at the beginning
 namespace FinancialPrudence {
@@ -68,17 +69,6 @@ namespace FinancialPrudence {
                 Helper.PressToContinue();
             }
         }
-        // StreamWriter handles file and saving templates
-        // required in AutoSave()
-        public static void SaveUserFile(string file, string template) {
-            using(StreamWriter outPut = new StreamWriter(file)) {
-                outPut.WriteLine(template);
-            }
-        }
-        public static string UserFileTemplate(string filename) {
-            var template = $"{filename}";
-            return template;
-        }
         // Method to automatically save objects before quitting
         public void AutoSave() { 
             var file = GetFileInUse();
@@ -110,8 +100,6 @@ namespace FinancialPrudence {
             motherList.AddRange(saveList);
             return motherList;
         }
-
-        // Note: Necessary during loading of file to memory
         // Convert file string to object properties
         public void TemplateToObject() {
             var file = GetFileInUse();
@@ -152,9 +140,10 @@ namespace FinancialPrudence {
                             savingsList.Add(save);
                         }
                     }
+                    DisplayStatements();
                 } else {
                     Console.Clear();
-                    Console.WriteLine("This file is empty!");
+                    Console.WriteLine("This file is empty!\nIt has not been saved.\nQuit and load again!");
                     Helper.PressToContinue();
                 }
         
@@ -172,13 +161,7 @@ namespace FinancialPrudence {
             string titleCase = textInfo.ToTitleCase(str);
             return titleCase;
         }
-        // May be discarded
-        private string FormatFileNameLower (string str) {
-            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-            string titleCase = textInfo.ToLower(str);
-            return titleCase;
-        }
-        public static void GetInExStatements(Helper help) {
+        public void GetInExStatements(Helper help) {
             bool quit = true;
             while (quit) {
                 var selected = Information.SelectStatementInfo();
@@ -193,6 +176,7 @@ namespace FinancialPrudence {
                         goal2.GetStatement();
                         help.AddToExpensesList(goal2);
                     } else if (selected == 3){
+                        AutoSave();
                         quit = false;
                     }
                 } catch (FormatException ex) {
@@ -208,6 +192,8 @@ namespace FinancialPrudence {
             while (quit) {
                 List<Statement> incList = _helper.GetIncomeList();
                 List<Statement> expList = _helper.GetExpensesList();
+                SetThisTotal(incList);
+                SetThisTotal(expList);
                 // Treats the case where income and expenses lists are empty
                 if (incList.Count != 0 && expList.Count != 0) {
                     var difference =  _helper.GetSurplusOrDeficit();
@@ -247,7 +233,7 @@ namespace FinancialPrudence {
                 }
                 quit = Helper.QuitOrContinue();
             }
-        
+            AutoSave();
         }
         public void ToSavingsOrDebtManagement() {
             bool quit = true;
@@ -292,6 +278,37 @@ namespace FinancialPrudence {
                 Helper.PressToContinue();
                 debt.ManageIncomeAndExpense();
             }
+        }
+        public void DisplayStatements() {
+            var motherList = ConcatenateLists();
+            var noDuplicate = RemoveDuplicates(motherList);
+            if (noDuplicate.Count > 0) { 
+                for (int i = 0; i < noDuplicate.Count; i++) {
+                    var template = noDuplicate[i].SaveGoal();
+                    Console.WriteLine(template);
+                }
+            }
+        }
+        public void SetThisTotal(List<Statement> list) {
+            for (int i = 0; i < list.Count; i++) {
+                var amount = list[i].GetAmount();
+                list[i].SetStatementTotal(amount);
+            }
+        }
+        public void DeleteAFile() {
+            var path = GetFilePath();
+            // If this directory is not empty
+            string[] files = Directory.GetFiles(path);
+            int count = 1;
+                foreach (string file in files) {
+                    // Note: Split the file and get the filename for display
+                    string fileName = Path.GetFileName(file);
+                    Console.WriteLine($"{count}. {fileName}\n");
+                    count++;
+                }
+                int number = int.Parse(Console.ReadLine());
+                string path1 = files[number-1];
+                File.Delete(path1);
         }
     }
 }
