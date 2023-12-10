@@ -1,5 +1,0 @@
-IncomeStatement, heoooo, keroooo, 400
-IncomeStatement, grow, growing, 389
-ExpensesStatement, poeee, oppl, 240
-ExpensesStatement, erean, ocean, 567
-Savings, thhhk, tyere, 100, 012/9/2023 12:00:00 AM, yyyy-MM-dd

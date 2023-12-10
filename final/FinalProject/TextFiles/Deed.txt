@@ -1,3 +1,0 @@
-IncomeStatement, gggggg, hhhhhh, 800
-ExpensesStatement, nnnnn, kkkkk, 250
-Savings, ggggg, hhhh, 50, 012/9/2023 12:00:00 AM, yyyy-MM-dd
